@@ -68,10 +68,10 @@ function get_page( $page, $method )
 <!-- DW6 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="../../cena/cena.css" rel="stylesheet" type="text/css">
-
+<link href="../cena.css" rel="stylesheet" type="text/css">
+<!-- InstanceBeginEditable name="doctitle" -->
 <title>ワークスポット･ジェーピー</title>
-
+<!-- InstanceEndEditable -->
 <style type="text/css">
 <!--
 .style1 {
@@ -208,7 +208,8 @@ $().ready( function () {
   <p>
     <input type="button" name="top" value="コンタクトの一覧" onClick="location.href='contact_jq3.html'">
   </p>
-  <!-- InstanceEndEditable --></div>
+  <!-- InstanceEndEditable -->
+</div>
 <div id="footer">
   <table  border="0" align="center" cellpadding="0" cellspacing="0">
     <tr valign="top">

@@ -1,0 +1,147 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: "メイリオ", Arial, "ＭＳ Ｐゴシック";
+	font-size: 12px;
+	line-height: 140%; 
+}
+p {
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+	line-height: 160%; 
+}
+h1 {
+	font-size:16px;
+	background-color:#B8D3D2;
+	padding:10px 5px 10px 7px;
+	font-family: "メイリオ", Arial, "ＭＳ Ｐゴシック";
+}
+h1 .bread {
+	font-size:12px;
+	font-weight:bold;
+	background-color:#C5DBE0;
+	display:block;
+	padding: 1px 4px 2px 1px;
+	margin:  0px 0px 2px 0px;
+}
+h2 {
+	font-size:14px;
+	background-color:#D3D7BF;
+	padding:4px 3px 3px 3px;
+	font-family: "メイリオ", Arial, "ＭＳ Ｐゴシック";
+}
+ul {
+	margin:2px 0px 2px 15px;
+	padding:2px 0px 2px 15px;
+}
+li {
+	line-height:150%;
+	margin: 6px 0px 6px 0px;
+	font-size: 14px;
+}
+li.list {
+	padding:0px 0px 4px 0px;
+	border-bottom: dashed #aaaaaa 1px;
+}
+a {
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:none;
+	color:#CC0000;
+}
+#header {
+	/* total 800 px */
+	height:60px;
+	margin:5px auto 10px auto;
+	padding:10px;
+	width:740px;
+	border-bottom: 2px solid #C8CEF7;
+}
+#contents {
+	/* total 800 px */
+	margin:10px auto 10px auto;
+	padding:10px;
+	width:740px;
+}
+#footer {
+	height:50px;
+	/* total 800 px */
+	margin:5px auto 5px auto;
+	padding:10px;
+	width:740px;
+	border-bottom: 0px solid #C8CEF7;
+	background-color:#F0F0F0;
+	border-top: 2px solid #C8CEF7;
+	line-height:110%;
+	font-family: "メイリオ", Arial, "ＭＳ Ｐゴシック";
+	font-size: 12px;
+}
+.headerTitle{
+	color:#332FE1;
+	line-height:100%;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 36px;
+}
+.headDesc {
+	margin-top:0px;	
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px; 
+	padding-left: 120px;
+}
+.menus{
+	float:right;
+	margin:10px 0px 0px 0px;
+	font-weight:bold;
+	font-family: "メイリオ", Arial, "ＭＳ Ｐゴシック";
+}
+.menus a {
+	color:#92B3B4;
+	text-decoration: none;
+}
+.menus a:hover {
+	color:#000000;
+	text-decoration: none;
+}
+.describe {
+	font-family: "メイリオ", Arial, "ＭＳ Ｐゴシック";
+	font-size: 12px;
+	line-height:180%;
+}
+.descTitle {
+	font-family: "メイリオ", Arial, "ＭＳ Ｐゴシック";
+	font-size: 14px; 
+	line-height: 120%; 
+	font-weight: bold; 
+}
+.footDesc {
+	font-family: Georgia, "Times New Roman", Times, serif; 
+	font-size: 11px; 
+	line-height:110%;
+}
+.copyright {
+	font-family: "Courier New", Courier, mono; 
+	font-size: 11px; 
+	line-height:100%;
+}
+
+/*** テーブル定義 ***/
+table.tblHover{ border-collapse:collapse;border:2px solid #999999; font-size:100%; background-color:#FFFFFF;}
+table.tblHover td,th{border:1px solid #E0E0E0;padding:3px; font-size: 100%; }
+table.tblHover th   {white-space: nowrap;color:#000000;background-color:#BACCFA;font-size:80%;}
+table.tblHover .td_button {background-color:#DFE7F7;}
+table.tblHover .td_small  {font-size:smaller;}
+table.tblHover tr:hover  { background-color:#E0E0F0;}
+
+/*** テーブル定義 ***/
+table.tblList { border-collapse:collapse;border:2px solid #999999; font-size:100%; background-color:#FFFFFF;}
+table.tblList td,th{border:1px solid #E0E0E0;padding:3px; font-size: 100%; }
+table.tblList th   {white-space: nowrap;color:#000000;background-color:#CCCCCC;font-size:80%;}
+table.tblList .td_button {background-color:#DFE7F7;}
+table.tblList .td_small  {font-size:smaller;}
+table.tblList tr:hover  { background-color:#E0E0F0;}
+
