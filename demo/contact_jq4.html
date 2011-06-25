@@ -1,0 +1,402 @@
+<?php
+//define( 'WORDY', 4 );
+include( dirname( __FILE__ ) . '/../cenaPhp/class/class.msg_box.php' );
+include( dirname( __FILE__ ) . '/../cenaPhp/Dba/Sql.php' );
+include( 'setup_contact.php' );
+
+?>
+<html><!-- InstanceBegin template="/Templates/cenaDta.dwt.php" codeOutsideHTMLIsLocked="false" -->
+<!-- DW6 -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../cena/cena.css" rel="stylesheet" type="text/css">
+
+<title>ワークスポット･ジェーピー</title>
+
+<style type="text/css">
+<!--
+.style1 {
+}
+-->
+</style>
+<!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {color: #FF6600}
+-->
+</style>
+
+<title>ワークスポット･ジェーピー</title>
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<div id="header">
+  <p><a href="../index.php" class="headerTitle"><strong>Cena</strong> DTA Developments </a></p>
+  <div class="menus">|&nbsp;<a href="../index.php">Top</a>&nbsp;|&nbsp;<a href="http://wsjp.blogspot.com/" target="_blank"></a></div>
+  <p align="left" class="headDesc">for HTML5 applications using local databases.</p>
+</div>
+<div id="contents">
+<!-- InstanceBeginEditable name="contents" -->
+<script language="javascript" type="text/javascript" src="../common/jquery-1.4.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="../cenaJs/jqCena.js"></script>
+<script language="javascript" type="text/javascript" src="../cenaJs/jqCenaSql.js"></script>
+<script language="javascript" type="text/javascript">
+
+// +---------------------------------------------------------+
+/** initialize
+	make sure curr_new_id exists; if not set to 1. 
+ */
+// +---------------------------------------------------------+
+var new_id = parseInt( $().cena.store( 'curr_new_id' ) );
+if( !new_id ) {
+	$().cena.store( 'curr_new_id', 1 );
+}
+
+// +---------------------------------------------------------+
+/** edit_done
+ */
+// +---------------------------------------------------------+
+function edit_done( button_done )
+{
+	$().cena( 'wordy', 'done edit' );
+	// validate form
+	var form = document.form1;
+	if( false && !form.checkValidity() ) {
+		$().cena( 'message', 'validity check failed' + form.validationMessage );
+		return false;
+	}
+	
+	// validated, now submit data to local db.
+	var cena_opt  = $().cena.getOptions();
+	var val, name, cena_data=[];
+	$( '.' + cena_opt[ 'cena_form_elem' ] )
+		.map( function() {
+			if( $( this ).is( 'input:radio' ) ) {
+				if( $( this ).is( 'input:checked' ) ) {
+					return this;
+				}
+				else {
+					return null;
+				}
+			}
+			return this;
+		})
+		.each( function( idx, elem ) {
+			val  = $( elem ).val();
+			name = $( elem ).attr( 'name' );
+			cena_data.push( { name:name, val:val } );
+		})
+	;
+	$().cenaSql.submitCenaData( cena_data );
+	//location.href = 'contact_jq4.html';
+	return;
+}
+
+// +---------------------------------------------------------+
+/** 
+ */
+// +---------------------------------------------------------+
+// displays contact and its child connect info if cena_id is set. 
+function display_cena_id( style )
+{	
+	// bind env_data to envelope (in form)
+	var cena_id = $().cena.store( 'contact100_id' );
+	if( cena_id == '' ) {
+		var contact_id = add_new_contact();
+		add_new_connect( contact_id );
+		return false;
+	}
+	$().cena( 'debug', 'display_cena_id for ' + cena_id + ' style=' + style + '<br />' );
+	// -------------------------------------
+	var callback100 = function( env_data ) {
+		$()	.cena() // initialize cena.
+			.cena( { 	                     
+				env_src:   '#cena_env_src',  // source envelop id.
+				env_post:  '#cena_post',     // id to post bound envelope. 
+				bind_type: style             // show contents.
+			})
+			.cena( 'add', env_data )
+			.cena( 'bind' )
+			.cena( 'clean' )
+		;
+		display_children();
+	}
+	// -------------------------------------
+	var callback110 = function( env_data ) {
+		$()	.cena() // initialize cena.
+			.cena({ 
+				env_src:   '#cena_env_src2', // source envelop id.
+				env_post:  '#cena_post2',    // id to post bound envelope. 
+				bind_type: style             // show contents.
+			})
+			.cena( 'add', env_data )
+			.cena( 'bind' )
+			.cena( 'clean' )
+		;
+	}
+	// -------------------------------------
+	var display_children = function()
+	{
+		$() .cenaSql() // initialize cenaSql.
+			.cenaSql({ 
+				model: 'dao_contact110', 
+				cena_id: cena_id
+			})
+			.cenaSql( 
+				'child', 
+				callback110
+			)
+		;
+	}
+	// -------------------------------------
+	$() .cena( 'restart' );
+	
+	$() .cenaSql() // initialize cenaSql.
+		.cenaSql({ 
+			model: 'dao_contact100', 
+			cena_id: cena_id 
+		})
+		.cenaSql( 
+			'get', 
+			callback100
+		)
+	;
+	return cena_id;
+}
+
+// +---------------------------------------------------------+
+/** 
+ */
+// +---------------------------------------------------------+
+function add_new_contact()
+{
+	var new_id = $().cena.store( 'curr_new_id' );
+	$().cena.store( 'curr_new_id', parseInt( new_id ) + 1 );
+	
+	var contact_id = 'Cena.dao_contact100.new.' + new_id;
+	$().cena.store( 'contact100_id', contact_id );
+	
+	var empty_contact = {
+		cena_id: contact_id,
+		scheme: 'Cena',
+		model: 'dao_contact100',
+		type: 'new',
+		id: new_id
+	}
+	empty_contact.cena_name = $().cena.getCenaName( empty_contact );
+	empty_contact[ 'elements' ] = {};
+	$() .cena( 'add', empty_contact )
+		.cena( 'bind', 
+			{ 	                             // initialize cena.
+				env_src:   '#cena_env_src',  // source envelop id.
+				env_post:  '#cena_post',     // id to post bound envelope. 
+				bind_type: 'populate'         // show contents.
+			}
+		)
+		.cena( 'clean' );
+	;
+	return contact_id;
+}
+
+// +---------------------------------------------------------+
+/** 
+ */
+// +---------------------------------------------------------+
+function add_new_connect()
+{
+	var contact_id = $().cena.store( 'contact100_id' );
+	if( !contact_id ) return;
+	
+	var new_id     = $().cena.store( 'curr_new_id' );
+	var cena_id    = 'Cena.dao_contact110.new.' + new_id;
+	$().cena.store( 'curr_new_id', parseInt( new_id ) + 1 );
+	var empty_connect = {
+		cena_id: cena_id,
+		scheme: 'Cena',
+		model: 'dao_contact110',
+		type: 'new',
+		id: new_id
+	}
+	empty_connect[ 'elements' ] = {};
+	empty_connect[ 'relates' ] = {};
+	empty_connect[ 'relates' ][ 'contact_id' ] = contact_id;
+	empty_connect.cena_name = $().cena.getCenaName( empty_connect );
+	$() .cena( 'add', empty_connect )
+		.cena( 'bind', 
+			{ 	                             // initialize cena.
+				model:     'dao_contact110',  // new connection
+				env_src:   '#cena_env_src2',  // source envelop id.
+				env_post:  '#cena_post2',     // id to post bound envelope. 
+				bind_type: 'populate'             // show contents.
+			})
+		.cena( 'clean' )
+	;
+}
+
+// +---------------------------------------------------------+
+/** 
+ */
+// +---------------------------------------------------------+
+function view_page() {
+	var cena_id = display_cena_id( 'replace' );
+	if( !cena_id ) { 
+		// adding new contact
+		$( '#button_edit' ).hide();
+		$( '#button_add'  ).show();
+		$( '#button_done' ).show();
+		$( '#button_cancel' ).hide();
+	}
+	else {
+		$( '#button_edit' ).show();
+		$( '#button_add'  ).hide();
+		$( '#button_done' ).hide();
+		$( '#button_cancel' ).hide();
+	}
+	return cena_id;
+}
+
+// +---------------------------------------------------------+
+/** 
+ */
+// +---------------------------------------------------------+
+$().ready( function () {
+	/* */
+	var cena_id = view_page();
+	$( '#button_edit' )
+		.click( function() {
+			display_cena_id( 'populate' );
+			$( '#button_edit' ).hide();
+			$( '#button_add'  ).show();
+			$( '#button_done' ).show();
+			$( '#button_cancel' ).show();
+			return false;
+		})
+	;
+	$( '#button_add' )
+		.click( function () {
+			add_new_connect();
+			return false;
+		})
+	;
+	$( '#button_done' )
+		.click( function () {
+			edit_done( this );
+			view_page();
+			return false;
+		})
+	;
+	if( cena_id ) {
+		$( '#button_cancel' )
+			.click( function() {
+				view_page();
+			});
+	}
+	else {
+		$( '#button_cancel' )
+			.show()
+			.click( function() {
+				location.href = 'contact_jq3.html';
+			});
+	}
+});
+// +---------------------------------------------------------+
+
+</script>
+  <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a>:: contact_jq</span><a href="contact_jq3.html">List of Contacts</a>:: Detail View</h1>
+  <div style="width:600px; ">
+	<form name="form1" method="post" action="">
+    <div id="cena_msg"></div>
+    <table class="tblHover" id="cena_post" width="100%">
+      <thead>
+        <tr>
+          <th>name<br>
+            Cena ID</th>
+          <th>gender</th>
+          <th>type</th>
+          <th>date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="cena_env_src">
+          <td height="25"><input type="text" size="25" name="contact_name" class="cena_element" value="" placeholder="contact name here..." required />
+              <br>
+            <span class="cena_element" name="cena_id"></span></td>
+          <td align="center"><label>
+            <input type="radio" name="contact_gender" class="cena_element" value="1">
+            mail</label>
+              <label>
+              <input type="radio" name="contact_gender" class="cena_element" value="2">
+                female</label>          </td>
+          <td align="center"><select name="contact_type" class="cena_element">
+              <option value="1">friend</option>
+              <option value="2">work</option>
+              <option value="3">family</option>
+              <option value="4">other</option>
+            </select>          </td>
+          <td align="center"><input type="date" size="10" name="contact_date" class="cena_element" value="" required />          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <table id="cena_post2" class="tblList" width="100%">
+      <thead>
+        <tr>
+          <th>connect method <br>
+            Cena ID </th>
+          <th>（reference data）<br>
+            (hidden)</th>
+          <th>type</th>
+          <th>del</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="cena_env_src2" >
+          <td height="30"><input type="text" size="30" name="connect_info" class="cena_element" value="" placeholder="how to connect to your friend" required />
+          <br><span class="cena_element" name="cena_id"></span></td>
+          <td><input name="rel.contact_id" type="text" class="cena_element" id="rel.contact_id" value="" size="25" required /></td>
+          <td align="center"><select name="connect_type" class="cena_element">
+            <option value="1">TEL</option>
+            <option value="2">email</option>
+            <option value="3">www</option>
+            <option value="4">twitter</option>
+                              </select></td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <p align="right">
+      <input type="button" name="Submit" value="Cancel" id="button_cancel">
+      <input type="button" name="Submit" value="Add Connection" id="button_add">
+      <input type="button" name="Submit" value="Edit" id="button_edit">
+      <input type="button" name="Submit" value="Save" id="button_done">
+    </p>
+    <p align="right">
+      <input type="submit" name="Submit" value="do submit">
+    </p>
+	</form>
+	<?php phpinfo(); // this is not a PHP script! ?>
+  </div>
+  <p>
+    <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_jq3.html'">
+  </p>
+    <div id="cena_debug"></div>
+  <!-- InstanceEndEditable --></div>
+<div id="footer">
+  <table  border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr valign="top">
+      <td valign="bottom" nowrap class="footDesc"><p>Cena developed 
+        by <a href="../../index.php"><strong>WorkSpot.JP</strong></a>&nbsp;
+      </p>      </td>
+      <td width="6">&nbsp;</td>
+      <td width="100"><a href="../../serv/index.php"><img src="../../com/img/bar_ser.gif" width="100" height="30" border="0" alt="Service（業務内容） （写真：デビルズタワー国定公園、アメリカ）"></a></td>
+      <td width="100"><a href="../../expc/index.php"><img src="../../com/img/bar_exp.gif" width="100" height="30" border="0" alt="Experience（実績･経験）　（写真：紀伊半島にある筆薮滝）"></a></td>
+      <td width="100"><a href="../../prof/index.php"><img src="../../com/img/bar_pro.gif" width="100" height="30" border="0" alt="Profile（経歴）　（写真：バッドランド国立公園、アメリカ）"></a></td>
+      <td width="100"><a href="../../tech/index.php"><img src="../../com/img/bar_tec.gif" width="100" height="30" border="0" alt="Technology（技術）　（写真：東京フォーラム）"></a></td>
+    </tr>
+    <tr valign="top">
+      <td colspan="6" align="center" nowrap><span class="copyright">copyright (c) 2010-<?php echo date('Y'); ?> WorkSpot.JP</span></td>
+    </tr>
+  </table>
+</div>
+</body>
+<!-- InstanceEnd --></html>

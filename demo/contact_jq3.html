@@ -1,0 +1,371 @@
+<html><!-- InstanceBegin template="/Templates/cenaDta.dwt.php" codeOutsideHTMLIsLocked="false" -->
+<!-- DW6 -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../../cena/cena.css" rel="stylesheet" type="text/css">
+
+<title>ワークスポット･ジェーピー</title>
+
+<style type="text/css">
+<!--
+.style1 {
+}
+-->
+</style>
+<!-- InstanceBeginEditable name="head" -->
+<title>ワークスポット･ジェーピー</title>
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<div id="header">
+  <p><a href="../index.php" class="headerTitle"><strong>Cena</strong> DTA Developments </a></p>
+  <div class="menus">|&nbsp;<a href="../index.php">Top</a>&nbsp;|&nbsp;<a href="http://wsjp.blogspot.com/" target="_blank"></a></div>
+  <p align="left" class="headDesc">for HTML5 applications using local databases.</p>
+</div>
+<div id="contents">
+<!-- InstanceBeginEditable name="contents" -->
+<script language="javascript" type="text/javascript" src="../common/jquery-1.4.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="../cenaJs/jqCena.js"></script>
+<script language="javascript" type="text/javascript" src="../cenaJs/jqCenaSql.js"></script>
+<script language="javascript" type="text/javascript">
+
+// +---------------------------------------------------------+
+/** initialize application parameters in cena.store. 
+ */
+// +---------------------------------------------------------+
+var types = {
+	contact_offset: 'int',
+	contact_limit:  'int',
+	contact_count:  'int', 
+	order_column:   'string',
+	order_ascend:   'boolean',
+	find_column:    'string',
+	find_value:     'string',
+	find_type:      'string'
+};
+var defaults = {
+	contact_offset: 0,
+	contact_limit:  6,
+	contact_count:  0, 
+	order_column:   '',
+	order_ascend:   true,
+	find_column:    '',
+	find_value:     '',
+	find_type:      '='
+};
+$().cena.storeTypes( types );
+$().cena.storeDefaults( defaults );
+$().cena.storeInit();
+
+// +---------------------------------------------------------+
+/** search_data
+	set new search condition and show data (load_data). 
+	value of contact_name text field used for contact_name; 
+	otherwise, specify find_value. if find_column is not 
+	specified, clears the search condition. 
+	only one condition can be set per search. 
+	(i.e. WHERE find_column find_type find_value)
+	
+	@param string find_column
+		name of column to search. 
+	@param string find_value
+		value of the column. 
+	@param string find_type
+		conditions such as '=' to search. 
+ */
+// +---------------------------------------------------------+
+function search_data( find_column, find_value, find_type )
+{
+	if( find_column == 'contact_name' ) {
+		find_value = $( '#contact_name' ).val();
+		find_type  = ' LIKE ';
+		$().cena.store( 'find_column', find_column );
+		$().cena.store( 'find_value',  '%' + find_value + '%' );
+		$().cena.store( 'find_type',   find_type );
+	}
+	else
+	if( typeof( find_column ) != 'undefined' && 
+		typeof( find_value ) != 'undefined' ) {
+		if( typeof( find_type ) == 'undefined' ) find_type = '=';
+		$().cena.store( 'find_column', find_column );
+		$().cena.store( 'find_value',  find_value );
+		$().cena.store( 'find_type',   find_type );
+	}
+	else {
+		// clear all search info
+		$().cena.store( 'find_column', '' );
+		$().cena.store( 'find_value',  '' );
+	}
+	$().cena.store( 'contact_offset', 0 );
+	load_data( true );
+}
+
+// +---------------------------------------------------------+
+/** sort_data
+	set the sort order of search, and show data (load_data). 
+	as default, it sorts in in ascending order. calling this 
+	function with sort_column to toggle asc/desc order. 
+	@param string sort_column
+		set the name of column used for sort. 
+ */
+// +---------------------------------------------------------+
+function sort_data( sort_column )
+{
+	order_column = $().cena.store( 'order_column'  );
+	order_ascend = $().cena.storeBoolean( 'order_ascend' );
+	if( sort_column == order_column ) {
+		$().cena.storeBoolean( 'order_ascend', !order_ascend );
+	}
+	else {
+		$().cena.store( 'order_column', sort_column );
+		$().cena.storeBoolean( 'order_ascend', true );
+	}
+	load_data();
+}
+
+// +---------------------------------------------------------+
+/** load_data
+	show model=dao_contact100 data from database and binds 
+	to envelope. uses search conditions and sort order. 
+	@param boolean do_count
+		if set to true, counts the number of data and 
+		stores to contact_count storage. 
+ */
+// +---------------------------------------------------------+
+function load_data( do_count )
+{
+	var opts = $().cena.storeGetAll(); // get all options from local storage.
+	// +-----------------------------------------------------+
+	//  callback to bind contact data with #cena_env_src. 
+	// +-----------------------------------------------------+
+	var callback100 = function( env_data ) {
+		$()	.cena( { 	                     // initialize cena.
+				env_src:   '#cena_env_src',  // source envelop id.
+				env_post:  '#cena_post',     // id to post bound envelope. 
+				bind_type: 'replace'         // show contents.
+			})
+			.cena( 'add', env_data )
+			.cena( 'bind' )
+			.cena( 'clean' )
+		;
+	}
+	// +-----------------------------------------------------+
+	//  callback to store count of current search. 
+	// +-----------------------------------------------------+
+	var callbackCount = function( count ) {
+		$() .cena.store( 'contact_count', count );
+	}
+	// +-----------------------------------------------------+
+	//  starts to retrieve and draw data
+	// +-----------------------------------------------------+
+	$()	.cena( 'restart' );
+	$() .cenaSql()
+		.cenaSql( 'find', 
+			{ 
+			column: opts.find_column,
+			value : opts.find_value,
+			type  : opts.find_type
+		})
+		.cenaSql( {
+			model: 'dao_contact100', 
+			offset: opts.contact_offset, 
+			limit:  opts.contact_limit,
+			order:  opts.order_column,
+			ascend: opts.order_ascend
+		})
+		.cenaSql( 'get', callback100 )
+	;
+	// +-----------------------------------------------------+
+	//  count data if do_count is true. 
+	// +-----------------------------------------------------+
+	if( do_count ) {
+		$().cenaSql( 'count', callbackCount );
+	}
+}
+
+// +---------------------------------------------------------+
+/** load_detail
+	jump to contact_jq4.html, contact/connect view. 
+	cena_id is taken from input element with cena='cena_id', 
+	and stores to contact100_id storage. 
+	@param dom button_elem
+		element of clicked button. its parent dom has to 
+		contain input element for cena_id (cena='cena_id'). 
+ */
+// +---------------------------------------------------------+
+function load_detail( button_elem )
+{
+	var cena_id = $( button_elem ).parent().find( "input[cena='cena_id']" ).val();
+	$().cena.store( 'contact100_id', cena_id );
+	location.href = 'contact_jq4.html';
+}
+
+// +---------------------------------------------------------+
+/** load_new_detail
+	add new contact/connect data. set contact100_id storage 
+	to blank, and jump to contact_jq4.html. 
+ */
+// +---------------------------------------------------------+
+function load_new_detail()
+{
+	$().cena.store( 'contact100_id', '' );
+	location.href = 'contact_jq4.html';
+}
+
+// +---------------------------------------------------------+
+/** on ready initialization
+	initialize buttons, and show contact data. 
+ */
+// +---------------------------------------------------------+
+$().ready( function () {
+	// +-----------------------------------------------------+
+	// new with jQuery plug-ins
+	$().cena( 'debug', 'jqCena, jQuery PlugIn <br />' );
+	// +-----------------------------------------------------+
+	$( '#button_more' ).click( function() { 
+		var offset = $().cena.store( 'contact_offset' );
+		var limit  = $().cena.store( 'contact_limit' );
+		var count  = $().cena.store( 'contact_count' );
+		if( count>0 && offset + limit >= count ) {
+			return;
+		}
+		offset = offset + limit;
+		$().cena.store( 'contact_offset', offset );
+		load_data();
+	});
+	// +-----------------------------------------------------+
+	$( '#button_back' ).click( function() { 
+		var offset = $().cena.store( 'contact_offset' );
+		var limit  = $().cena.store( 'contact_limit' );
+		if( offset <= 0 ) return;
+		offset = offset - limit;
+		if( offset <= 0 ) {
+			offset = 0;
+		}
+		$().cena.store( 'contact_offset', offset );
+		load_data();
+	});
+	// +-----------------------------------------------------+
+	$( '#button_add' ).click( function() { 
+		load_new_detail();
+	});
+	// +-----------------------------------------------------+
+	load_data();
+	// +-----------------------------------------------------+
+});
+// +---------------------------------------------------------+
+
+</script>
+  <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a>:: contact_jq</span>List of Contacts</h1>
+  <div style="float:right; width:120px;">
+    <h2>search...    </h2>
+    <table width="100%" border="0" cellpadding="1" cellspacing="1" class="tblList">
+  <tr>
+    <th>name</th>
+  </tr>
+  <tr>
+    <td><p align="center">
+      <input name="contact_name" type="text" id="contact_name" size="8"> 
+      </p>
+      <p align="right"><a href="javascript:search_data( 'contact_name', 'name' );">search</a></p></td>
+  </tr>
+  <tr>
+    <th>gender</th>
+  </tr>
+  <tr>
+    <td align="center"><a href="javascript:search_data( 'contact_gender', '1' );">Male / </a><a href="javascript:search_data( 'contact_gender', '2' );">Female</a></td>
+  </tr>
+  <tr>
+    <th>分類</th>
+  </tr>
+  <tr>
+    <td align="center"><a href="javascript:search_data( 'contact_type', '1' );">friend</a> / <a href="javascript:search_data( 'contact_type', '2' );">work</a><a href="javascript:search_data( 'contact_type', '3' );"><br>
+      family / </a><a href="javascript:search_data( 'contact_type', '4' );">other</a></td>
+  </tr>
+  <tr>
+    <th align="center"><a href="javascript:search_data();">clear search</a></th>
+  </tr>
+</table>
+    <h2>connect to server</h2>
+    <table width="100%" border="0" cellpadding="1" cellspacing="1" class="tblList" style="margin-top:5px; ">
+      <tr>
+        <td><a href="contact_jq2.php"><strong>download</strong></a></td>
+      </tr>
+      <tr>
+        <td><strong>upload </strong></td>
+      </tr>
+      <tr>
+        <td><a href="contact_jq6.html">upload via form</a> </td>
+      </tr>
+    </table>
+  </div>
+  <div style="width:600px; display:block; ">
+    <div id="cena_msg">
+      <div style="float:right; display:block;">
+        <input id="button_add" type="button" name="top" value="Add New Contact">
+      </div>
+    </div>
+    <table class="tblHover" id="cena_post" width="100%">
+      <thead>
+        <tr>
+          <th bgcolor="#CCCCCC"><a href="javascript:sort_data( 'contact_name' );">name</a><br>
+          Cena ID</th>
+          <th bgcolor="#CCCCCC"><a href="javascript:sort_data( 'contact_gender' );">gender</a></th>
+          <th bgcolor="#CCCCCC"><a href="javascript:sort_data( 'contact_type' );">type</a></th>
+          <th bgcolor="#CCCCCC"><a href="javascript:sort_data( 'contact_date' );">date</a></th>
+          <th bgcolor="#CCCCCC">details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="cena_env_src" style="display:none;">
+          <td height="25"><input type="text" size="25" name="contact_name" class="cena_element" value="" />
+              <br>
+            <span class="cena_element" cena="cena_id" name></span></td>
+          <td align="center"><label>
+            <input type="radio" name="contact_gender" class="cena_element" value="1">
+            male</label>
+              <label> <br>
+              <input type="radio" name="contact_gender" class="cena_element" value="2">
+                female</label>          </td>
+          <td align="center"><select name="contact_type" class="cena_element">
+              <option value="1">friend</option>
+              <option value="2">work</option>
+              <option value="3">family</option>
+              <option value="4">other</option>
+            </select></td>
+          <td align="center"><input type="date" size="10" name="contact_date" class="cena_element" value="" />          </td>
+          <td align="center"><input type="hidden" name="cena_id" class="cena_element" cena="cena_id" value="">            <input type="button" name="Submit2" value="view" onClick="javascript:load_detail( this );">          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>&nbsp;</p>
+    <p align="center">
+      <input type="submit" name="Submit" value="Back↑↑↑" id="button_back"> 
+      &nbsp;&nbsp;
+      <input type="submit" name="Submit" value="↓↓↓More" id="button_more">
+    </p>
+	<?php phpinfo(); // this is not a PHP script! ?>
+  <p>    </p>
+  </div>
+  <div style="clear:both"></div>
+  <div id="cena_debug"></div>
+  <!-- InstanceEndEditable --></div>
+<div id="footer">
+  <table  border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr valign="top">
+      <td valign="bottom" nowrap class="footDesc"><p>Cena developed 
+        by <a href="../../index.php"><strong>WorkSpot.JP</strong></a>&nbsp;
+      </p>      </td>
+      <td width="6">&nbsp;</td>
+      <td width="100"><a href="../../serv/index.php"><img src="../../com/img/bar_ser.gif" width="100" height="30" border="0" alt="Service（業務内容） （写真：デビルズタワー国定公園、アメリカ）"></a></td>
+      <td width="100"><a href="../../expc/index.php"><img src="../../com/img/bar_exp.gif" width="100" height="30" border="0" alt="Experience（実績･経験）　（写真：紀伊半島にある筆薮滝）"></a></td>
+      <td width="100"><a href="../../prof/index.php"><img src="../../com/img/bar_pro.gif" width="100" height="30" border="0" alt="Profile（経歴）　（写真：バッドランド国立公園、アメリカ）"></a></td>
+      <td width="100"><a href="../../tech/index.php"><img src="../../com/img/bar_tec.gif" width="100" height="30" border="0" alt="Technology（技術）　（写真：東京フォーラム）"></a></td>
+    </tr>
+    <tr valign="top">
+      <td colspan="6" align="center" nowrap><span class="copyright">copyright (c) 2010-<?php echo date('Y'); ?> WorkSpot.JP</span></td>
+    </tr>
+  </table>
+</div>
+</body>
+<!-- InstanceEnd --></html>
