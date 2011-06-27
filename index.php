@@ -36,23 +36,18 @@
           TODO: env1,2 works! work on jq2~6 </li>
         </ul>
         <p>&nbsp;</p>
-        <h2>OLD Cena Library Development</h2>
-        <ul>
-          <li><a href="unittest/index.php"><strong>Unit Tests </strong></a>at Cena-DTA/unittest <br>
-          PHPUnit for original Cena-DTA/php_lib libraries. </li>
-          <li><a href="contact/index.php"><strong>Contact Form tests</strong></a> at Cena-DTA/contact <br>
-          testing application for php_lib libraries.</li>
-        </ul>      
         <h2>&nbsp;</h2>
         <p>&nbsp;  </p></td>
       <td width="40%" valign="top"><h2>Links</h2>
         <ul>
           <li><a href="../cena/index.php"><strong>Cena Home</strong></a> </li>
+          <li><a href="https://github.com/asaokamei/Cena-DTA"><strong>asaokamei/Cena-DTA.git</strong></a></li>
         </ul>
         <h2>Utilities</h2>
         <ul>
           <li><a href="info.php"><strong>PHP info </strong></a></li>
-        </ul></td>
+        </ul>
+        <h2>&nbsp;</h2></td>
     </tr>
   </table>
   <p>&nbsp;</p>
