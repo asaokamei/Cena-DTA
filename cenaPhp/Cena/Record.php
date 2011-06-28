@@ -1,8 +1,14 @@
 <?php
 namespace CenaDta\Cena;
+/**
+ *	Cena Record class. 
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
+
 use CenaDta\Html as html;
-// Dba_Records class
-// charset: utf-8, 日本語
 
 require_once( dirname( __FILE__ ) . '/Master.php' );
 

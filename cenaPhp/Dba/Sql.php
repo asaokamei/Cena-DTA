@@ -1,11 +1,13 @@
 <?php
 namespace CenaDta\Dba;
-/* dba_sql class
- * by Asao Kamei @ WorkSpot.JP, 
- * PURPOSE: to create SQL prepared statements.
- * ALL RIGHTS RESERVED 2002-2010
+/**
+ *	Class for wrapping SQL statement. 
  *
-*/
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
+
 if( !defined( "WORDY" ) ) define( "WORDY",  0 ); // very wordy...
 
 require_once( dirname( __FILE__ ) . "/FormSql.php" );

@@ -1,11 +1,12 @@
 <?php
 namespace CenaDta\Dba;
-/* formsql class
- * by Asao Kamei @ WorkSpot.JP, 
- * PURPOSE: to create SQL statements.
- * ALL RIGHTS RESERVED 2002-2010
+/**
+ *	Class for formig SQL statements.
  *
-*/
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 
 class FormSql
 {

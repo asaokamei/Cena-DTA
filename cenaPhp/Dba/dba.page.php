@@ -1,12 +1,12 @@
 <?php 
 namespace CenaDta\Dba;
-/* ============================================================================ *
-   prevNext.php
-   purpose: class to create Prev/Next and page links 
-            when displaying many contents.
-   author : Asao Kamei @ WorkSpot.JP
-   date   : 2003/04/16 ~ 
- * ============================================================================ */
+/**
+ *	Pagination class for SQL.
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 if( !defined( "WORDY" ) ) define( "WORDY",  0 ); // very wordy...
 
 /* ============================================================================ */

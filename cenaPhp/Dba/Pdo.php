@@ -1,11 +1,12 @@
 <?php
 namespace CenaDta\Dba;
-/* dba_base class
- * by Asao Kamei @ WorkSpot.JP, 
- * PURPOSE: to access RDB via PDO
- * ALL RIGHTS RESERVED 2002-2010
+/**
+ *	Pdo driver for dba.
  *
-*/
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 
 class DbaPdo_Exception extends \Exception {}
 class DbaPdo_NoIniFile_Exception extends DbaPdo_Exception {}

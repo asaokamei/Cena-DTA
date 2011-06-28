@@ -1,5 +1,12 @@
 // JavaScript Document
-// -------------------- jqCenaSql Plug-In ----------------------
+/**
+ * jQuery plug in for Cena WebSqlDatabase storage.
+ * 
+ * @copyright     Copyright 2010-2011, Asao Kamei
+ * @link          http://www.workspot.jp/cena/
+ * @license       GPLv2
+ */
+
 ;( function($) {
 
 	// +-------------------------------------------------+

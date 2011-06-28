@@ -1,7 +1,12 @@
 <?php
 namespace CenaDta\Cena;
-// Dba_Records class
-// charset: utf-8, 日本語
+/**
+ *	Envelope class for Cena.
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 
 class Envelope
 {

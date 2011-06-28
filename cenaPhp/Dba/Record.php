@@ -1,9 +1,13 @@
 <?php
 namespace CenaDta\Dba;
+/**
+ *	Active record class for dba.
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 use CenaDta\Html as html;
-// Record class
-// ActiveRecord implementation.
-// charset: utf-8, 日本語
 
 require_once( 'Model.php' );
 class DbaRecord_Exception extends \Exception {}
@@ -30,7 +34,7 @@ class Record
 	
     /**
      * specifies name of Model class for accessing db.
-     * @var <stringe>
+     *	@var <stringe>
      */
 	var $model     = NULL; // i.e. dao name (Model...)
 	var $id        = NULL;

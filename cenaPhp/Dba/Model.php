@@ -1,5 +1,12 @@
 <?php
 namespace CenaDta\Dba;
+/**
+ *	Model for dba.
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 require_once( 'Dao.php' );
 
 class DbaTableException           extends \Exception {}
@@ -15,9 +22,9 @@ parent class for all tables. All of the methods are static!
  * this class and derived classes are used as static class; all the
  * methods and variables are declared as static. 
  *
- * @author Asao Kamei, WorkSpot.JP
- * @since PHP5.3
- * @version 0.3
+ *	@author Asao Kamei, WorkSpot.JP
+ *	@since PHP5.3
+ *	@version 0.3
  */
 class Model
 {
@@ -352,7 +359,7 @@ class Model
      *      ), ....
      *  );
      *
-     * @return array
+     *	@return array
      *      returns relation information of table. 
      */
 	static function getRelationship() {
@@ -361,7 +368,7 @@ class Model
 	// +----------------------------------------------------------+
     /** getChildship()
      *
-     * @return array
+     *	@return array
      */
 	static function getChildship() {
 		return FALSE;

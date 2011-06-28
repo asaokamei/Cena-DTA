@@ -1,5 +1,12 @@
 <?php
 namespace CenaDta\Dba;
+/**
+ *	Object Pool for Dao (Data Access Object).
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 	
 class Dba_DaoObjPools_Exception extends \Exception {}
 

@@ -1,5 +1,12 @@
 <?php
 namespace CenaDta\Html;
+/**
+ *	Class for HTML tags. 
+ *
+ * @copyright     Copyright 2010-2011, Asao Kamei
+ * @link          http://www.workspot.jp/cena/
+ * @license       GPLv2
+ */
 require_once( dirname( __FILE__ ) . '/Prop.php' );
 
 // +----------------------------------------------------------------------+

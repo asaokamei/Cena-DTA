@@ -1,8 +1,13 @@
 <?php
 namespace CenaDta\Cena;
+/**
+ *	Cena Master class for driving Cena. 
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 use CenaDta\Dba as orm;
-// Dba_Records class
-// charset: utf-8, 日本語
 
 require_once( dirname( __FILE__ ) . '/Envelope.php' );
 

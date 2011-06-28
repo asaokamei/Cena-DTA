@@ -1,4 +1,11 @@
 // JavaScript Document
+/**
+ * jQuery plug in for Cena manipulation.
+ * 
+ * @copyright     Copyright 2010-2011, Asao Kamei
+ * @link          http://www.workspot.jp/cena/
+ * @license       GPLv2
+ */
 
 // -------------------- jqCena Plug-In ----------------------
 ;( function($) {

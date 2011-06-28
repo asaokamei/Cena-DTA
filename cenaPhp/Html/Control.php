@@ -1,9 +1,13 @@
 <?php
 namespace CenaDta\Html;
-require_once( dirname( __FILE__ ) . '/../class/class.pgg_JPN.php' );
 /**
- *	Page class for page-controller.
+ *	A simple page controller class. 
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
  */
+require_once( dirname( __FILE__ ) . '/../class/class.pgg_JPN.php' );
 
 class Control
 {

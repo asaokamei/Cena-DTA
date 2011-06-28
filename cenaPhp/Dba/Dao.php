@@ -1,5 +1,12 @@
 <?php
 namespace CenaDta\Dba;
+/**
+ *	Data Access Object.
+ *
+ *	@copyright     Copyright 2010-2011, Asao Kamei
+ *	@link          http://www.workspot.jp/cena/
+ *	@license       GPLv2
+ */
 require_once( 'Sql.php' );
 require_once( 'DaoObjPool.php' );
 require_once( 'DaoHelper.php' );
@@ -48,7 +55,7 @@ class Dao extends Sql
      *  column information of the model.
      *  mod_{date|time|datetime}: DaoHelper::update_datetime
      *  new_{date|time|datetime}: DaoHelper::insert_datetime
-     * @var array
+     *	@var array
      */
 	var $col_info = array(
 		'new_date'     => FALSE,
@@ -84,7 +91,7 @@ class Dao extends Sql
      *  throws exception if set to TRUE during getDatum or some method.
      *  note that this record throws exception for some cases even if
      *  this flag is set to FALSE.
-     * @var beelan
+     *	@var beelan
      */
 	var $throwException = TRUE;         // throws exception or not
 	// +--------------------------------------------------------------- +
