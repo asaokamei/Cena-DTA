@@ -20,13 +20,13 @@ class SetUp_Contact
 	//  コンタクト（contact_100)
     // +--------------------------------------------------------------- +
 	static function getDropContact() {
-		$table = self::getContactTable();
+		$table = static::getContactTable();
 		return "DROP TABLE IF EXISTS {$table};";
 	}
     // +--------------------------------------------------------------- +
 	static function getCreateContact()
 	{
-		$table = self::getContactTable();
+		$table = static::getContactTable();
 		$sql =<<<END_OF_SQL
 CREATE TABLE {$table} (
     contact_id        SERIAL     NOT NULL,
@@ -46,13 +46,20 @@ END_OF_SQL;
 		return 'contact100';
 	}
     // +--------------------------------------------------------------- +
+	static function getContactName( $i=0 )
+	{
+		static $type;
+		if( !$type ) $type = new sel_contact_type();
+		return  "name#{$i} " . $type->show('NAME', $i % 4 + 1 );
+	}
+    // +--------------------------------------------------------------- +
 	static function getContactData( $i=0 )
 	{
 		static $type;
 		if( !$type ) $type = new sel_contact_type();
 		$idx  = $i + 1;
 		$data = array(
-			'contact_name'   => "name#{$idx} " . $type->show('NAME', $i % 4 + 1 ),
+			'contact_name'   => static::getContactName( $i ),
 			'contact_gender' => $i % 2 + 1,
 			'contact_type'   => $i % 4 + 1,
 			'contact_date'   => date( 'Y-m-d' ),
@@ -63,7 +70,7 @@ END_OF_SQL;
 	//  コネクト（contact_110)
     // +--------------------------------------------------------------- +
 	static function getDropConnect	() {
-		$table = self::getConnectTable();
+		$table = static::getConnectTable();
 		return "DROP TABLE IF EXISTS {$table};";
 	}
     // +--------------------------------------------------------------- +
@@ -73,7 +80,7 @@ END_OF_SQL;
     // +--------------------------------------------------------------- +
 	static function getCreateConnect()
 	{
-		$table = self::getConnectTable();
+		$table = static::getConnectTable();
 		$sql =<<<END_OF_SQL
 CREATE TABLE {$table} (
     connect_id        SERIAL     NOT NULL,

@@ -3,7 +3,7 @@
 // + コンタクトDAO
 // +----------------------------------------------------------------------+
 
-require_once( '../cenaPhp/Dba/Model.php' );
+require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Model.php' );
 use CenaDta\Dba as orm;
 
 class dao_contact100 extends orm\Model
@@ -18,7 +18,7 @@ class dao_contact100 extends orm\Model
 		if( !have_value( $config ) ) { $config = dirname( __FILE__ ) . '/dba.ini.php'; };
 		parent::__construct( $config );
 		$this->id_name    = "contact_id";
-		$this->dao_table  = self::$dao_table;
+		$this->dao_table  = static::$dao_table;
 		$this->table      = $this->dao_table;
 		$this->clear();
 		self::setColumns();
