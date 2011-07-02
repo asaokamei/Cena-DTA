@@ -1,14 +1,10 @@
 <?php
 define( 'WORDY', 0 );
-require_once( dirname( __FILE__ ) . "/../../class/class.ext_func.php" );
-require_once( dirname( __FILE__ ) . "/../../class/class.pgg_JPN.php" );
 require_once( dirname( __FILE__ ) . "/../../Html/Form.php" );
 require_once( dirname( __FILE__ ) . "/../../Dba/record.php" );
 require_once( dirname( __FILE__ ) . "/../../Cena/master.php" );
 require_once( dirname( __FILE__ ) . "/../../Cena/record.php" );
 require_once( dirname( __FILE__ ) . "./dbaTest.inc.php" );
-require_once( dirname( __FILE__ ) . "./dao.contact100b.php" );
-require_once( dirname( __FILE__ ) . "./dao.contact110.php" );
 
 use CenaDta\Dba as orm;
 use CenaDta\Cena as cena;
@@ -17,9 +13,9 @@ class CenaRec extends PHPUnit_Framework_TestCase
 {
     // +--------------------------------------------------------------- +
 	public function setUp() {
-		$config = realpath( dirname( __FILE__ ) . '/dbaTest.ini.php' );
-		$this->dao_contact = dao_contact100::getInstance( $config );
-		$this->dao_connect = dao_contact110::getInstance( $config );
+		$config = UT_SetUp_Contact::getDbaIniFile();
+		$this->dao_contact = UT_dao_contact100::getInstance( $config );
+		$this->dao_connect = UT_dao_contact110::getInstance( $config );
 		$this->sql = new orm\Sql( $config );
 		orm\DaoObjPools::clearInstance();
 		orm\DaoObjPools::clearRecord();
@@ -28,26 +24,26 @@ class CenaRec extends PHPUnit_Framework_TestCase
     // +--------------------------------------------------------------- +
 	public function getDaoName( $idx=1 ) {
 		if( $idx == 1 ) 
-			return 'dao_contact100';
+			return 'UT_dao_contact100';
 		else
 		if( $idx == 2 ) 
-			return 'dao_contact110';
+			return 'UT_dao_contact110';
 	}
     // +--------------------------------------------------------------- +
 	public function populateContact( $num=10 ) {
-		$this->sql->execSQL( SetUp_Contact::getDropContact() );
-		$this->sql->execSQL( SetUp_Contact::getCreateContact() );
-		$this->sql->table(   SetUp_Contact::getContactTable() );
+		$this->sql->execSQL( UT_SetUp_Contact::getDropContact() );
+		$this->sql->execSQL( UT_SetUp_Contact::getCreateContact() );
+		$this->sql->table(   UT_SetUp_Contact::getContactTable() );
 		for( $i = 0; $i < $num; $i ++ ) 
-			$this->sql->execInsert(  SetUp_Contact::getContactData( $i ) );
+			$this->sql->execInsert(  UT_SetUp_Contact::getContactData( $i ) );
 	}
     // +--------------------------------------------------------------- +
 	public function populateConnect( $num=10 ) {
-		$this->sql->execSQL( SetUp_Contact::getDropConnect() );
-		$this->sql->execSQL( SetUp_Contact::getCreateConnect() );
-		$this->sql->table(   SetUp_Contact::getConnectTable() );
+		$this->sql->execSQL( UT_SetUp_Contact::getDropConnect() );
+		$this->sql->execSQL( UT_SetUp_Contact::getCreateConnect() );
+		$this->sql->table(   UT_SetUp_Contact::getConnectTable() );
 		for( $i = 0; $i < $num; $i ++ ) {
-			$data = SetUp_Contact::getConnectData( $i );
+			$data = UT_SetUp_Contact::getConnectData( $i );
 			// wt( $data, "i:{$i}" );
 			$this->sql->execInsert( $data );
 		}
@@ -160,7 +156,7 @@ class CenaRec extends PHPUnit_Framework_TestCase
 		cena\Cena::do_cena( $records, 'doAction', $input );
 		
 		// check the cena object's value. 
-		$name2 = $records['dao_contact100'][0]->getData( $name );
+		$name2 = $records['UT_dao_contact100'][0]->getData( $name );
 		$this->assertEquals( $test, $name2 ); // same name. 
 		// check the database value. 
 		$data2 = $obj->getDatum( $id );
@@ -175,8 +171,8 @@ class CenaRec extends PHPUnit_Framework_TestCase
 		cena\Cena::do_cena( $records, 'doAction', $input );
 		
 		// check the cena object's value. 
-		$name2 = $records['dao_contact100'][0]->getData( $name );
-		echo $records['dao_contact100'][0]->err_msg;
+		$name2 = $records['UT_dao_contact100'][0]->getData( $name );
+		echo $records['UT_dao_contact100'][0]->err_msg;
 		$this->assertEquals( $test2, $name2 ); // same name. 
 		
 		// check the database value. 
@@ -224,14 +220,14 @@ class CenaRec extends PHPUnit_Framework_TestCase
 		
 		$child1 = $contact1->getChildren();
 		$child2 = $contact2->getChildren();
-		$this->assertContains( $connect1->getCenaId(), $child1[ 'dao_contact110' ] );
-		$this->assertContains( $connect2->getCenaId(), $child2[ 'dao_contact110' ] );
+		$this->assertContains( $connect1->getCenaId(), $child1[ 'UT_dao_contact110' ] );
+		$this->assertContains( $connect2->getCenaId(), $child2[ 'UT_dao_contact110' ] );
 		
 		// ### test setRelation (rel) method. 
 		
 		// first of all, make sure $connect2 and $contact1 are not related. 
 		$cena_id1 = $contact1->getCenaId();
-		$this->assertNotContains( $connect2->getCenaId(), $child1[ 'dao_contact110' ] );
+		$this->assertNotContains( $connect2->getCenaId(), $child1[ 'UT_dao_contact110' ] );
 		
 		// relate $connect2 to $contact1. and save it. 
 		$cena_name = $connect2->getCenaName( cena\Record::ACT_REL, 'contact_id' );
@@ -245,7 +241,7 @@ class CenaRec extends PHPUnit_Framework_TestCase
 		$new_contact1->loadChildren();
 		$new_child1 = $new_contact1->getChildren();
 		//wtc( $new_child1 );
-		$this->assertContains( $connect2->getCenaId(), $new_child1[ 'dao_contact110' ] );
+		$this->assertContains( $connect2->getCenaId(), $new_child1[ 'UT_dao_contact110' ] );
 		
 	}
     // +--------------------------------------------------------------- +
@@ -267,13 +263,13 @@ class CenaRec extends PHPUnit_Framework_TestCase
 		
 		// create new contact data record ($rec1).
 		$id1   = $max + 1;
-		$data1 = SetUp_Contact::getContactData( $id1 );
+		$data1 = UT_SetUp_Contact::getContactData( $id1 );
 		$rec1  = $dao1::getNewRecord( $data1 );
 		$cena1 = cena\Cena::getCenaByRec( $rec1 ); 
 		
 		// create new connect data record ($rec2).
 		$id2   = $max + 1;
-		$data2 = SetUp_Contact::getConnectData( $id2 );
+		$data2 = UT_SetUp_Contact::getConnectData( $id2 );
 		$rec2  = $dao2::getNewRecord( $data2 );
 		$cena2 = cena\Cena::getCenaByRec( $rec2 );
 		
@@ -357,17 +353,17 @@ class CenaRec extends PHPUnit_Framework_TestCase
 		
 		// make sure $connect_id2 is NOT in the children. 
 		$child2 = cena\Cena::getCena( $dao2, orm\Record::TYPE_GET, $connect_id2 );
-		$this->assertNotContains( $child2->getCenaId(), $children[ 'dao_contact110' ] );
+		$this->assertNotContains( $child2->getCenaId(), $children[ 'UT_dao_contact110' ] );
 		
 		// now make child2 as children of cena1. 
-		$cena1->setChildren( 'dao_contact110', $child2->getCenaId() );
+		$cena1->setChildren( 'UT_dao_contact110', $child2->getCenaId() );
 		$child2->record->doAction(); // save it. 
 		
 		// relaod children, and check.
 		$cena1->loadChildren();
 		$children = $cena1->getChildren();
 		// wtc( $children, 'children of cena1' . $cena1 );
-		$this->assertContains( $child2->getCenaId(), $children[ 'dao_contact110' ] );
+		$this->assertContains( $child2->getCenaId(), $children[ 'UT_dao_contact110' ] );
 	}
     // +--------------------------------------------------------------- +
 }

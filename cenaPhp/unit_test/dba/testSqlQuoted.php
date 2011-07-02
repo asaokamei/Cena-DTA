@@ -7,7 +7,7 @@ class DbaTestQuoted extends DbaTest
 {
     // +--------------------------------------------------------------- +
 	public function setUp() {
-		$config = realpath( dirname( __FILE__ ) . '/dbaTest.ini.php' );
+		$config = UT_SetUp_Contact::getDbaIniFile();
 		$this->sql = new ormSql( $config );
 		$this->use_prepared = FALSE; // use quote
 	}

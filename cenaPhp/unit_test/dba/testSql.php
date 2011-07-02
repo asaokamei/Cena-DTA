@@ -10,21 +10,21 @@ class DbaTest extends PHPUnit_Framework_TestCase
 {
     // +--------------------------------------------------------------- +
 	public function setUp() {
-		$config = realpath( dirname( __FILE__ ) . '/dbaTest.ini.php' );
+		$config = UT_SetUp_Contact::getDbaIniFile();
 		$this->sql = new ormSql( $config );
 	}
     // +--------------------------------------------------------------- +
 	public function setSql4Contact() {
 		$this->sql->clear();
-		$this->sql->table( SetUp_Contact::getContactTable() )->order( 'contact_id' );
+		$this->sql->table( UT_SetUp_Contact::getContactTable() )->order( 'contact_id' );
 	}
     // +--------------------------------------------------------------- +
 	public function populateContact( $num=10 ) {
-		$this->sql->execSQL( SetUp_Contact::getDropContact() );
-		$this->sql->execSQL( SetUp_Contact::getCreateContact() );
-		$this->sql->table( SetUp_Contact::getContactTable() );
+		$this->sql->execSQL( UT_SetUp_Contact::getDropContact() );
+		$this->sql->execSQL( UT_SetUp_Contact::getCreateContact() );
+		$this->sql->table( UT_SetUp_Contact::getContactTable() );
 		for( $i = 0; $i < 10; $i ++ ) 
-			$this->sql->execInsert(  SetUp_Contact::getContactData( $i ) );
+			$this->sql->execInsert(  UT_SetUp_Contact::getContactData( $i ) );
 	}
     // +--------------------------------------------------------------- +
 	function testTemp() {
@@ -38,7 +38,7 @@ class DbaTest extends PHPUnit_Framework_TestCase
 		$this->setSql4Contact();
 		$num_found = $this->sql->find()->fetchAll( $data );
 		$this->assertEquals( $num, $num_found );
-		$this->assertEquals( SetUp_Contact::getContactName(4), $data[4][ 'contact_name' ] );
+		$this->assertEquals( UT_SetUp_Contact::getContactName(4), $data[4][ 'contact_name' ] );
 		
 		// ### test find method
 		$this->setSql4Contact();
@@ -118,7 +118,7 @@ class DbaTest extends PHPUnit_Framework_TestCase
 		$this->setSql4Contact();
 		$num_found = $this->sql->find()->fetchAll( $data );
 		$this->assertEquals( $num, $num_found );
-		$this->assertEquals( SetUp_Contact::getContactName(4), $data[4][ 'contact_name' ] );
+		$this->assertEquals( UT_SetUp_Contact::getContactName(4), $data[4][ 'contact_name' ] );
 		
 		// ### test find method
 		$this->setSql4Contact();

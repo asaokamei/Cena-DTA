@@ -1,13 +1,9 @@
 <?php
 //define( 'WORDY', 4 );
-require_once( dirname( __FILE__ ) . "/../../class/class.ext_func.php" );
-require_once( dirname( __FILE__ ) . "/../../class/class.pgg_JPN.php" );
 require_once( dirname( __FILE__ ) . "/../../Html/Form.php" );
 require_once( dirname( __FILE__ ) . "/../../Dba/Model.php" );
 require_once( dirname( __FILE__ ) . "/../../Dba/Record.php" );
 require_once( dirname( __FILE__ ) . "./dbaTest.inc.php" );
-require_once( dirname( __FILE__ ) . "./dao.contact100b.php" );
-require_once( dirname( __FILE__ ) . "./dao.contact110.php" );
 
 use CenaDta\Dba as orm;
 
@@ -15,43 +11,43 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 {
     // +--------------------------------------------------------------- +
 	public function setUp() {
-		$config = realpath( dirname( __FILE__ ) . '/dbaTest.ini.php' );
-		$this->dao_contact = dao_contact100::getInstance( $config );
-		$this->dao_connect = dao_contact110::getInstance( $config );
-		$this->sql = new orm\Dba_Sql( $config );
-		orm\Dba_DaoObjPools::clearInstance();
-		orm\Dba_DaoObjPools::clearRecord();
+		$config = UT_SetUp_Contact::getDbaIniFile();
+		$this->dao_contact = UT_dao_contact100::getInstance( $config );
+		$this->dao_connect = UT_dao_contact110::getInstance( $config );
+		$this->sql = new orm\Sql( $config );
+		orm\DaoObjPools::clearInstance();
+		orm\DaoObjPools::clearRecord();
 	}
     // +--------------------------------------------------------------- +
 	public function getDaoName( $idx=1 ) {
 		if( $idx == 1 ) 
-			return 'dao_contact100';
+			return 'UT_dao_contact100';
 		else
 		if( $idx == 2 ) 
-			return 'dao_contact110';
+			return 'UT_dao_contact110';
 	}
     // +--------------------------------------------------------------- +
 	public function populateContact( $num=10 ) {
-		$this->sql->execSQL( SetUp_Contact::getDropContact() );
-		$this->sql->execSQL( SetUp_Contact::getCreateContact() );
-		$this->sql->table(   SetUp_Contact::getContactTable() );
+		$this->sql->execSQL( UT_SetUp_Contact::getDropContact() );
+		$this->sql->execSQL( UT_SetUp_Contact::getCreateContact() );
+		$this->sql->table(   UT_SetUp_Contact::getContactTable() );
 		for( $i = 0; $i < $num; $i ++ ) 
-			$this->sql->execInsert(  SetUp_Contact::getContactData( $i ) );
+			$this->sql->execInsert(  UT_SetUp_Contact::getContactData( $i ) );
 	}
     // +--------------------------------------------------------------- +
 	public function populateConnect( $num=10 ) {
-		$this->sql->execSQL( SetUp_Contact::getDropConnect() );
-		$this->sql->execSQL( SetUp_Contact::getCreateConnect() );
-		$this->sql->table(   SetUp_Contact::getConnectTable() );
+		$this->sql->execSQL( UT_SetUp_Contact::getDropConnect() );
+		$this->sql->execSQL( UT_SetUp_Contact::getCreateConnect() );
+		$this->sql->table(   UT_SetUp_Contact::getConnectTable() );
 		for( $i = 0; $i < $num; $i ++ ) {
-			$data = SetUp_Contact::getConnectData( $i );
+			$data = UT_SetUp_Contact::getConnectData( $i );
 			// wt( $data, "i:{$i}" );
 			$this->sql->execInsert( $data );
 		}
 	}
     // +--------------------------------------------------------------- +
 	//  testBasics():
-	//  to test basic functions of Dba_Record.
+	//  to test basic functions of Record.
     // +--------------------------------------------------------------- +
 	function testBasics() 
 	{
@@ -59,11 +55,11 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$this->populateContact();
 		$id = 1;
 		
-		// ### Dba_Record basic functions. 
+		// ### Record basic functions. 
 		
-		$rec1   = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
+		$rec1   = $dao::getRecord( orm\Record::TYPE_GET, $id );
 		$this->assertEquals( $rec1->getModel(), $dao );
-		$this->assertEquals( $rec1->getType() , orm\Dba_Record::TYPE_GET );
+		$this->assertEquals( $rec1->getType() , orm\Record::TYPE_GET );
 		$this->assertEquals( $rec1->getId(),    $id );
 		
 		// ### test if popHtml returns html forms.
@@ -85,17 +81,17 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$this->populateContact();
 		$id = 1;
 		
-		// ### Dba_Record object pooling. 
+		// ### Record object pooling. 
 		
 		// get the same record twice. 
-		$rec1 = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
-		$rec2 = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
+		$rec1 = $dao::getRecord( orm\Record::TYPE_GET, $id );
+		$rec2 = $dao::getRecord( orm\Record::TYPE_GET, $id );
 		// they must be *identical* because of object pooling. 
 		$this->assertTrue( $rec1 ==  $rec2 ); // same.
 		$this->assertTrue( $rec1 === $rec2 ); // identical. 
 		$this->assertEquals( $rec1->getId(), $id ); // id is the same. 
 		
-		// ### Dba_Record from existing data 
+		// ### Record from existing data 
 		
 		// get the record from data. 
 		$data = $this->dao_contact->getDatum( $id );
@@ -105,7 +101,7 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$this->assertTrue( $rec3 ==  $rec1 ); // same. 
 		$this->assertTrue( $rec3 === $rec1 ); // identical.
 		// however, the record object is pooled. 
-		$rec4 = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
+		$rec4 = $dao::getRecord( orm\Record::TYPE_GET, $id );
 		$this->assertTrue( $rec3 ==  $rec4 ); // same.
 		$this->assertTrue( $rec3 === $rec4 ); // identical. 
 		
@@ -113,32 +109,32 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		
 		$id   = 2;
 		$obj  = $dao::getInstance();
-		$new1 = new orm\Dba_Record( $dao, $id, orm\Dba_Record::TYPE_NEW );
-		$new2 = new orm\Dba_Record( $obj, $id, orm\Dba_Record::TYPE_NEW );
+		$new1 = new orm\Record( $dao, $id, orm\Record::TYPE_NEW );
+		$new2 = new orm\Record( $obj, $id, orm\Record::TYPE_NEW );
 		$this->assertTrue(  $new1 ==  $new2 ); // same.
 		$this->assertFalse( $new1 === $new2 ); // not identical. 
 		// but id and types must be the same. 
 		$this->assertEquals( $new1->getId(),   $id );
-		$this->assertEquals( $new1->getType(), orm\Dba_Record::TYPE_NEW );
+		$this->assertEquals( $new1->getType(), orm\Record::TYPE_NEW );
 		
 		// check automatic new id is working. 
-		$new3 = new orm\Dba_Record( $dao );
+		$new3 = new orm\Record( $dao );
 		$new3->initNewRecord();
-		$new4 = new orm\Dba_Record( $dao );
+		$new4 = new orm\Record( $dao );
 		$new4->initNewRecord();
 		$this->assertNotEquals( $new3->getId(), $new4->getId() );
 		
 		// check for new record based on existing data. 
 		$name = 'test #rec';
 		$data = array( 'contact_name' => $name );
-		$new5 = new orm\Dba_Record( $dao, $data, orm\Dba_Record::TYPE_NEW );
+		$new5 = new orm\Record( $dao, $data, orm\Record::TYPE_NEW );
 		$this->assertEquals( $new5->get( 'contact_name' ),   $name );
 		$this->assertNotEquals( $new4->getId(), $new5->getId() );
 		
 		// new record on existing data with id specified. 
 		$id = 'test new id';
 		$data[ $obj->getIdName() ] = $id;
-		$new6 = new orm\Dba_Record( $dao, $data, orm\Dba_Record::TYPE_NEW );
+		$new6 = new orm\Record( $dao, $data, orm\Record::TYPE_NEW );
 		$this->assertEquals( $new6->get( 'contact_name' ),   $name );
 		$this->assertEquals( $new6->getId(),                 $id );
 	}
@@ -155,8 +151,8 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		// ### test get/set. 
 		
 		// get the record and data. 
-		$data = SetUp_Contact::getContactData( $id - 1 );
-		$rec1 = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
+		$data = UT_SetUp_Contact::getContactData( $id - 1 );
+		$rec1 = $dao::getRecord( orm\Record::TYPE_GET, $id );
 		$this->assertEquals( $rec1->get( 'contact_name' ),   $data[ 'contact_name' ] );
 		
 		// set contact name with other name.
@@ -179,8 +175,8 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$id = 2;
 		
 		// get the record and data. 
-		$data = SetUp_Contact::getContactData( $id - 1 );
-		$rec1 = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
+		$data = UT_SetUp_Contact::getContactData( $id - 1 );
+		$rec1 = $dao::getRecord( orm\Record::TYPE_GET, $id );
 		$this->assertEquals( $rec1->get( 'contact_name' ),   $data[ 'contact_name' ] );
 		
 		// ### test validation
@@ -241,7 +237,7 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		// ### test new data validation
 		
 		// unlike TYPE_GET, this should fail because other items are not 
-		$new1 = new orm\Dba_Record( $dao, $data, orm\Dba_Record::TYPE_NEW );
+		$new1 = new orm\Record( $dao, $data, orm\Record::TYPE_NEW );
 		$name = 'test rec name';
 		$new1->set( 'contact_name', $name );
 		try {
@@ -279,30 +275,30 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		
 		// ### Dba_Dao object pooling. 
 		
-		orm\Dba_DaoObjPools::clearInstance();
+		orm\DaoObjPools::clearInstance();
 		$obj1 = $dao::getInstance();
 		$obj2 = $dao::getInstance();
 		$this->assertTrue(   $obj1 ==  $obj2 ); // same.
 		$this->assertTrue(   $obj1 === $obj2 ); // identical. 
 		
-		orm\Dba_DaoObjPools::clearInstance();
+		orm\DaoObjPools::clearInstance();
 		$obj3 = $dao::getInstance();
 		$this->assertTrue(   $obj1 ==  $obj3 ); // same.
 		$this->assertFalse(  $obj1 === $obj3 ); // not identical. 
 		
-		// ### Dba_Record object pooling. 
+		// ### Record object pooling. 
 		
-		orm\Dba_DaoObjPools::clearRecord();
+		orm\DaoObjPools::clearRecord();
 		// get the same record twice. 
-		$rec1 = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
-		$rec2 = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
+		$rec1 = $dao::getRecord( orm\Record::TYPE_GET, $id );
+		$rec2 = $dao::getRecord( orm\Record::TYPE_GET, $id );
 		// they must be *identical* because of object pooling. 
 		$this->assertTrue(   $rec1 ==  $rec2 ); // same.
 		$this->assertTrue(   $rec1 === $rec2 ); // identical. 
 		$this->assertEquals( $rec1->getId(), $id ); // id is the same. 
 		
-		orm\Dba_DaoObjPools::clearRecord();
-		$rec3 = $dao::getRecord( orm\Dba_Record::TYPE_GET, $id );
+		orm\DaoObjPools::clearRecord();
+		$rec3 = $dao::getRecord( orm\Record::TYPE_GET, $id );
 		// they are not *identical* after clean up the object pooling. 
 		$this->assertTrue(   $rec3 ==  $rec2 ); // same.
 		$this->assertFalse(  $rec3 === $rec2 ); // not identical. 
@@ -320,7 +316,7 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$dao2 = self::getDaoName(2); // connect dao
 		
 		$connect_id = 1;
-		$connect = $dao2::getRecord( orm\Dba_Record::TYPE_GET, $connect_id );
+		$connect = $dao2::getRecord( orm\Record::TYPE_GET, $connect_id );
 		$connect->loadRelation();
 		$contact1 = $connect->getRelation( 'contact_id' );
 		$contact1_id = $contact1->getId();
@@ -328,13 +324,13 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		// ### test setting new relation.
 		
 		$contact2_id = $contact1_id + 1; 
-		$contact2 = $dao1::getRecord( orm\Dba_Record::TYPE_GET, $contact2_id );
+		$contact2 = $dao1::getRecord( orm\Record::TYPE_GET, $contact2_id );
 		$connect->setRelation( 'contact_id', $contact2 );
 		$connect->doAction();
 		
-		orm\Dba_DaoObjPools::clearRecord();
+		orm\DaoObjPools::clearRecord();
 		
-		$connect2 = $dao2::getRecord( orm\Dba_Record::TYPE_GET, $connect_id );
+		$connect2 = $dao2::getRecord( orm\Record::TYPE_GET, $connect_id );
 		$connect2->loadRelation();
 		$contact3 = $connect2->getRelation( 'contact_id' );
 		$contact3_id = $contact3->getId();
@@ -351,18 +347,18 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$dao1 = self::getDaoName(1); // contact dao
 		$dao2 = self::getDaoName(2); // connect dao
 		
-		orm\Dba_DaoObjPools::clearRecord();
+		orm\DaoObjPools::clearRecord();
 		
 		$connect_id = 1;
-		$connect = $dao2::getRecord( orm\Dba_Record::TYPE_GET, $connect_id );
+		$connect = $dao2::getRecord( orm\Record::TYPE_GET, $connect_id );
 		$connect->loadRelation();
 		$contact_old = $connect->getRelation( 'contact_id' );
 		
 		// ### test late linking
 		
 		$new_id   = 1234; // new data. 
-		$new_data = SetUp_Contact::getContactData( $new_id );
-		$new_contact = new orm\Dba_Record( $dao1 );
+		$new_data = UT_SetUp_Contact::getContactData( $new_id );
+		$new_contact = new orm\Record( $dao1 );
 		$new_contact->initNewRecord();
 		$new_contact->set( $new_data );
 		
@@ -371,11 +367,11 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$connect->doAction(); // not linked, yet!
 		
 		$new_contact->doAction();
-		orm\Dba_Record::linkNow();
+		orm\Record::linkNow();
 		
 		// read the connect, again. 
-		orm\Dba_DaoObjPools::clearRecord();
-		$connect = $dao2::getRecord( orm\Dba_Record::TYPE_GET, $connect_id );
+		orm\DaoObjPools::clearRecord();
+		$connect = $dao2::getRecord( orm\Record::TYPE_GET, $connect_id );
 		$connect->loadRelation();
 		$new_contact2 = $connect->getRelation( 'contact_id' );
 		
@@ -397,7 +393,7 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$dao2 = self::getDaoName(2); // connect dao
 		
 		$contact_id = 1;
-		$contact = $dao1::getRecord( orm\Dba_Record::TYPE_GET, $contact_id );
+		$contact = $dao1::getRecord( orm\Record::TYPE_GET, $contact_id );
 		$contact->loadChildren();
 		$children = $contact->getChildren();
 		$this->assertTrue( count( $children ) > 0 ); // make sure child data exist. 
@@ -406,8 +402,8 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		
 		// create new connect record. 
 		$new_id   = 123; // new data. 
-		$new_data = SetUp_Contact::getConnectData( $new_id );
-		$new_connect = new orm\Dba_Record( $dao2 );
+		$new_data = UT_SetUp_Contact::getConnectData( $new_id );
+		$new_connect = new orm\Record( $dao2 );
 		$new_connect->initNewRecord();
 		$new_connect->set( $new_data );
 		// set as children of contact, and save. 
@@ -432,25 +428,25 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		// ### test validate for lack of relation. 
 		
 		$new_id   = 1234; // new data. 
-		$new_data = SetUp_Contact::getConnectData( $new_id );
-		unset( $new_data[ 'contact_id' ] ); // make sure it fails
-		$connect = $dao2::getRecord( orm\Dba_Record::TYPE_NEW, $new_data );
+		$new_data = UT_SetUp_Contact::getConnectData( $new_id );
+		unset( $new_data[ 'connect_type' ] ); // make sure it fails
+		$connect = $dao2::getRecord( orm\Record::TYPE_NEW, $new_data );
 		try {
 			$connect->doValidate();
 			$this->assertTrue( FALSE, 'validation success; must fail' );
 		}
 		catch( orm\DataInvalid_DbaRecord_Exception $e ) {
 			$this->assertTrue( TRUE, 'validation failed; that is correct.' );
+            goto SUCCESS1;
 		}
-		catch( Exception $e ) {
-			$this->assertTrue( FALSE, 'wrong exception throwed. ' );
-		}
-		
+		$this->assertTrue( FALSE, 'wrong exception throwed. ' );
+		SUCCESS1:
+            
 		// ### test validate for relation in input_data. 
 		
 		$new_id   = 1234; // new data. 
-		$new_data = SetUp_Contact::getConnectData( $new_id );
-		$connect = $dao2::getRecord( orm\Dba_Record::TYPE_NEW, $new_data );
+		$new_data = UT_SetUp_Contact::getConnectData( $new_id );
+		$connect = $dao2::getRecord( orm\Record::TYPE_NEW, $new_data );
 		try {
 			$connect->doValidate();
 		}
@@ -461,10 +457,10 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		// ### test validate for relation in setRelation. 
 		
 		$new_id   = 1234; // new data. 
-		$new_data = SetUp_Contact::getConnectData( $new_id );
+		$new_data = UT_SetUp_Contact::getConnectData( $new_id );
 		unset( $new_data[ 'contact_id' ] ); // make sure it fails
-		$contact = $dao2::getRecord( orm\Dba_Record::TYPE_GET, 1 );
-		$connect = $dao2::getRecord( orm\Dba_Record::TYPE_NEW, $new_data );
+		$contact = $dao2::getRecord( orm\Record::TYPE_GET, 1 );
+		$connect = $dao2::getRecord( orm\Record::TYPE_NEW, $new_data );
 		$connect->setRelation( 'contact_id', $contact );
 		try {
 			$connect->doValidate();

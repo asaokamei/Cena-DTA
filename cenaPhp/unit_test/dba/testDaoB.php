@@ -1,44 +1,41 @@
 <?php
 //define( 'WORDY', 4 );
-require_once( dirname( __FILE__ ) . "/../../php_lib/class/class.ext_func.php" );
-require_once( dirname( __FILE__ ) . "/../../php_lib/class5/class.htmlForm.php" );
-require_once( dirname( __FILE__ ) . "/../../php_lib/dba/dba.model.php" );
+require_once( dirname( __FILE__ ) . "/../../Dba/Dao.php" );
 require_once( dirname( __FILE__ ) . "./dbaTest.inc.php" );
-require_once( dirname( __FILE__ ) . "./dao.contact100b.php" );
-require_once( dirname( __FILE__ ) . "./dao.contact110.php" );
+use CenaDta\Dba as orm;
 
 class DbaDaoTest extends PHPUnit_Framework_TestCase
 {
     // +--------------------------------------------------------------- +
 	public function setUp() {
-		$config = realpath( dirname( __FILE__ ) . '/dbaTest.ini.php' );
-		$this->dao_contact = dao_contact100::getInstance();
-		$this->dao_connect = dao_contact110::getInstance();
-		$this->sql = new cena\dba\Dba_Sql( $config );
+		$config = UT_SetUp_Contact::getDbaIniFile();
+		$this->dao_contact = UT_dao_contact100::getInstance( $config );
+		$this->dao_connect = UT_dao_contact110::getInstance( $config );
+		$this->sql = new orm\Sql( $config );
 	}
     // +--------------------------------------------------------------- +
 	public function getDaoName( $idx=1 ) {
 		if( $idx == 1 ) 
-			return 'dao_contact100';
+			return 'UT_dao_contact100';
 		else
 		if( $idx == 2 ) 
-			return 'dao_contact110';
+			return 'UT_dao_contact110';
 	}
     // +--------------------------------------------------------------- +
 	public function populateContact( $num=10 ) {
-		$this->sql->execSQL( SetUp_Contact::getDropContact() );
-		$this->sql->execSQL( SetUp_Contact::getCreateContact() );
-		$this->sql->table(   SetUp_Contact::getContactTable() );
+		$this->sql->execSQL( UT_SetUp_Contact::getDropContact() );
+		$this->sql->execSQL( UT_SetUp_Contact::getCreateContact() );
+		$this->sql->table(   UT_SetUp_Contact::getContactTable() );
 		for( $i = 0; $i < $num; $i ++ ) 
-			$this->sql->execInsert(  SetUp_Contact::getContactData( $i ) );
+			$this->sql->execInsert(  UT_SetUp_Contact::getContactData( $i ) );
 	}
     // +--------------------------------------------------------------- +
 	public function populateConnect( $num=10 ) {
-		$this->sql->execSQL( SetUp_Contact::getDropConnect() );
-		$this->sql->execSQL( SetUp_Contact::getCreateConnect() );
-		$this->sql->table(   SetUp_Contact::getConnectTable() );
+		$this->sql->execSQL( UT_SetUp_Contact::getDropConnect() );
+		$this->sql->execSQL( UT_SetUp_Contact::getCreateConnect() );
+		$this->sql->table(   UT_SetUp_Contact::getConnectTable() );
 		for( $i = 0; $i < $num; $i ++ ) {
-			$data = SetUp_Contact::getConnectData( $i );
+			$data = UT_SetUp_Contact::getConnectData( $i );
 			// wt( $data, "i:{$i}" );
 			$this->sql->execInsert( $data );
 		}
@@ -57,22 +54,22 @@ class DbaDaoTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $this->dao_connect->getIdName(), 'connect_id' );
 		
 		// ### test tableName
-		$table1 = dao_contact100::tableName();
+		$table1 = UT_dao_contact100::tableName();
 		$table2 = $this->dao_contact->table;
 		$this->assertEquals( $table1, $table2 );
 		$this->assertEquals( $table1, $this->dao_contact->tableName );
 		
-		$table1 = dao_contact110::tableName();
+		$table1 = UT_dao_contact110::tableName();
 		$table2 = $this->dao_connect->table;
 		$this->assertEquals( $table1, $table2 );
 		
 		// ### test getDatum
 		$data = $this->dao_contact->getDatum( 1 );
-		$name = SetUp_Contact::getContactName( 0 );
+		$name = UT_SetUp_Contact::getContactName( 0 );
 		$this->assertEquals( $name, $data[ 'contact_name' ] );
 		
 		// ### test addDatum
-		$data1 = SetUp_Contact::getContactData( 11 );
+		$data1 = UT_SetUp_Contact::getContactData( 11 );
 		$id    = $this->dao_contact->addDatum( $data1 );
 		$data2 = $this->dao_contact->getDatum( $id );
 		$this->assertEquals( $data1, $data2 );
@@ -88,11 +85,11 @@ class DbaDaoTest extends PHPUnit_Framework_TestCase
 		
 		// ### test getDatum
 		$data = $this->dao_connect->getDatum( 1 );
-		$info = SetUp_Contact::getConnectData( 0 );
+		$info = UT_SetUp_Contact::getConnectData( 0 );
 		$this->assertEquals( $info[ 'connect_info' ], $data[ 'connect_info' ] );
 		
 		// ### test addDatum
-		$data1 = SetUp_Contact::getConnectData( 11 );
+		$data1 = UT_SetUp_Contact::getConnectData( 11 );
 		$id    = $this->dao_connect->addDatum( $data1 );
 		$data2 = $this->dao_connect->getDatum( $id );
 		$this->assertEquals( $data1, $data2 );
@@ -117,7 +114,7 @@ class DbaDaoTest extends PHPUnit_Framework_TestCase
 		// ### get all data.
 		$num_found = $this->dao_contact->find()->fetchAll( $data );
 		$this->assertEquals( $num, $num_found );
-		$this->assertEquals( SetUp_Contact::getContactName(4), $data[4][ 'contact_name' ] );
+		$this->assertEquals( UT_SetUp_Contact::getContactName(4), $data[4][ 'contact_name' ] );
 		
 		// ### test find method
 		$this->dao_contact->find( array( 
@@ -286,12 +283,12 @@ class DbaDaoTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse( $dao1 === $dao3 );
 		
 		// ### test addDatum
-		$data1 = SetUp_Contact::getContactData( 11 );
+		$data1 = UT_SetUp_Contact::getContactData( 11 );
 		$id    = $dao2->addDatum( $data1 );
 		$data2 = $dao2->getDatum( $id );
 		$this->assertEquals( $data1, $data2 );
 		
-		$data3 = SetUp_Contact::getConnectData( 11 );
+		$data3 = UT_SetUp_Contact::getConnectData( 11 );
 		$id    = $dao3->addDatum( $data3 );
 		$data4 = $dao3->getDatum( $id );
 		$this->assertEquals( $data3, $data4 );
@@ -310,7 +307,7 @@ class DbaDaoTest extends PHPUnit_Framework_TestCase
 		$std = function ( &$data, $method ) {
 			if( $method == 'select' ) {
 				$data[ 'contact_type_name' ] = 
-					dao_contact100::popHtml( 'contact_type', 'NAME', $data );
+					UT_dao_contact100::popHtml( 'contact_type', 'NAME', $data );
 			}
 		};
 		// test using stdDatumFunc
@@ -318,7 +315,7 @@ class DbaDaoTest extends PHPUnit_Framework_TestCase
 		$data2 = $this->dao_contact->getDatum( 1 );
 		$this->assertEquals( 
 			$data2[ 'contact_type_name' ], 
-			dao_contact100::popHtml( 'contact_type', 'NAME', $data1 ) 
+			UT_dao_contact100::popHtml( 'contact_type', 'NAME', $data1 ) 
 		);
 		unset( $data2[ 'contact_type_name' ] );
 		$this->assertEquals( $data1, $data2 );
@@ -328,7 +325,7 @@ class DbaDaoTest extends PHPUnit_Framework_TestCase
 		$data2 = $this->dao_contact->getDatum( 1 );
 		$this->assertEquals( 
 			$data2[ 'contact_type_name' ], 
-			dao_contact100::popHtml( 'contact_type', 'NAME', $data1 ) 
+			UT_dao_contact100::popHtml( 'contact_type', 'NAME', $data1 ) 
 		);
 		unset( $data2[ 'contact_type_name' ] );
 		$this->assertEquals( $data1, $data2 );
