@@ -20,11 +20,11 @@ $page = new page_MC();
 $dao  = 'dao_contact110';
 
 $page	->addData(    'dao', $dao )
-		->setDefault( 'get_page',               '一覧表示' )
-		->setAct(     'edit_records',  'edit',  '修正する' )
-		->setAct(     'check_records', 'check', '内容を確認する' )
-		->setAct(     'new_records',   'new',   '新規登録する' )
-		->setAct(     'done_records',  'done',  '内容を反映する' )
+		->setDefault( 'get_page',               'Show Details' )
+		->setAct(     'edit_records',  'edit',  'Modify Data' )
+		->setAct(     'check_records', 'check', 'Confirm Data' )
+		->setAct(     'new_records',   'new',   'Regist New Data' )
+		->setAct(     'done_records',  'done',  'Save Data' )
 ;
 
 $page->main();

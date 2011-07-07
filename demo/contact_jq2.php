@@ -164,7 +164,7 @@ $().ready( function () {
     <div id="cena_msg">
       <p>&nbsp;      </p>
       <p align="center">
-        <input type="button" name="top2" value="コンタクトの一覧" onClick="location.href='contact_jq3.html'">
+        <input type="button" name="top2" value="List of Contacts" onClick="location.href='contact_jq3.html'">
       </p>
       <p>&nbsp; </p>
     </div>
@@ -185,10 +185,10 @@ $().ready( function () {
             <span class="cena_element" cena="cena_id" name></span></td>
           <td align="center"><label>
             <input type="radio" name="contact_gender" class="cena_element" value="1">
-            男性</label>
+            male</label>
               <label>
               <input type="radio" name="contact_gender" class="cena_element" value="2">
-                女性</label>          </td>
+                female</label>          </td>
           <td align="center"><select name="contact_type" class="cena_element">
               <option value="1">友達</option>
               <option value="2">仕事</option>
@@ -206,7 +206,7 @@ $().ready( function () {
     <div id="cena_debug"></div>
   </div>
   <p>
-    <input type="button" name="top" value="コンタクトの一覧" onClick="location.href='contact_jq3.html'">
+    <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_jq3.html'">
   </p>
   <!-- InstanceEndEditable -->
 </div>

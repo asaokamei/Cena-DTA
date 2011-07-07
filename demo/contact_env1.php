@@ -210,7 +210,7 @@ function edit_records( $page, $method )
           <td align="center"><?php echo $rec->popHtml( 'contact_date',    $html_type  ); ?></td>
           <td align="center"><form name="form1" method="post" action="contact_env2.php" style="margin:0px; padding:0px; ">
             <?php echo $rec->popIdHidden(); ?>
-                    <input type="submit" name="Submit2" value="表示">
+                    <input type="submit" name="Submit2" value="show">
           </form>          </td>
         </tr>
         <?php } ?>

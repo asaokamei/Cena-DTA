@@ -17,14 +17,14 @@ function pn_disp_all( &$pn, $url=NULL )
 	if( !$url ) {
 		$url = htmlspecialchars( $_SERVER['PHP_SELF'] );
 	}
-    echo pn_disp_link( $pn, $url, 'top',  '最初' );
+    echo pn_disp_link( $pn, $url, 'top',  '<<' );
     echo ' ';
-    echo pn_disp_link( $pn, $url, 'prev', '≪' );
+    echo pn_disp_link( $pn, $url, 'prev', 'prev' );
     echo ' ';
     pn_disp_pages( $pn, $url );
-    echo pn_disp_link( $pn, $url, 'next', '≫' );
+    echo pn_disp_link( $pn, $url, 'next', 'next' );
     echo ' ';
-    echo pn_disp_link( $pn, $url, 'last', '最後' );
+    echo pn_disp_link( $pn, $url, 'last', '>>' );
 }
 
 /* ============================================================================ */

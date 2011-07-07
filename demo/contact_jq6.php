@@ -19,9 +19,9 @@ use CenaDta\Cena as cena;
 $page = new page_MC();
 
 $page	->setDefault( 'none',               'none' )
-		->setAct(  'check_records', 'check', '内容を確認する' )
-		->setAct(  'done_records',  'done',  '内容を反映する' )
-		->setAct(  'goto_download', 'down',  'ダウンロードする' )
+		->setAct(  'check_records', 'check', 'Confirm Upload' )
+		->setAct(  'done_records',  'done',  'Save Upload' )
+		->setAct(  'goto_download', 'down',  'Download Data' )
 ;
 
 $page->main();
@@ -174,7 +174,7 @@ function check_records( $page, $method )
     <div id="cena_msg"></div>
   </div>
   <p>
-    <input type="button" name="top" value="コンタクトの一覧" onClick="location.href='contact_jq3.html'">
+    <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_jq3.html'">
   </p>
   <!-- InstanceEndEditable -->
 </div>
