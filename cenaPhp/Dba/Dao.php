@@ -112,7 +112,7 @@ class Dao extends Sql
 		return "Dao(#" . spl_object_hash( $this ).  ")::{$this->table} ";
 	}
 	// +--------------------------------------------------------------- +
-	/**	setTableClass( $table )
+	/**	
 	 *	sets Model for the Dao object (kept as class name).
 	 *	properties are copied when set; they are:
 	 *	tableName, idName, throwException
@@ -131,7 +131,7 @@ class Dao extends Sql
 		return $this;
 	}
 	// +--------------------------------------------------------------- +
-	/**	throwException( $throw=TRUE )
+	/**	
 	 *	sets flag to throw exception or not.
 	 *	the default value flag is FALSE (not to throw exception).
 	 *
@@ -171,7 +171,7 @@ class Dao extends Sql
 		return $this->idName;
 	}
 	// +--------------------------------------------------------------- +
-	/**	tableName()
+	/**	
 	 *	returns table name for dao. maybe joined table.
 	 *	TODO: should return joined table if necessary.
 	 *
@@ -192,7 +192,7 @@ class Dao extends Sql
 	// +----------------------------------------------------------------------------+
 	
 	// +--------------------------------------------------------------- +
-	/**	update( &$data, $func=array() )
+	/**	
 	 *	updates data. automatically setup table name only;
 	 *	setup where before using this method.
 	 *	filters:
@@ -234,7 +234,7 @@ class Dao extends Sql
 		return TRUE;
     }
 	// +--------------------------------------------------------------- +
-	/**	removeDataFromTable( $id )
+	/**	
 	 *	deletes data of id. automatically setup table name only.
 	 *	filters:
 	 *		restrictWhere
@@ -263,7 +263,7 @@ class Dao extends Sql
         return TRUE;
     }
 	// +--------------------------------------------------------------- +
-	/**	insert( &$datum, $func=array(), $do_hist=FALSE )
+	/**	
 	 *	insert data.
 	 *	filters:
 	 *		stdDatum
@@ -306,7 +306,7 @@ class Dao extends Sql
 		return $ret_val;
     }
 	// +--------------------------------------------------------------- +
-	/**	insert_code( &$datum, $func=array() )
+	/**	
 	 *	inserts data with autonumbering id value with code defined by
 	 *	$this->id_info. must set transactions.
 	 *
@@ -330,7 +330,7 @@ class Dao extends Sql
         return FALSE;
     }
 	// +--------------------------------------------------------------- +
-	/**	insert_max( &$datum, $func=array() )
+	/**	
 	 *	inserts data with autonumbering id value as max number of id.
 	 *	must set transactions.
 	 *
@@ -354,7 +354,7 @@ class Dao extends Sql
         return FALSE;
     }
 	// +--------------------------------------------------------------- +
-	/**	insert_max( &$datum, $func=array() )
+	/**	
 	 *	inserts data with serialized autonumbering id.
 	 *	no need of transaction.
 	 *
@@ -384,7 +384,7 @@ class Dao extends Sql
         return $last_id;
     }
 	// +--------------------------------------------------------------- +
-	/**	select( &$data )
+	/**	
 	 *	selects data. specify conditions prior to use.
 	 *	filters:
 	 *		restrictWhere
@@ -408,7 +408,7 @@ class Dao extends Sql
         return count( $data );
     }
 	// +--------------------------------------------------------------- +
-	/**	read( &$data )
+	/**	
 	 *	same as select.
      *  @see select
 	 */
@@ -416,7 +416,7 @@ class Dao extends Sql
         return $this->select( $data );
     }
 	// +--------------------------------------------------------------- +
-	/**	getDatum( $id, $id_name="" )
+	/**	
 	 *	selects a datum (only one record) based on id (primary key).
 	 *	a quick accessor for select method.
 	 *
@@ -456,7 +456,7 @@ class Dao extends Sql
 		return FALSE;
 	}
 	// +----------------------------------------------------------+
-	/**	findById( $id, $id_name="" )
+	/**	
 	 *	finds data by id (primary key). can get multiple records.
 	 *	another quick accessor for select.
 	 *
@@ -478,7 +478,7 @@ class Dao extends Sql
 		return $data;
 	}
 	// +----------------------------------------------------------+
-	/**	modDatum( $id, &$data, $id_name=NULL )
+	/**	
 	 *	modify a datum (one record) based on id (primary key).
 	 *	a quick accessor for update method.
 	 *
@@ -504,7 +504,7 @@ class Dao extends Sql
 		return $this->update( $datum );
 	}
 	// +----------------------------------------------------------+
-	/**	addDatum( &$data )
+	/**	
 		adds a datum (one record) to database. 
 		a quick accessor for insert_id method. overwrite this 
 		method to user other methods (insert_code or insert_max). 
@@ -519,7 +519,7 @@ class Dao extends Sql
 		return $this->insert_id( $datum );
 	}
 	// +----------------------------------------------------------+
-	/**	delDatum( $id )
+	/**	
 	 *	deletes a datum (one record) based on id (primary key).
 	 *	may be quick accessor for removeDataFromTable, but this
 	 *	method overwrite the behavior of data if col_info have
@@ -563,7 +563,7 @@ class Dao extends Sql
 		return $this;
     }
 	// +----------------------------------------------------------+
-	/**	setStdDatum( $func )
+	/**	
 	 *	sets function for standarize data.
 	 *
 	 *	@param function $func
@@ -575,7 +575,7 @@ class Dao extends Sql
 		return $this;
 	}
 	// +----------------------------------------------------------+
-	/**	stdDatum( & $data, $method='' )
+	/**	
 	 *	standarize data when accessing database.
 	 *	calls stdDatumFunc set by setStdDatum method.
 	 *
@@ -593,7 +593,7 @@ class Dao extends Sql
 		return $this;
 	}
 	// +----------------------------------------------------------+
-	/**	stdData( &$data, $method='' )
+	/**	
 	 *	standarize data (array of datum) using stdDatum method.
 	 *
 	 *	@param array &$data
@@ -615,7 +615,7 @@ class Dao extends Sql
     // +----------------------------------------------------------------------------+
 
 	// +----------------------------------------------------------+
-	/**	daoRestrictWhere( $crud=NULL ) 
+	/**	
 	 *	restrict access by adding conditions in SQL statement.
 	 *	requires Model to be set, and have restrictWhere
 	 *	method returning array of conditions.
@@ -644,7 +644,7 @@ class Dao extends Sql
 		return $this;
 	}
 	// +----------------------------------------------------------+
-	/**	daoRestrictValue( $crud=NULL ) 
+	/**	
 	 *	restrict saved data to have specific values.
 	 *	requires Model to be set, and have restrictValue
 	 *	method returning array of conditions.
@@ -673,7 +673,7 @@ class Dao extends Sql
 		return $this;
 	}
 	// +----------------------------------------------------------+
-	/**	fetchRecords( &$records ) 
+	/**	
 	 *	fetches array of Record objects.
 	 *	use instead of fetchAll.
 	 *
@@ -692,7 +692,7 @@ class Dao extends Sql
 		return $this;
     }
 	// +----------------------------------------------------------+
-	/**	fetchCena( &$cenas ) 
+	/**	
 	 *	fetches array of Cena_Record objects.
 	 *	use instead of fetchAll.
 	 *
@@ -712,7 +712,7 @@ class Dao extends Sql
 		return $this;
     }
 	// +----------------------------------------------------------+
-	/**	popHtml( $var_name, $html_type, $td, $err=array() )
+	/**	
 	 *	returns HTML element for var_name (property, column etc.).
 	 *	a quick access/backward compatibility method.
 	 */
@@ -723,7 +723,7 @@ class Dao extends Sql
 		return $table::popHtml( $var_name, $html_type, $td, $err );
     }
 	// +----------------------------------------------------------+
-	/**	popHtml( $var_name, $html_type, $td, $err=array() )
+	/**	
 	 *	returns HTML element for var_name (property, column etc.).
 	 *	a quick access/backward compatibility method.
 	 */

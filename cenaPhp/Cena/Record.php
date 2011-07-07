@@ -35,11 +35,11 @@ class Record
 			'get' => 'getProperty',
 		);
 	// +--------------------------------------------------------------- +
-	/**	__construct( $rec )
-		constructor for Record. 
-		
-		@param object $rec
-			Dba_Record object for its record. 
+	/**	
+     * 	constructor for Record. 
+     * 
+     * 	@param object $rec
+     * 		Dba_Record object for its record. 
 	 */
 	function __construct( $rec ) {
 		$this->record  = $rec;
@@ -52,22 +52,22 @@ class Record
 		return "Record(#" . spl_object_hash( $this ).  ")::fingerp={$this->fingerp} ";
 	}
 	// +-----------------------------------------------------------+
-	/**	getRecord()
-		returns its Dba_Record object. 
-		
-		@returns object
-			Dba_Record object. 
+	/**	
+     * 	returns its Dba_Record object. 
+     * 	@returns object
+     * 
+     * 	Dba_Record object. 
 	 */
 	function getRecord() {
 		return $this->record;
 	}
 	// +-----------------------------------------------------------+
-	/**	setScheme( $scheme )
-		sets scheme for the Record object. 
-		
-		@param string $scheme
-			name of scheme to set. 
-		@return $this
+	/**	
+     * sets scheme for the Record object. 
+     * 
+     * @param string $scheme
+     * 		name of scheme to set. 
+     * @return $this
 	 */
 	function setScheme( $scheme ) {
 		$this->scheme = $scheme;
@@ -80,10 +80,10 @@ class Record
 	// +----------------------------------------------------------------------------+
 	
 	// +--------------------------------------------------------------- +
-	/**	loadRelation() 
-		load relation for the record
-		
-		@return $this
+	/**	
+     * load relation for the record
+     * 
+     * @return $this
 	 */
 	function loadRelation() 
 	{
@@ -92,17 +92,16 @@ class Record
 		return $this;
 	}
 	// +--------------------------------------------------------------- +
-	/**	getRelation( $cena_id=TRUE )
-		get the related cena_id or Record object. 
-		
-		TODO: specify $column to retrieve. 
-		
-		@param boolean $cena_id
-			returns cena_id if true (default). 
-			returns Record object if set to false.
-		@return string/object
-			returns cena_id or Record object
-			depending on $cena_id. 
+	/**	
+     * get the related cena_id or Record object. 
+     * TODO: specify $column to retrieve. 
+     * 
+     * @param boolean $cena_id
+     *  returns cena_id if true (default). 
+     * 	returns Record object if set to false.
+     * @return string/object
+     * 	returns cena_id or Record object
+     * 	depending on $cena_id. 
 	 */
 	function getRelation( $name=FALSE, $cena_id=TRUE ) 
 	{
@@ -152,28 +151,28 @@ class Record
 	// +----------------------------------------------------------------------------+
 	
 	// +--------------------------------------------------------------- +
-	/**	loadChildren() 
-		load children for the record.
-		
-		@return $this
+	/**	
+     * load children for the record.
+     * 
+     * @return $this
 	 */
 	function loadChildren() {
 		$this->record->loadChildren();
 		return $this;
 	}
 	// +--------------------------------------------------------------- +
-	/**	getChildren( $model_name=FALSE, $cena_id=TRUE )
-		get the child cena_id or Record object. 
-		
-		@param string $model
-			specify the name of model of children. if not specified, 
-			returns all the children. 
-		@param boolean $cena_id
-			returns cena_id if true (default). 
-			returns Record object if set to false.
-		@return array of string/object
-			returns an array of cena_id or Record object
-			depending on $cena_id. 
+	/**	
+     * get the child cena_id or Record object. 
+     * 
+     * @param string $model
+     * 	specify the name of model of children. if not specified, 
+     * 	returns all the children. 
+     * @param boolean $cena_id
+     * 	returns cena_id if true (default). 
+     * 	returns Record object if set to false.
+     * @return array of string/object
+     * 	returns an array of cena_id or Record object
+     * 	depending on $cena_id. 
 	 */
 	function getChildren( $model_name=FALSE, $cena_id=TRUE ) 
 	{
@@ -205,13 +204,13 @@ class Record
 		return $cena_child;
 	}
 	// +--------------------------------------------------------------- +
-	/**	setChildren( $model, $cena ) 
-		sets children records. 
-		
-		@param string $model
-			model name of children record.
-		@param string $cena
-			cena_id of the children. or Record object. 
+	/**	
+     * sets children records. 
+     * 
+     * @param string $model
+     * 	model name of children record.
+     * @param string $cena
+     * 	cena_id of the children. or Record object. 
 	 */
 	function setChildren( $model, $cena ) 
 	{
@@ -243,16 +242,16 @@ class Record
 		return $this->manipulate( $actions );
 	}
 	// +--------------------------------------------------------------- +
-	/**	manipulate( $actions )
-		manipulate the Record. 
-		input action and meta-data for associated Record. 
-		
-		@param array $actions
-			manipulation meta data.
-			array(
-				'act' => array( data...),
-			);
-		@return $this
+	/**	
+     * manipulate the Record. 
+     * input action and meta-data for associated Record. 
+     * 
+     * @param array $actions
+     * 	manipulation meta data.
+     * 	array(
+     * 		'act' => array( data...),
+     * 	);
+     * @return $this
 	 */
 	function manipulate( $actions )
 	{
@@ -278,135 +277,127 @@ class Record
 		return $this;
 	}
 	// +--------------------------------------------------------------- +
-	/**	getCenaId()
-		returns cena_id for this Record object. 
-		example: Cena.model.type.101
-		
-		@return string
-			returns cena_id. 
+	/**	
+     * returns cena_id for this Record object. 
+     * example: Cena.model.type.101
+     * 
+     * @return string       returns cena_id. 
 	 */
 	function getCenaId() {
 		return Cena::getCenaId( $this );
 	}
 	// +--------------------------------------------------------------- +
-	/**	makeCenaName()
-		returns main part of cena_name for this Record object. 
-		example: Cena[model][type][101]
-		
-		@return string
-			returns cena_name. 
+	/**	
+     * returns main part of cena_name for this Record object. 
+     * example: Cena[model][type][101]
+     * 
+     * @return string   returns cena_name. 
 	 */
 	function makeCenaName() {
 		return Cena::getCenaName( $this );
 	}
 	// +--------------------------------------------------------------- +
-	/**	getScheme()
-		returns scheme name for this Record object. 
-		example: Cena
-		
-		@return string
-			returns scheme name. 
+	/**	
+     * returns scheme name for this Record object. 
+     * example: Cena
+     * 
+     * @return string      returns scheme name. 
 	 */
     function getScheme() { // 
 		return $this->scheme;
     }
 	// +--------------------------------------------------------------- +
-	/**	getModel()
-		returns model name for this Record object. 
-		example: dao_model_name
-		
-		@return string
-			returns model name. 
+	/**	
+     * returns model name for this Record object. 
+     * example: dao_model_name
+     * 
+     * @return string   returns model name. 
 	 */
     function getModel() { // 
 		return $this->record->getModel();
     }
 	// +--------------------------------------------------------------- +
-	/**	getType()
-		returns type for this Record object. 
-		example: NEW or GET
-		
-		@return string
-			returns type. 
+	/**	
+     * returns type for this Record object. 
+     * example: NEW or GET
+     * 
+     * @return string    returns type. 
 	 */
     function getType() { // 
 		return $this->record->getType();
     }
 	// +--------------------------------------------------------------- +
-	/**	getId()
-		returns id (primary key) for this Record object. 
-		example: 101
-		
-		@return string
-			returns id (primary key). 
+	/**	
+     * returns id (primary key) for this Record object. 
+     * example: 101
+     * 
+     * @return string       returns id (primary key). 
 	 */
 	function getId() { // 
 		return $this->record->getId();
 	}
 	// +--------------------------------------------------------------- +
-	/**	getData( $name=FALSE )
-		returns data (property) of its record. 
-		
-		TODO: rename to getProperty? get? maybe keep it as is?
-		
-		@param string $name
-			specify name of data to retrieve. 
-			if not specified, returns all data. 
-		@return mix
-			returns data as specified by $name. 
+	/**	
+     * returns data (property) of its record. 
+     * 
+     * TODO: rename to getProperty? get? maybe keep it as is?
+     * @param string $name
+     * 	specify name of data to retrieve. 
+     * 	if not specified, returns all data. 
+     * @return mix
+     * 	returns data as specified by $name. 
 	 */
 	function getData( $name=FALSE ) {
 		return $this->record->get( $name );
 	}
 	// +--------------------------------------------------------------- +
-	/**	getProperty( $name=FALSE )
-		returns data (property) of its record. same as getData method. 
-		see getData method for details. 
+	/**	
+     * returns data (property) of its record. same as getData method. 
+     * see getData method for details. 
 	 */
 	function getProperty( $name=FALSE ) {
 		return $this->getData( $name );
 	}
 	// +--------------------------------------------------------------- +
-	/**	setProperty( $name, $value )
-		sets property (data) for the cena record. 
-		please refer to Dba_Record::setProperty for detailed 
-		behavior of this method. 
-		
-		@param string $name
-			name of property.
-		@param string $value
-			value of property.
-		@return $this;
+	/**	
+     * sets property (data) for the cena record. 
+     * please refer to Dba_Record::setProperty for detailed 
+     * behavior of this method. 
+     * 
+     * @param string $name
+     * 	name of property.
+     * @param string $value
+     * 	value of property.
+     * @return $this;
 	 */
 	function setProperty( $name, $value ) {
 		$this->record->setProperty( $name, $value );
 		return $this;
 	}
 	// +--------------------------------------------------------------- +
-	/**	delRecord( $data=FALSE, $val=FALSE )
-		delete current record. 
-		
-		@param mixed $data
-			dummy argument.
-		@param mixed $data
-			dummy argument.
-		@return $this
+	/**	
+     * delete current record. 
+     * 
+     * @param mixed $data
+     * 	dummy argument.
+     * @param mixed $data
+     * 	dummy argument.
+     * @return $this
 	 */
 	function delRecord( $name=FALSE, $value=FALSE ) {
 		$this->record->delRecord( $name, $value );
 		return $this;
 	}
 	// +--------------------------------------------------------------- +
-	/**	getCenaName( $action=NULL, $column=NULL ) 
-		returns cena name for given action and column name. 
-		example: Cena[model][type][101][act][column]
-		
-		@param string $action
-			name of action
-		@param string $action
-			name of column (or property)
-		@return string
-			return cena_name. 
+	/**	
+     * returns cena name for given action and column name. 
+     * example: Cena[model][type][101][act][column]
+     * 
+     * @param string $action
+     * 	name of action
+     * @param string $action
+     * 	name of column (or property)
+     * @return string   	return cena_name. 
 	 */
 	function getCenaName( $action=NULL, $column=NULL ) 
 	{

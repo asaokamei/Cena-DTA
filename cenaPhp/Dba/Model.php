@@ -65,7 +65,7 @@ class Model
 		return "Model(#" . spl_object_hash( $this ).  ")::{$class} ";
 	}
 	// +--------------------------------------------------------------- +
-	/**	function setupColumns()
+	/**	
 	 *	setup definitions for columns in this method.
 	 */
 	static function setupColumns() {
@@ -113,7 +113,7 @@ class Model
 		return $dao;
     }
 	// +--------------------------------------------------------------- +
-	/**	static function dao()
+	/**	
 	 *	a quick access to static::$dao. if not initialized, call
 	 *	static::getDaoInstance() to obtain dao and set to static::$dao.
 	 *	note that no argument is given to getDaoInstance.
@@ -125,7 +125,7 @@ class Model
 		return static::getInstance();
 	}
 	// +--------------------------------------------------------------- +
-	/**	static function tableName()
+	/**	
 	 *	get table name (static::$dao_table). always returns table.
 	 *
 	 *	@return string
@@ -138,7 +138,7 @@ class Model
 		return static::$dao_table;
     }
 	// +--------------------------------------------------------------- +
-	/**	static function getTableName()
+	/**	
 	 *	get table name for SQL statement. depending on the flag, this
 	 *	may return real db table name, or joined table name.
 	 *
@@ -168,7 +168,7 @@ class Model
 		return static::$col_info;
     }
 	// +--------------------------------------------------------------- +
-	/**	static function makeJoinedTable( $join=FALSE )
+	/**	
 	 *	make joined table based on static::$join_table or argument.
 	 *
 	 *	@param string $join
@@ -222,7 +222,7 @@ class Model
 		return static::$dao->delDatum( $id );
 	}
 	// +--------------------------------------------------------------- +
-	/**	static function restrictWhere( $crud )
+	/**	
 	 *	restrict data access by adding conditions in query's where.
 	 *	return restricted value based on $crud type.
 	 *	overwrite this method to restrict access on data.
@@ -239,7 +239,7 @@ class Model
 		return FALSE;
 	}
 	// +--------------------------------------------------------------- +
-	/**	static function restrictValue( $crud )
+	/**	
 	 *	restrict data by adding extra column/value in query's values.
 	 *	return restricted value based on $crud type.
 	 *	overwrite this method to restrict data value.
@@ -347,7 +347,7 @@ class Model
     // +----------------------------------------------------------------------------+
 
 	// +----------------------------------------------------------+
-    /** getRelationship()
+    /** 
      *  returns relation information for a table.
      *  returns information in following format.
      *  array(
@@ -374,7 +374,7 @@ class Model
 		return FALSE;
 	}
 	// +----------------------------------------------------------+
-    /** getChildren( $column, $value )
+    /** 
 	 *	returns child record for given $column name and its $value.
 	 *	uses relationship data to determine the children. 
      *	
@@ -463,7 +463,7 @@ class Model
         return $record::getRecord( $model, $type, $id );
 	}
     // +--------------------------------------------------------------- +
-	/**	static function getNewRecord( $data=array() )
+	/**	
 	 *	generates new Record object.
 	 *	a quick access to getRecord( NEW, $data ) method.
 	 *

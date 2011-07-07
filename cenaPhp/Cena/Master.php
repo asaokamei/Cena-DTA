@@ -31,7 +31,7 @@ class Cena
 	// +----------------------------------------------------------------------------+
 	
 	// +--------------------------------------------------------------- +
-	/**	function pushEnvelope( $use=TRUE )
+	/**
 	 *	sets $push_envelope flag; if the flag is true, Record's 
 	 *	are pushed to envelope (Envelope::pushEnvData) each time 
 	 *	new Record is created in getCena. 
@@ -49,7 +49,7 @@ class Cena
 		}
 	}
 	// +--------------------------------------------------------------- +
-	/**	function useEnvelope( $use=TRUE )
+	/**	
 	 *	sets $use_envelope flag; if the flag is true, Record's 
 	 *	scheme name is overwritten to use Cena/Envelope (Cenv) each time 
 	 *	new Record is created in getCena. 
@@ -67,7 +67,7 @@ class Cena
 		}
 	}
 	// +--------------------------------------------------------------- +
-	/**	function setRelation( $use=TRUE )
+	/**	
 	 *	sets $set_relations flag; if the flag is true, Record's 
 	 *	relation is populated using loadRelation each time 
 	 *	new Record is created in getCena. 
@@ -87,7 +87,7 @@ class Cena
 		}
 	}
 	// +--------------------------------------------------------------- +
-	/**	function clearCenas( $model=NULL ) 
+	/**	
 	 *	clears Record's object pool. 
 	 *	
 	 *	@param string $model
@@ -103,7 +103,7 @@ class Cena
 		}
 	}
 	// +--------------------------------------------------------------- +
-	/**	function set_models( $models )
+	/**	
 	 *	specify models to process. uses as well as for determining 
 	 *	the order of models to process.
 	 *	
@@ -116,7 +116,7 @@ class Cena
 		self::$models = $models;
 	}
 	// +--------------------------------------------------------------- +
-	/**	function add_models( $model )
+	/**	
 	 *	adds model to process.
 	 *	
 	 *	@param string $models
@@ -126,7 +126,7 @@ class Cena
 		self::$models[] = $model;
 	}
 	// +--------------------------------------------------------------- +
-	/**	function set_action_map( $model, $map )
+	/**	
 	 *	sets map for action. $map should be in 
 	 *	$map = array(
 	 *	   'set' => 'setProperty',
@@ -142,7 +142,7 @@ class Cena
 		self::$act_map[ $model ] = $map;
 	}
 	// +--------------------------------------------------------------- +
-	/**	function get_method_from_action( $model, $act )
+	/**	
 	 *	gets the mapped action name for the model. 
 	 *	example 'rel' => 'setRelation'
 	 *	
@@ -171,7 +171,7 @@ class Cena
 		return $this;
 	}
 	// +--------------------------------------------------------------- +
-	/**	getCena( $model, $type, $id, $rec=FALSE )
+	/**	
 	 *	get Record object of $model, $type, and $id. 
 	 *	do the object pooling for the above three information. 
 	 *	
@@ -229,7 +229,7 @@ class Cena
 		return $cena;
 	}
 	// +--------------------------------------------------------------- +
-	/**	getCenaByRec( $rec )
+	/**	
 	 *	get Record object based on Dba_Record object. get's its
 	 *	model, type, and id, from the $rec, and use getCena method 
 	 *	to obtain Record object. 
@@ -263,7 +263,7 @@ class Cena
 		return $cena;
 	}
 	// +--------------------------------------------------------------- +
-	/**	verifyCenaId( $cena_id )
+	/**	
 	 *	verifies if $cena_id is a valid cena_id.
 	 *	
 	 *	@param string $cena_id
@@ -284,7 +284,7 @@ class Cena
 		return $verified;
 	}
 	// +--------------------------------------------------------------- +
-	/**	verifyRecord( $rec )
+	/**	
 	 *	verifies if $rec comforms as Cena record. i.e. must have 
 	 *	get{Model|Type|Id} method, at least. 
 	 *	
@@ -301,7 +301,7 @@ class Cena
 		return FALSE;
 	}
 	// +--------------------------------------------------------------- +
-	/**	getCenaByCenaId( $cena_id )
+	/**	
 	 *	returns a Record object from cena_id.
 	 *	
 	 *	@param string $cena_id
@@ -326,7 +326,7 @@ class Cena
 		return $cena_id; // return the input as is...
 	}
 	// +--------------------------------------------------------------- +
-	/**	getCenaId( $cena )
+	/**	
 	 *	returns cena_id from a cena or active_record instance. 
 	 *	throws CenaException if verifyRecord failed. 
 	 *	
@@ -347,7 +347,7 @@ class Cena
 		return self::makeCenaId( $model, $type, $id );
 	}
 	// +-----------------------------------------------------------+
-	/**	makeCenaId( $model, $type, $id, $scheme=NULL )
+	/**	
 	 *	creates cena_id (i.e. cena.model.get.123) from $model, 
 	 *	$type, $id, and optionaly $scheme. 
 	 *	
@@ -364,7 +364,7 @@ class Cena
 		return implode( Cena::CENA_SEP, $info );
 	}
 	// +-----------------------------------------------------------+
-	/**	getCenaName( $cena )
+	/**	
 	 *	returns cena_name from a cena instance. the instance must 
 	 *	have get{Scheme|Model|Type|Id} method to operate. 
 	 *	
