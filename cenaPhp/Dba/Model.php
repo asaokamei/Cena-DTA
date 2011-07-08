@@ -219,7 +219,7 @@ class Model
 	}
 	// +--------------------------------------------------------------- +
 	static function delDatum( $id ) {
-		return static::$dao->delDatum( $id );
+		return static::dao()->delDatum( $id );
 	}
 	// +--------------------------------------------------------------- +
 	/**	
