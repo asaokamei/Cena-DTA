@@ -94,7 +94,37 @@ define( 'PGG_ERRNUM_OTHER_ERROR',    9999 );
         if( WORDY ) echo "<br><i><b>pggJPN instance created...</b></i><br>\n";
 		$this->pgg_value();    // call constructor... 
 		
-        $err_msg_jpn = array( // Japanese error messages 
+        $err_msg_en = array( // English error messages 
+            PGG_ERRNUM_CHAR_BADLENGTH => "<font color=red>← wrong length</font>",
+            PGG_ERRNUM_CHAR_NOVALUE =>   "<font color=red>← required</font>",
+            PGG_ERRNUM_CHAR_BADFORMAT => "<font color=red>← wrong format</font>",
+            PGG_ERRNUM_DATE_NOVALUE =>   "<font color=red>← no date</font>",
+            PGG_ERRNUM_DATE_BADDATE =>   "<font color=red>← invalid date</font>",
+            PGG_ERRNUM_NUM_NOTANUMBER => "<font color=red>← not a number</font>",
+            PGG_ERRNUM_MULTI_MISSING =>  "<font color=red>← required all fields</font>",
+            PGG_ERRNUM_EUCJP_NOVALUE =>  "<font color=red>← required</font>",
+            PGG_ERRNUM_EUCJP_YOMI =>     "<font color=red>← only Katakana</font>",
+            PGG_ERRNUM_EUCJP_BADFORMAT =>"<font color=red>← wrong format</font>",
+            PGG_ERRNUM_EUCJP_MULTI_MISSING =>  "<font color=red>← required all fields</font>",
+            PGG_ERRNUM_ID_ALREAD_USED =>  "<font color=red>← ID is already used</font>",
+            PGG_ERRNUM_ENTER_PASSWORD => "<font color=red>← missing password</font>", 
+            PGG_ERRNUM_PSWD_NOTMATCH  => "<font color=red>← differs from confirmed value</font>", 
+            PGG_ERRNUM_PSWD_NOT_BOTH  => "<font color=red>← missing confirm</font>", 
+            PGG_ERRNUM_NUM_OUTOFRANGE => "<font color=red>← out of range</font>", 
+        );
+        
+        $this->err_msg = $err_msg_en;
+        
+        if( PGG_USE_SESSION ) {
+            $this->pggCheck_ID = "pggCheck_id";
+            $this->loadSession();
+        }
+        return TRUE;
+    }
+    /* ------------------------------------------------------------ */
+    function setupJaJp()
+    {
+        $this->err_msg = array( // Japanese error messages 
             PGG_ERRNUM_CHAR_BADLENGTH => "<font color=red>←　入力文字数が間違っています。</font>",
             PGG_ERRNUM_CHAR_NOVALUE =>   "<font color=red>←　値を入力してください。</font>",
             PGG_ERRNUM_CHAR_BADFORMAT => "<font color=red>←　値に問題があります。</font>",
@@ -112,14 +142,6 @@ define( 'PGG_ERRNUM_OTHER_ERROR',    9999 );
 			PGG_ERRNUM_PSWD_NOT_BOTH  => "<font color=red>←　確認用も入力してください</font>", 
 			PGG_ERRNUM_NUM_OUTOFRANGE => "<font color=red>←　数字の指定範囲以外です</font>", 
         );
-        
-        $this->err_msg = $err_msg_jpn;
-        
-        if( PGG_USE_SESSION ) {
-            $this->pggCheck_ID = "pggCheck_id";
-            $this->loadSession();
-        }
-        return TRUE;
     }
     /* ------------------------------------------------------------ */
     function setupCell()
