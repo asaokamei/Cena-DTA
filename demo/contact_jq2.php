@@ -94,7 +94,7 @@ function get_page( $page, $method )
 </div>
 <div id="contents">
 <!-- InstanceBeginEditable name="contents" -->
-<script language="javascript" type="text/javascript" src="../common/jquery-1.4.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="../common/jquery-1.6.2.js"></script>
 <script language="javascript" type="text/javascript" src="../cenaJs/jqCena.js"></script>
 <script language="javascript" type="text/javascript" src="../cenaJs/jqCenaSql.js"></script>
 <script language="javascript" type="text/javascript">

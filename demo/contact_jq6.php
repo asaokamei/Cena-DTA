@@ -108,7 +108,7 @@ function check_records( $page, $method )
 </div>
 <div id="contents">
 <!-- InstanceBeginEditable name="contents" -->
-<script language="javascript" type="text/javascript" src="../common/jquery-1.4.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="../common/jquery-1.6.2.js"></script>
 <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a>:: contact_jq</span><a href="contact_jq3.html">List of Contacts</a>:: Upload HTML Form</h1>
 <div style="width:600px; ">
     <form name="form1" method="post" action="">
