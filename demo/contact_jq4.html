@@ -1,4 +1,5 @@
-<html><!-- InstanceBegin template="/Templates/cenaDta.dwt.php" codeOutsideHTMLIsLocked="false" -->
+<html>
+<!-- InstanceBegin template="/Templates/cenaDta.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <!-- DW6 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,7 +19,6 @@
 .style1 {color: #FF6600}
 -->
 </style>
-
 <title>ワークスポット･ジェーピー</title>
 <!-- InstanceEndEditable -->
 </head>
@@ -28,12 +28,12 @@
   <div class="menus">|&nbsp;<a href="../index.php">Top</a>&nbsp;|&nbsp;<a href="http://wsjp.blogspot.com/" target="_blank"></a></div>
   <p align="left" class="headDesc">for HTML5 applications using local databases.</p>
 </div>
-<div id="contents">
-<!-- InstanceBeginEditable name="contents" -->
-<script language="javascript" type="text/javascript" src="../common/jquery-1.6.2.js"></script>
-<script language="javascript" type="text/javascript" src="../cenaJs/jqCena.js"></script>
-<script language="javascript" type="text/javascript" src="../cenaJs/jqCenaSql.js"></script>
-<script language="javascript" type="text/javascript">
+<div id="contents"> <!-- InstanceBeginEditable name="contents" -->
+  <script language="javascript" type="text/javascript" src="../common/jquery-1.6.2.js"></script>
+  <script language="javascript" type="text/javascript" src="../common/jquery-ui-1.8.14.custom.min.js"></script>
+  <script language="javascript" type="text/javascript" src="../cenaJs/jqCena.js"></script>
+  <script language="javascript" type="text/javascript" src="../cenaJs/jqCenaSql.js"></script>
+  <script language="javascript" type="text/javascript">
 
 // +---------------------------------------------------------+
 /** initialize
@@ -126,6 +126,13 @@ function display_cena_id( style )
 			.cena( 'bind' )
 			.cena( 'clean' )
 		;
+		$( '#cena_post2' )
+			.find( '.cena_drag' )
+			.draggable({
+				appendTo: "body",
+				helper: "clone"
+			});
+			
 	}
 	// -------------------------------------
 	var display_children = function()
@@ -227,6 +234,76 @@ function add_new_connect()
 }
 
 // +---------------------------------------------------------+
+/** load_data
+	show model=dao_contact100 data from database and binds 
+	to envelope. uses search conditions and sort order. 
+	@param boolean do_count
+		if set to true, counts the number of data and 
+		stores to contact_count storage. 
+ */
+// +---------------------------------------------------------+
+function list_contact()
+{
+	// +-----------------------------------------------------+
+	//  callback to bind contact data with #cena_env_src. 
+	// +-----------------------------------------------------+
+	var callback100 = function( env_data ) {
+		$()	.cena( { 	                     // initialize cena.
+				env_src:   '#cena_list_src',  // source envelop id.
+				env_post:  '#cena_list',     // id to post bound envelope. 
+				bind_type: 'replace'         // show contents.
+			})
+			.cena( 'add', env_data )
+			.cena( 'bind' )
+			.cena( 'clean' )
+		;
+		// if dropped, change the relation.
+		// still very ugly code. 
+		$( '#cena_list' )
+			.find( '.cena_envelope' )
+			.droppable({
+				activeClass: "cenaDroppable",
+				hoverClass: "cenaHover",
+				drop: function( event, ui ) {
+					$( this ).find( ".placeholder" ).remove();
+					// get info about relation.
+					var to_cid  = $( this ).find( '.cena_id' ).text();
+					var link_by = $( ui.draggable ).find( '.cena_link' ).text();
+					var src_cid = $( ui.draggable ).find( '.cena_id' ).text();
+					$( ui.draggable ).parent().parent().fadeOut();
+					// make cena_name from src_cid (source cena_id).
+					var inf = src_cid.split( '.' );
+					var cena_name = inf[0]+'[' + inf[1] + '][' + inf[2] + '][' + inf[3] + '][rel][' + link_by + ']';
+					var cena_data = [];
+					cena_data.push( { name:cena_name, val:to_cid } );
+					$().cenaSql.submitCenaData( cena_data );
+					//$( "<li></li>" ).text( 'name:' + cena_name ).appendTo( this );
+					//$( "<li></li>" ).text( 'val:' + to_cid ).appendTo( this );
+					//location.href = 'contact_jq4.html';
+					//view_page();
+				}
+			});
+	}
+	// +-----------------------------------------------------+
+	//  starts to retrieve and draw data
+	// +-----------------------------------------------------+
+	$()	.cena();
+	$() .cenaSql()
+		.cenaSql( {
+			model: 'dao_contact100', 
+		})
+		.cenaSql( 'get', callback100 )
+	;
+}
+
+// +---------------------------------------------------------+
+function load_detail( list_elem )
+{
+	var cena_id = $( list_elem ).find( '.cena_id' ).text();
+	$().cena.store( 'contact100_id', cena_id );
+	location.href = 'contact_jq4.html';
+}
+// +---------------------------------------------------------+
 /** 
  */
 // +---------------------------------------------------------+
@@ -245,6 +322,7 @@ function view_page() {
 		$( '#button_done' ).hide();
 		$( '#button_cancel' ).hide();
 	}
+	list_contact();
 	return cena_id;
 }
 
@@ -295,92 +373,123 @@ $().ready( function () {
 // +---------------------------------------------------------+
 
 </script>
+<style type="text/css">
+.cenaDroppable { 
+	background-color:#D0E0FF;
+}
+.cenaHover { 
+	background-color:#FFD0E0;
+}
+#cena_list nl {
+}
+#cena_list li {
+	font-size:12px;
+}
+</style>
   <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a>:: contact_jq</span><a href="contact_jq3.html">List of Contacts</a>:: Detail View</h1>
-  <div style="width:600px; ">
-	<form name="form1" method="post" action="">
-    <div id="cena_msg"></div>
-    <table class="tblHover" id="cena_post" width="100%">
-      <thead>
-        <tr>
-          <th>name<br>
-            Cena ID</th>
-          <th>gender</th>
-          <th>type</th>
-          <th>date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="cena_env_src">
-          <td height="25"><input type="text" size="25" name="contact_name" class="cena_element" value="" placeholder="contact name here..." required />
+  <div style="float:right; width:160px;">
+    <table width="100%" border="0" cellpadding="1" cellspacing="1" class="tblHover">
+      <tr>
+        <th>list of contacts</th>
+      </tr>
+    </table>
+	<nl id="cena_list">
+	<li id="cena_list_src"><div onClick="javascript:load_detail( this );">
+	<input type="text" size="10" name="contact_name" class="cena_element" value="" />
+	<span class="cena_id" style="display:none;"><span class="cena_element" name="cena_id"></span></span></div></li>
+	</nl>
+  </div>
+  <div style="width:560px; ">
+    <form name="form1" method="post" action="">
+      <div id="cena_msg"></div>
+      <table class="tblHover" id="cena_post" width="100%">
+        <thead>
+          <tr>
+            <th>name<br>
+              Cena ID</th>
+            <th>gender</th>
+            <th>type</th>
+            <th>date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="cena_env_src">
+            <td height="25"><input type="text" size="25" name="contact_name" class="cena_element" value="" placeholder="contact name here..." required />
               <br>
-            <span class="cena_element" name="cena_id"></span></td>
-          <td align="center"><label>
-            <input type="radio" name="contact_gender" class="cena_element" value="1">
-            mail</label>
+              <span class="cena_element" name="cena_id"></span></td>
+            <td align="center"><label>
+              <input type="radio" name="contact_gender" class="cena_element" value="1">
+              mail</label>
               <label>
               <input type="radio" name="contact_gender" class="cena_element" value="2">
-                female</label>          </td>
-          <td align="center"><select name="contact_type" class="cena_element">
-              <option value="1">friend</option>
-              <option value="2">work</option>
-              <option value="3">family</option>
-              <option value="4">other</option>
-            </select>          </td>
-          <td align="center"><input type="date" size="10" name="contact_date" class="cena_element" value="" required />          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-    <table id="cena_post2" class="tblList" width="100%">
-      <thead>
-        <tr>
-          <th>connect method <br>
-            Cena ID </th>
-          <th>（reference data）<br>
-            (hidden)</th>
-          <th>type</th>
-          <th>del</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="cena_env_src2" >
-          <td height="30"><input type="text" size="30" name="connect_info" class="cena_element" value="" placeholder="how to connect to your friend" required />
-          <br><span class="cena_element" name="cena_id"></span></td>
-          <td><input name="rel.contact_id" type="text" class="cena_element" id="rel.contact_id" value="" size="25" required /></td>
-          <td align="center"><select name="connect_type" class="cena_element">
-            <option value="1">TEL</option>
-            <option value="2">email</option>
-            <option value="3">www</option>
-            <option value="4">twitter</option>
-                              </select></td>
-          <td>&nbsp;</td>
-        </tr>
-      </tbody>
-    </table>
-    <p align="right">
-      <input type="button" name="Submit" value="Cancel" id="button_cancel">
-      <input type="button" name="Submit" value="Add Connection" id="button_add">
-      <input type="button" name="Submit" value="Edit" id="button_edit">
-      <input type="button" name="Submit" value="Save Contact" id="button_done">
-    </p>
-    <p align="right">
-      <input type="submit" name="Submit" value="do submit" disabled="disabled">
-    </p>
-	</form>
-	<?php phpinfo(); // this is not a PHP script! ?>
+              female</label>
+            </td>
+            <td align="center"><select name="contact_type" class="cena_element">
+                <option value="1">friend</option>
+                <option value="2">work</option>
+                <option value="3">family</option>
+                <option value="4">other</option>
+              </select>
+            </td>
+            <td align="center"><input type="date" size="10" name="contact_date" class="cena_element" value="" required />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <table id="cena_post2" class="tblList" width="100%">
+        <thead>
+          <tr>
+            <th>connect method <br>
+              Cena ID </th>
+            <th>（reference data）<br>
+              (hidden)</th>
+            <th>type</th>
+            <th>del</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="cena_env_src2" >
+            <td height="30">
+			<div class="cena_drag" style="display:inline;">
+			  ▶<input type="text" size="30" name="connect_info" class="cena_element" value="" placeholder="how to connect to your friend" required />
+              <br>
+              <span class="cena_id"><span class="cena_element" name="cena_id"></span></span>
+			  <span class="cena_link">contact_id</span>
+			</div>
+			</td>
+            <td><input name="rel.contact_id" type="text" class="cena_element" id="rel.contact_id" value="" size="25" required /></td>
+            <td align="center"><select name="connect_type" class="cena_element">
+                <option value="1">TEL</option>
+                <option value="2">email</option>
+                <option value="3">www</option>
+                <option value="4">twitter</option>
+              </select></td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+      <p align="right">
+        <input type="button" name="Submit" value="Cancel" id="button_cancel">
+        <input type="button" name="Submit" value="Add Connection" id="button_add">
+        <input type="button" name="Submit" value="Edit" id="button_edit">
+        <input type="button" name="Submit" value="Save Contact" id="button_done">
+      </p>
+      <p align="right">
+        <input type="submit" name="Submit" value="do submit" disabled="disabled">
+      </p>
+    </form>
   </div>
   <p>
     <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_jq3.html'">
   </p>
-    <div id="cena_debug"></div>
-  <!-- InstanceEndEditable -->
-</div>
+  <div id="cena_debug"></div>
+  <!-- InstanceEndEditable --> </div>
 <div id="footer">
   <table  border="0" align="center" cellpadding="0" cellspacing="0">
     <tr valign="top">
       <td valign="bottom" nowrap class="footDesc"><p>Cena developed 
-        by <a href="../../index.php"><strong>WorkSpot.JP</strong></a>&nbsp;
-      </p>      </td>
+          by <a href="../../index.php"><strong>WorkSpot.JP</strong></a>&nbsp; </p></td>
       <td width="6">&nbsp;</td>
       <td width="100"><a href="../../serv/index.php"><img src="../../com/img/bar_ser.gif" width="100" height="30" border="0" alt="Service（業務内容） （写真：デビルズタワー国定公園、アメリカ）"></a></td>
       <td width="100"><a href="../../expc/index.php"><img src="../../com/img/bar_exp.gif" width="100" height="30" border="0" alt="Experience（実績･経験）　（写真：紀伊半島にある筆薮滝）"></a></td>
@@ -393,4 +502,5 @@ $().ready( function () {
   </table>
 </div>
 </body>
-<!-- InstanceEnd --></html>
+<!-- InstanceEnd -->
+</html>
