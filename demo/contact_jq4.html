@@ -340,6 +340,7 @@ $().ready( function () {
 			$( '#button_add'  ).show();
 			$( '#button_done' ).show();
 			$( '#button_cancel' ).show();
+            list_contact();
 			return false;
 		})
 	;
@@ -387,7 +388,14 @@ $().ready( function () {
     border-bottom: dashed #aaaaaa 1px;
 }
 </style>
-  <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a>:: contact_jq</span><a href="contact_jq3.html">List of Contacts</a>:: Detail View</h1>
+  <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a></span><a href="contact_jq3.html">contact_jq demo</a>:: Detail View</h1>
+  <div style="margin:0px 0px 5px 0px;">
+      <span style="float:right;">
+          | <a href="contact_jq2.php"><strong>Download</strong></a>
+     | <a href="contact_jq6.html"><strong>Upload Form</strong></a> | 
+      </span>
+     <a href="contact_jq3.html"><strong>List of Contacts</strong></a>
+  </div>
   <div style="float:right; width:160px;">
     <table width="100%" border="0" cellpadding="1" cellspacing="1" class="tblHover">
       <tr>
@@ -446,7 +454,7 @@ $().ready( function () {
             <th>（reference data）<br>
               (hidden)</th>
             <th>type</th>
-            <th>del</th>
+            <th>drag</th>
           </tr>
         </thead>
         <tbody>
@@ -459,14 +467,18 @@ $().ready( function () {
 			  <span class="cena_link">contact_id</span>
 			</div>
 			</td>
-            <td><input name="rel.contact_id" type="text" class="cena_element" id="rel.contact_id" value="" size="25" required /></td>
+            <td><span name="rel.contact_id" class="cena_element"></span></td>
             <td align="center"><select name="connect_type" class="cena_element">
                 <option value="1">TEL</option>
                 <option value="2">email</option>
                 <option value="3">www</option>
                 <option value="4">twitter</option>
               </select></td>
-            <td>&nbsp;</td>
+            <td align="center"><div class="cena_drag" style="display:inline;">
+               ◀&nbsp;<span style="display:none;">
+              <span class="cena_id"><span class="cena_element" name="cena_id"></span></span>
+              <span class="cena_link">contact_id</span></span>▶</div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -476,14 +488,8 @@ $().ready( function () {
         <input type="button" name="Submit" value="Edit" id="button_edit">
         <input type="button" name="Submit" value="Save Contact" id="button_done">
       </p>
-      <p align="right">
-        <input type="submit" name="Submit" value="do submit" disabled="disabled">
-      </p>
     </form>
   </div>
-  <p>
-    <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_jq3.html'">
-  </p>
   <div style="clear:both"></div>
   <div id="cena_debug"></div>
   <!-- InstanceEndEditable --> </div>
