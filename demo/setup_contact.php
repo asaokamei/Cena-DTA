@@ -37,7 +37,7 @@ CREATE TABLE {$table} (
     constraint contact100_pkey PRIMARY KEY (
         contact_id
     )
-) type=innodb;
+);
 END_OF_SQL;
 		return $sql;
 	}
@@ -90,7 +90,7 @@ CREATE TABLE {$table} (
     constraint contact110_pkey PRIMARY KEY (
         connect_id
     )
-) type=innodb;
+);
 END_OF_SQL;
 		return $sql;
 	}
