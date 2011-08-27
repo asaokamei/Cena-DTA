@@ -467,7 +467,9 @@ $().ready( function () {
 			  <span class="cena_link">contact_id</span>
 			</div>
 			</td>
-            <td><input type="text" placeholder="enter cena_id to link" name="rel.contact_id" class="cena_element" /></td>
+            <td>
+               <input type="hidden" placeholder="enter cena_id to link" name="rel.contact_id" class="cena_element" />
+               <span class="cena_element" name="rel.contact_id"></span></td>
             <td align="center"><select name="connect_type" class="cena_element">
                 <option value="1">TEL</option>
                 <option value="2">email</option>
