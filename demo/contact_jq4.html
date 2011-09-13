@@ -37,9 +37,8 @@
 
 // +---------------------------------------------------------+
 /** initialize
-	make sure curr_new_id exists; if not set to 1. 
+ *  make sure curr_new_id exists; if not set to 1. 
  */
-// +---------------------------------------------------------+
 var new_id = parseInt( $().cena.store( 'curr_new_id' ) );
 if( !new_id ) {
 	$().cena.store( 'curr_new_id', 1 );
@@ -48,7 +47,6 @@ if( !new_id ) {
 // +---------------------------------------------------------+
 /** edit_done
  */
-// +---------------------------------------------------------+
 function edit_done( button_done )
 {
 	$().cena( 'wordy', 'done edit' );
@@ -86,10 +84,8 @@ function edit_done( button_done )
 }
 
 // +---------------------------------------------------------+
-/** 
+/** displays contact and its child connect info if cena_id is set.
  */
-// +---------------------------------------------------------+
-// displays contact and its child connect info if cena_id is set. 
 function display_cena_id( style )
 {	
 	// bind env_data to envelope (in form)
@@ -165,9 +161,8 @@ function display_cena_id( style )
 }
 
 // +---------------------------------------------------------+
-/** 
+/** creates empty form to add a new contact. 
  */
-// +---------------------------------------------------------+
 function add_new_contact()
 {
 	var new_id = $().cena.store( 'curr_new_id' );
@@ -199,9 +194,8 @@ function add_new_contact()
 }
 
 // +---------------------------------------------------------+
-/** 
+/** creates empty form to add a new connect. 
  */
-// +---------------------------------------------------------+
 function add_new_connect()
 {
 	var contact_id = $().cena.store( 'contact100_id' );
@@ -235,11 +229,11 @@ function add_new_connect()
 
 // +---------------------------------------------------------+
 /** load_data
-	show model=dao_contact100 data from database and binds 
-	to envelope. uses search conditions and sort order. 
-	@param boolean do_count
-		if set to true, counts the number of data and 
-		stores to contact_count storage. 
+ *	show model=dao_contact100 data from database and binds 
+ *	to envelope. uses search conditions and sort order. 
+ *	@param boolean do_count
+ *		if set to true, counts the number of data and 
+ *		stores to contact_count storage. 
  */
 // +---------------------------------------------------------+
 function list_contact()
@@ -297,6 +291,9 @@ function list_contact()
 }
 
 // +---------------------------------------------------------+
+/** sets a new contact100 id to view. used by drag&drop 
+ *  setup in list_contact function. 
+ */
 function load_detail( list_elem )
 {
 	var cena_id = $( list_elem ).find( '.cena_id' ).text();
@@ -304,9 +301,8 @@ function load_detail( list_elem )
 	location.href = 'contact_jq4.html';
 }
 // +---------------------------------------------------------+
-/** 
+/** view the contact/connect data, and controls the buttons. 
  */
-// +---------------------------------------------------------+
 function view_page() {
 	var cena_id = display_cena_id( 'replace' );
 	if( !cena_id ) { 
@@ -327,9 +323,8 @@ function view_page() {
 }
 
 // +---------------------------------------------------------+
-/** 
+/** initialize on load.
  */
-// +---------------------------------------------------------+
 $().ready( function () {
 	/* */
 	var cena_id = view_page();

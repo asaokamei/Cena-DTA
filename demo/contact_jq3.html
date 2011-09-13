@@ -59,19 +59,19 @@ $().cena.storeInit();
 
 // +---------------------------------------------------------+
 /** search_data
-	set new search condition and show data (load_data). 
-	value of contact_name text field used for contact_name; 
-	otherwise, specify find_value. if find_column is not 
-	specified, clears the search condition. 
-	only one condition can be set per search. 
-	(i.e. WHERE find_column find_type find_value)
-	
-	@param string find_column
-		name of column to search. 
-	@param string find_value
-		value of the column. 
-	@param string find_type
-		conditions such as '=' to search. 
+ *	set new search condition and show data (load_data). 
+ *	value of contact_name text field used for contact_name; 
+ *	otherwise, specify find_value. if find_column is not 
+ *	specified, clears the search condition. 
+ *	only one condition can be set per search. 
+ *	(i.e. WHERE find_column find_type find_value)
+ *	
+ *	@param string find_column
+ *		name of column to search. 
+ *	@param string find_value
+ *		value of the column. 
+ *	@param string find_type
+ *		conditions such as '=' to search. 
  */
 // +---------------------------------------------------------+
 function search_data( find_column, find_value, find_type )
@@ -102,11 +102,11 @@ function search_data( find_column, find_value, find_type )
 
 // +---------------------------------------------------------+
 /** sort_data
-	set the sort order of search, and show data (load_data). 
-	as default, it sorts in in ascending order. calling this 
-	function with sort_column to toggle asc/desc order. 
-	@param string sort_column
-		set the name of column used for sort. 
+ *  set the sort order of search, and show data (load_data). 
+ *  as default, it sorts in in ascending order. calling this 
+ *  function with sort_column to toggle asc/desc order. 
+ *  @param string sort_column
+ *  	set the name of column used for sort. 
  */
 // +---------------------------------------------------------+
 function sort_data( sort_column )
@@ -125,11 +125,11 @@ function sort_data( sort_column )
 
 // +---------------------------------------------------------+
 /** load_data
-	show model=dao_contact100 data from database and binds 
-	to envelope. uses search conditions and sort order. 
-	@param boolean do_count
-		if set to true, counts the number of data and 
-		stores to contact_count storage. 
+ *	show model=dao_contact100 data from database and binds 
+ *	to envelope. uses search conditions and sort order. 
+ *	@param boolean do_count
+ *		if set to true, counts the number of data and 
+ *		stores to contact_count storage. 
  */
 // +---------------------------------------------------------+
 function load_data( do_count )
@@ -185,12 +185,12 @@ function load_data( do_count )
 
 // +---------------------------------------------------------+
 /** load_detail
-	jump to contact_jq4.html, contact/connect view. 
-	cena_id is taken from input element with cena='cena_id', 
-	and stores to contact100_id storage. 
-	@param dom button_elem
-		element of clicked button. its parent dom has to 
-		contain input element for cena_id (cena='cena_id'). 
+ *	jump to contact_jq4.html, contact/connect view. 
+ *	cena_id is taken from input element with cena='cena_id', 
+ *	and stores to contact100_id storage. 
+ *	@param dom button_elem
+ *		element of clicked button. its parent dom has to 
+ *		contain input element for cena_id (cena='cena_id'). 
  */
 // +---------------------------------------------------------+
 function load_detail( button_elem )
@@ -202,8 +202,8 @@ function load_detail( button_elem )
 
 // +---------------------------------------------------------+
 /** load_new_detail
-	add new contact/connect data. set contact100_id storage 
-	to blank, and jump to contact_jq4.html. 
+ *	add new contact/connect data. set contact100_id storage 
+ *	to blank, and jump to contact_jq4.html. 
  */
 // +---------------------------------------------------------+
 function load_new_detail()
@@ -214,7 +214,7 @@ function load_new_detail()
 
 // +---------------------------------------------------------+
 /** on ready initialization
-	initialize buttons, and show contact data. 
+ *	initialize buttons, and show contact data. 
  */
 // +---------------------------------------------------------+
 $().ready( function () {
