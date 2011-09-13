@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="cena.css" rel="stylesheet" type="text/css">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>ワークスポット･ジェーピー</title>
+<title>Cena-DTA Developments</title>
 <!-- InstanceEndEditable -->
 <style type="text/css">
 <!--
@@ -22,12 +22,13 @@
 </div>
 <div id="contents">
 <!-- InstanceBeginEditable name="contents" -->
-  <h1>Cena-DTA::Development Site </h1>
+  <h1>Cena-DTA::Development Top</h1>
   <table width="100%" border="0" cellspacing="5" cellpadding="5">
-
     <tr>
       <td width="60%" valign="top"><h2>Cena-DTA/cenaPhp Development</h2>
         <ul>
+            <li class="list"><strong><a href="./demo/contact_init.php">initialize database</a></strong><br />
+            check the db connection, and creates sample table and data for demo.</li>
           <li class="list"><a href="cenaPhp/unit_test/index.php"><strong>unit test</strong> at cenaPhp</a><br>
           requires PHP5.3 and PHPUnit Framework. <br>
           TODO: use demo's dao and lib. </li>
@@ -41,7 +42,7 @@
       <td width="40%" valign="top"><h2>Links</h2>
         <ul>
           <li><a href="../cena/index.php"><strong>Cena Home</strong></a> </li>
-          <li><a href="https://github.com/asaokamei/Cena-DTA"><strong>asaokamei/Cena-DTA.git</strong></a></li>
+          <li><a href="https://github.com/asaokamei/Cena-DTA"><strong>Cena-DTA@gitHub</strong></a></li>
         </ul>
         <h2>Utilities</h2>
         <ul>

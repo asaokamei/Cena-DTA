@@ -15,7 +15,7 @@ $page
 	->setDefault( 'begin_init',              'Begin Initialize DB' )
 	->setAct(     'conn_database',  'conn',  'Check DB Connection' )
 	->setAct(     'init_database',  'init',  'Initialize DB' )
-	->setAct(     'done_init',      'done',  'Back to Demo Top Page' )
+	->setAct(     'done_init',      'done',  'Back to Cena-DTA Dev Page' )
 ;
 $page->main();
 extract( $page->data() );
@@ -96,7 +96,7 @@ function init_database( $page, $method )
 
 function done_init( $page, $method )
 {
-	jump_to_url( './index.php' );
+	jump_to_url( '../index.php' );
 }
 
 ?>
@@ -124,7 +124,7 @@ function done_init( $page, $method )
 </div>
 <div id="contents">
 <!-- InstanceBeginEditable name="contents" -->
-  <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a></span>Initialize Contact Database </h1>
+  <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: </span>Initialize Contact Database </h1>
   <div style="width:80%; border: solid 2px #E0E0E0; margin:15px auto 25px auto; padding:0px 7px 7px 7px; ">
   <form name="form1" method="post" action="contact_init.php">
   <h2><?php echo $title;?></h2>
@@ -135,12 +135,12 @@ function done_init( $page, $method )
   <?php } ?>
   <?php echo $page->getNextActHiddenTag(); ?>
   <p align="center">
-    <input type="submit" name="Submit" value="<?php echo $page->getButtonTitle();?>">
+    <input type="submit" name="Submit" value="<?php echo $page->getButtonTitle();?>" style="font-weight:bold; font-size:larger;">
   </p>
   </form>
   </div>
   <p>
-    <input type="button" name="top" value="Back to Contact Demo" onClick="location.href='index.php'">
+    <input type="button" name="top" value="Back to Cena-DTA Dev Top" onClick="location.href='../index.php'">
   </p>
 <!-- InstanceEndEditable -->
 </div>

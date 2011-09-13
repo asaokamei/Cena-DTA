@@ -31,9 +31,11 @@ include( 'setup_contact.php' );
 <!-- InstanceBeginEditable name="contents" -->
   <h1><a href="../index.php"><span class="bread">Cena-DTA</span></a> Contact Demo</h1>
   <ul>
+    <!--
     <li class="list"><a href="contact_init.php"><strong>initialize contact database</strong></a><br>
       checks database configuration, and <br>
 creates 10 contacts and connections as initial data for testing.</li>
+    -->
     <li class="list"><a href="contact_env1.php"><strong>contact_env</strong></a><br>
     Server only PHP demo (cenaPhp). <br>
     Requires server running PHP5.3 or higher, and MySQL database. </li>
