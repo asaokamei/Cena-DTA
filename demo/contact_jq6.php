@@ -82,7 +82,7 @@ function check_records( $page, $method )
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../cena.css" rel="stylesheet" type="text/css">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>ワークスポット･ジェーピー</title>
+<title>Contact Demo Jq ::Cena-DTA Development</title>
 <!-- InstanceEndEditable -->
 <style type="text/css">
 <!--

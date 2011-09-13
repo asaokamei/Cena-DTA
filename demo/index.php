@@ -11,7 +11,7 @@ include( 'setup_contact.php' );
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../cena.css" rel="stylesheet" type="text/css">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>ワークスポット･ジェーピー</title>
+<title>Contact Demo Top ::Cena-DTA Development</title>
 <!-- InstanceEndEditable -->
 <style type="text/css">
 <!--
@@ -29,7 +29,7 @@ include( 'setup_contact.php' );
 </div>
 <div id="contents">
 <!-- InstanceBeginEditable name="contents" -->
-  <h1><a href="../index.php"><span class="bread">Cena-DTA</span></a> Contact Demo</h1>
+  <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: Contact Demo</span>Contact Demo Top</h1>
   <ul>
     <!--
     <li class="list"><a href="contact_init.php"><strong>initialize contact database</strong></a><br>
