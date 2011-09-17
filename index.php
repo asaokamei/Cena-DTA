@@ -29,12 +29,18 @@
         <ul>
             <li class="list"><strong><a href="./demo/contact_init.php">initialize database</a></strong><br />
             check the db connection, and creates sample table and data for demo.</li>
-          <li class="list"><a href="cenaPhp/unit_test/index.php"><strong>unit test</strong> at cenaPhp</a><br>
-          requires PHP5.3 and PHPUnit Framework. <br>
-          TODO: use demo's dao and lib. </li>
           <li><a href="demo/index.php"><strong>contact demo</strong></a> <br>
           cenaPhp, jqCena demo application. <br>
           TODO: env1,2 works! work on jq2~6 </li>
+        </ul>
+        <h2>Unit Tests</h2>
+        <ul>
+          <li class="list"><a href="cenaPhp/unit_test/index.php"><strong>unit test</strong> at cenaPhp</a><br>
+          requires PHP5.3 and PHPUnit Framework. <br>
+          </li>
+          <li class="list"><a href="unitTest/cenaJs/index.php">jqCena* tests</a><br />
+          jqCena and jqCenaSql unit tests using QUnit.
+          </li>
         </ul>
         <p>&nbsp;</p>
         <h2>&nbsp;</h2>
