@@ -2,7 +2,7 @@
 <html lange="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="../../cena.css" rel="stylesheet" type="text/css">
+    <link href="../../common/cena.css" rel="stylesheet" type="text/css">
     <!-- InstanceBeginEditable name="doctitle" -->
     <title>Unit Tests ::Cena-DTA Development</title>
     <script src="../../common/jquery-1.6.2.js"></script>
