@@ -22,7 +22,7 @@
   <p align="left" class="headDesc">for HTML5 applications using local databases.</p>
 </div>
 <div id="contents"><!-- InstanceBeginEditable name="contents" -->
-  <h1>Cena-DTA::Development Top</h1>
+  <h1><span class="bread">Cena-DTA</span>Cena-DTA Development Top Page </h1>
   <table width="100%" border="0" cellspacing="5" cellpadding="5">
     <tr>
       <td width="60%" valign="top"><h2>Cena-DTA/cenaPhp Development</h2>
@@ -39,8 +39,7 @@
           requires PHP5.3 and PHPUnit Framework. <br>
           </li>
           <li class="list"><a href="unitTest/cenaJs/index.php">jqCena* tests</a><br />
-          jqCena and jqCenaSql unit tests using QUnit.
-          </li>
+          jqCena and jqCenaSql unit tests using QUnit.          </li>
         </ul>
         <p>&nbsp;</p>
         <h2>&nbsp;</h2>
