@@ -102,7 +102,7 @@ var env_data = <?php echo $env_data; ?>;
 $().ready( function () {
 	// ----------------------------------------------------------------------------------
 	// new with jQuery plug-ins
-	$().cena( 'message', 'jqCena, jQuery PlugIn <br />' );
+	$().cena( 'message', 'Downloading data...' );
 	
 	// ----------------------------------------------------------------------------------
 	// save env_data to database
@@ -114,6 +114,7 @@ $().ready( function () {
 	var types = {
 		contact_offset: 'int',
 		contact_limit:  'int',
+    	contact_count:  'int', 
 		order_column:   'string',
 		order_ascend:   'boolean',
 		find_column:    'string',
@@ -124,6 +125,7 @@ $().ready( function () {
 	var defaults = {
 		contact_offset: 0,
 		contact_limit:  6,
+    	contact_count:  1, 
 		order_column:   '',
 		order_ascend:   true,
 		find_column:    '',
@@ -133,6 +135,7 @@ $().ready( function () {
 	};
 	$().cena.storeTypes( types );
 	$().cena.storeDefaults( defaults, true );
+    /*
 	// ----------------------------------------------------------------------------------
 	// bind env_data to envelope (in form)
 	$() .cena( { 	                             // initialize cena.
@@ -150,7 +153,6 @@ $().ready( function () {
 		.cena( 'message', '<br />End of bind. Now elements Activated<br />' )
 		.cena( 'activate' )
 	;
-	location.href='contact_jq3.html';
 	/*
 	$( '.cena_element' ).change( function() {
 		$().cena( 'message', 'update : ' + $(this).attr( 'name' ) + ' to ' + $(this).val() );
@@ -168,37 +170,7 @@ $().ready( function () {
       </p>
       <p>&nbsp; </p>
     </div>
-    <table class="tblHover" id="cena_post" width="100%">
-      <thead>
-        <tr>
-          <th>名前<br>
-            Cena ID</th>
-          <th>性別</th>
-          <th>分類</th>
-          <th>日付</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="cena_env_src">
-          <td height="25"><input type="text" size="25" name="contact_name" class="cena_element" value="" />
-              <br>
-            <span class="cena_element" cena="cena_id" name></span></td>
-          <td align="center"><label>
-            <input type="radio" name="contact_gender" class="cena_element" value="1">
-            male</label>
-              <label>
-              <input type="radio" name="contact_gender" class="cena_element" value="2">
-                female</label>          </td>
-          <td align="center"><select name="contact_type" class="cena_element">
-              <option value="1">友達</option>
-              <option value="2">仕事</option>
-              <option value="3">家族</option>
-              <option value="4">その他</option>
-            </select>          </td>
-          <td align="center"><input type="date" size="10" name="contact_date" class="cena_element" value="" />          </td>
-        </tr>
-      </tbody>
-    </table>
+  <p>please check <a href="contact_jq3.html">download data in contact list</a>. </p>
     <p>
       <?php if( $pn ) pn_disp_all( $pn ); ?>
       &nbsp;</p>
