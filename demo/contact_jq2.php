@@ -150,6 +150,7 @@ $().ready( function () {
 		.cena( 'message', '<br />End of bind. Now elements Activated<br />' )
 		.cena( 'activate' )
 	;
+	location.href='contact_jq3.html';
 	/*
 	$( '.cena_element' ).change( function() {
 		$().cena( 'message', 'update : ' + $(this).attr( 'name' ) + ' to ' + $(this).val() );
