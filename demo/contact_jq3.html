@@ -252,6 +252,12 @@ $().ready( function () {
 	// +-----------------------------------------------------+
 	load_data();
 	// +-----------------------------------------------------+
+	var count  = $().cena.store( 'contact_count' );
+    if( !count ) {
+        $().cena( 'message', 'no data in local database. '+ count );
+        $().cena( 'message', 'please <a href="contact_jq2.php">download from main server</a>.' );
+        $().cena( 'message', '' );
+    }
 });
 // +---------------------------------------------------------+
 
