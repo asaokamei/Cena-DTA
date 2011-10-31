@@ -1,3 +1,4 @@
+;<?php exit; ?>
 db_driver=mysql
 db_user=admin
 db_password=admin
@@ -16,3 +17,4 @@ ATTR_ERRMODE=ERRMODE_EXCEPTION
 
 [exec_command]
 exec="set names utf8"
+
