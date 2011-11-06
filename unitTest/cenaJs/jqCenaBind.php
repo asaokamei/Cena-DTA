@@ -21,14 +21,15 @@
             "type":"get",
             "id":"1",
             "cena_id":"Cena.dao_contact100.get.1",
-            "elements":{
+            "prop":{
               "contact_id":"1",
               "contact_name":"name#0",
               "contact_gender":"1",
               "contact_type":"1",
               "contact_date":"2011-09-10"
             },
-            "relates":[]
+            "link":{},
+            "num_elem":4
           },
           {
             "envelope":"envelope",
@@ -37,13 +38,13 @@
             "type":"get",
             "id":"1",
             "cena_id":"Cena.dao_contact110.get.1",
-            "elements":{
+            "prop":{
               "connect_id":"1",
               "connect_info":"CenaDTA",
               "connect_type":"1",
               "contact_id":"12"
             },
-            "relates":{
+            "link":{
               "contact_id":"Cena.dao_contact100.get.12"
             },
             "num_elem":4
@@ -95,7 +96,7 @@
           var found1 = $( "#cena_test1_post" ).text();
           $().cena( "message", found1 );
           ok( found1.trim(), "dao_contact100's contact_name not bound" );
-          equal( found1.trim(), cena_env1[0].elements.contact_name, "contact name is different." );
+          equal( found1.trim(), cena_env1[0].prop.contact_name, "contact name is different." );
           
           
           // bind test2: simple bind with input:text
@@ -114,7 +115,7 @@
           
           var found2 = $( "#cena_test2_post" ).text();
           ok( found2.trim(), "dao_contact110's connect_info not bound" );
-          equal( found2.trim(), cena_env1[1].elements.connect_info, "contact name is different." );
+          equal( found2.trim(), cena_env1[1].prop.connect_info, "contact name is different." );
           
           
           // bind test3: simple bind with input:radio
@@ -177,7 +178,7 @@
           var found5 = $( "#cena_test5_post" ).text();
           $().cena( "message", found5 );
           ok( found5.trim(), "dao_contact100's cena_id not bound with span" );
-          equal( found5.trim(), "friend_test4", "cena_id is different." );
+          equal( found5.trim(), cena_env1[0].prop.contact_name, "cena_id is different." );
           
         });
 
@@ -251,7 +252,7 @@
       <h2>bind test5</h2>
       <ul id="cena_test5_post">
         <li id="cena_test5_src" style="display:none;">
-          <span class="cena_element" cena="cena_id" name></span>
+          <span class="cena_element" name="contact_name"></span>
         </li>
       </ul>
 

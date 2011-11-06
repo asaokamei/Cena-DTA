@@ -22,14 +22,15 @@
             "type":"get",
             "id":"1",
             "cena_id":"Cena.dao_contact100.get.1",
-            "elements":{
+            "prop":{
               "contact_id":"1",
               "contact_name":"name#0",
               "contact_gender":"1",
               "contact_type":"1",
               "contact_date":"2011-09-10"
             },
-            "relates":[]
+            "link":{},
+            "num_elem":4
           },
           {
             "envelope":"envelope",
@@ -38,13 +39,13 @@
             "type":"get",
             "id":"1",
             "cena_id":"Cena.dao_contact110.get.1",
-            "elements":{
+            "prop":{
               "connect_id":"1",
               "connect_info":"CenaDTA",
               "connect_type":"1",
               "contact_id":"12"
             },
-            "relates":{
+            "link":{
               "contact_id":"Cena.dao_contact100.get.12"
             },
             "num_elem":4
