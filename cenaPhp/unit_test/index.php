@@ -2,23 +2,40 @@
 ob_start();
 session_start();
 
-if( preg_match( '/^[-_a-zA-Z0-9]+$/', $_REQUEST[ 'test' ] ) ) {
+$text   = '';
+$result = '';
+if( isset( $_REQUEST[ 'test' ] ) &&
+    preg_match( '/^[-_a-zA-Z0-9]+$/', $_REQUEST[ 'test' ] ) ) {
 	$test = $_REQUEST[ 'test' ];
 	$msg  = do_unittest( $test, $result );
 }
 else
-if( $_REQUEST[ 'ver' ] == 'version' ) {
-	$test    = 'PHP version';
-	$command = "php -v";
-	$results = my_exec( $command );
-	$msg = $results[ 'stdout' ];
+if( isset( $_REQUEST[ 'info' ] ) ) {
+    switch( $_REQUEST[ 'info' ] ) {
+        case 'shell':
+            $test = 'Shell Info';
+            $command = 'echo $SHELL';
+            break;
+        case 'env':
+            $test = 'Environment Info';
+            $command = 'env';
+            break;
+        case 'version':
+            $test    = 'PHP version';
+            $command = "php -v";
+            break;
+    }
+    if( isset( $command ) ) {
+        $results = my_exec( $command );
+        $msg = $results[ 'stdout' ];
+    }
 }
 
 function do_unittest( $test, &$result )
 {
 	$cwd     = dirname( __FILE__ );
 	$test    = str_replace( '_', '/', $test );
-	$command = "PHPUnit {$cwd}/{$test}.php";
+	$command = "phpunit {$cwd}/{$test}.php";
 	$results = my_exec( $command );
 	
 	$result = $results[ 'stderr' ];
@@ -111,12 +128,14 @@ function my_exec( $cmd, $input='' )
       </ul>      
       <h2>others</h2>
       <ul>
-        <li>s<a href="index.php?ver=version">how PHP version </a>(CLI PHP) </li>
+        <li><a href="index.php?info=version">show PHP version </a>(CLI PHP) </li>
+        <li><a href="index.php?info=shell">show shell type </a>(CLI PHP) </li>
+        <li><a href="index.php?info=env">show shell environment </a>(CLI PHP) </li>
       </ul>      </td>
   </tr>
 </table>
 <p>
-  <?php if( $test ): ?>
+  <?php if( isset( $test ) ): ?>
 </p>
 <h1><a href="index.php">UnitTest</a>:: results: <?php echo $test; ?></h1>
 <p><?php echo nl2br( $msg ); ?></p>
