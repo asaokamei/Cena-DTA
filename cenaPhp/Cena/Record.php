@@ -438,11 +438,12 @@ class Record
 	// +--------------------------------------------------------------- +
 	function popHtmlState( $html_type ) 
 	{
+        $cena_id   = $this->getCenaId();
 		$cena_term = $this->getCenaName( self::ACT_DEL );
 		html\Tags::setCenaTerm( $cena_term );
 		$html = 
 			$this->record->popHtmlState() . 
-			$this->record->popHtmlDelState( $html_type );
+			$this->record->popHtmlDelState( $html_type, $cena_id );
 		html\Tags::setCenaTerm( FALSE );
 		return $html;
 	}

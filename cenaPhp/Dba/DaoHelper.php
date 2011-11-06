@@ -104,7 +104,7 @@ class DaoHelper
     }
 	// +--------------------------------------------------------------- +
     function insert_datetime( $col_info, &$data ) {
-		self::update_datetime( $dao, $data );
+		self::update_datetime( $col_info, $data );
 		self::set_data_value( $data, $col_info[ 'new_date' ],     date( "Y-m-d" ) );
         self::set_data_value( $data, $col_info[ 'new_time' ],     date( "H:i:s" ) );
         self::set_data_value( $data, $col_info[ 'new_datetime' ], date( "Y-m-d H:i:s" ) );

@@ -89,7 +89,6 @@ class Tags
 		else {
 			self::$var_format = '';
 		}
-		return $this;
     }
     // +------------------------------------------------------------------+
     /**
@@ -347,7 +346,7 @@ class Tags
         //   <input type=hidden name=var_name value=val1>
         //   <input type=check  name=var_name value=val2>
 		if( $checked ) $option[] = 'checked';
-		$html .= self::inputCheck(  $var_name, $val2, $option );
+		$html = self::inputCheck(  $var_name, $val1, $option );
 		return $html;
     }
     // +------------------------------------------------------------------+

@@ -578,10 +578,16 @@ class cal_date
 }
 
 /* ------------------------------------------------------------ */
-function have_value( $var )
+function have_value( $var, $name=FALSE )
 {
 	if( is_array( $var ) ) { 
-		return( count( $var ) ); 
+        if( $name === FALSE ) {
+            return( count( $var ) ); 
+        }
+        if( isset( $var[ $name ] ) ) {
+            return have_value( $var[ $name ] );
+        }
+        return FALSE;
 	}
 	else
 	if( is_object( $var ) ) {

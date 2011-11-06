@@ -81,8 +81,8 @@ class Dba_Page
     {
         if( WORDY ) echo "<b>created instance of paginate</b>...<br>\n";
 		$this->sql = $sql;
-		if( $opt[ 'limit'   ] ) self::$limit = $opt[ 'limit' ];
-		if( $opt[ 'options' ] ) $this->setOptions( $opt[ 'options' ] );
+		if( have_value( $opt, 'limit'   ) ) self::$limit = $opt[ 'limit' ];
+		if( have_value( $opt, 'options' ) ) $this->setOptions( $opt[ 'options' ] );
         $this->getParameters();
     }
 	// +--------------------------------------------------------------- +
@@ -119,8 +119,8 @@ class Dba_Page
     function getParameters( $data=NULL )
     {
 		if( !$data ) $data = $_REQUEST;
-		$this->start = is_numeric( $data[ 'start' ] ) ? $data[ 'start' ] : $this->start;
-		$this->limit = is_numeric( $data[ 'limit' ] ) ? $data[ 'limit' ] : self::$limit;
+		$this->start = have_value( $data, 'start' ) ? $data[ 'start' ] : $this->start;
+		$this->limit = have_value( $data, 'limit' ) ? $data[ 'limit' ] : self::$limit;
 		// no count supported. count everytime.
 		//$this->count = is_numeric( $data[ 'count' ] ) ? $data[ 'count' ] : $this->count;
         $this->_setMaxPage();

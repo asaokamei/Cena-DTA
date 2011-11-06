@@ -25,6 +25,7 @@ class Form
 	var $disable_list=FALSE;
 	var $selected_list=FALSE;
 	var $item_sep = NULL;    // separator for radio/checks items
+    var $item_chop = 0;
 	
 	var $err_msg_empty = '選択して下さい';
 	var $err_msg_form  = '<span style="color:red">←%s</span>';

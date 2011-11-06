@@ -731,7 +731,7 @@ class Dao extends Sql
 	{
 		if( !have_value( $this->_table ) ) return FALSE;
 		$table = $this->_table;
-		return $table::check_input( &$pgg );
+		return $table::check_input( $pgg );
     }
     // +----------------------------------------------------------------------------+
 }

@@ -184,7 +184,7 @@ define( 'PGG_ERRNUM_OTHER_ERROR',    9999 );
             return PGG_ERRNUM_EUCJP_NOVALUE;
         }
         // check if the value uses only specified characters...
-        if( have_value( $val ) && have_value( $ereg_str ) && !$this->checkMbCharacters( $val, $convert_str ) ) {
+        if( have_value( $val ) && have_value( $ereg_expr ) && !$this->checkMbCharacters( $val, $convert_str ) ) {
             return PGG_ERRNUM_EUCJP_YOMI;
         }
         // check if the value is in proper format...
@@ -384,7 +384,7 @@ define( 'PGG_ERRNUM_OTHER_ERROR',    9999 );
 				$date = "{$year}{$dbar}{$month}{$dbar}{$date}";
 			}
 		}
-		$err_type = $this->checkEucJP( $date, $length, $ereg_expr, PGG_EUCJP_YOMI_HANKAKU_ONLY );
+		$err_type = $this->checkEucJP( $date, $length, NULL, PGG_EUCJP_YOMI_HANKAKU_ONLY );
 		// check for proper date
 		if( !have_value( $err_type ) && have_value( $date ) ) { 
 			if( !recurse_check_date( $dbar, $date ) ) {

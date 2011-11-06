@@ -713,7 +713,7 @@ class Record
 		{
 			foreach( $relationship as $column => $rec ) 
 			{
-				if( $relationship[ $column ][ 'required' ] && 
+				if( have_value( $relationship[ $column ], 'required' ) && 
 					!isset( $this->relations[  $column ] ) && 
 					!isset( $data_to_validate[ $column ] ) ) 
 				{
@@ -772,7 +772,7 @@ class Record
 	function popHtml( $column, $html_type=NULL ) { // required for cena
 		//if( !$html_type ) $html_type = 'NAME';
 		$val   = $this->get( $column );
-		$err   = $this->err_msg[ $column ];
+		$err   = isset( $this->err_msg[ $column ] ) ? $this->err_msg[ $column ] : FALSE;
 		$model = $this->model;
 		$sel   = $model::getSelInstance( $column );
 		return $sel->popHtml( $html_type, $val, $err );
@@ -799,8 +799,10 @@ class Record
 		return $html;
     }
 	// +--------------------------------------------------------------- +
-	function popHtmlDelState( $html_type=NULL )  // required for cena
+	function popHtmlDelState( $html_type=NULL, $id=FALSE )  // required for cena
 	{
+        $html = '';
+        if( $id === FALSE ) $id = $this->getId();
 		if( $html_type == 'EDIT' ) {
 			if( $this->execute == self::EXEC_DEL ) {
 				$html .= html\Tags::checkOne( $this->id_name, $id, TRUE );

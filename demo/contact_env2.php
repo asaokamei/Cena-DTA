@@ -53,6 +53,7 @@ function done_records( $page, $method )
 	else {
 		$page->setNext( '' ); // to default
 	}
+	$page->addData( 'html_type', 'NAME' );
 }
 
 // +-----------------------------------------------------------+
@@ -92,12 +93,18 @@ function edit_records( $page, $method )
 	$num_err     = 0;
 	cena\Cena::setRelation();
 	cena\Cena::do_cena( $cenas );
-	$page->addData( 'cenas', $cenas[ $dao ] );
-	
+	if(have_value( $cenas, $dao ) ) {
+        $page->addData( 'cenas', $cenas[ $dao ] );
+    }
 	$rec100   = $cenas[ 'dao_contact100' ];
 	$parent   = $rec100[0];
-	$rec110   = $cenas[ 'dao_contact110' ];
-	$max = 10 - count( $rec110 );
+    if(have_value( $cenas, 'dao_contact110' ) ) {
+        $rec110   = $cenas[ 'dao_contact110' ];
+    	$max = 10 - count( $rec110 );
+    }
+    else {
+    	$max = 10;
+    }
 	for( $i = 0; $i < $max; $i ++ ) {
 		$title = sprintf( "新規#%02d", $i + 1 );
 		$child = dao_contact110::getRecord( orm\Record::TYPE_NEW, $title );
@@ -131,7 +138,6 @@ function get_page( $page, $method )
 	$page->addData( 'rec110', $rec110 );
 	
 	$page->addData( 'html_type', 'NAME' );
-	$page->addData( 'pn', $pn );
 	$page->setNext( 'edit' );
 	if( WORDY ) wt( $records, 'records' );
 }

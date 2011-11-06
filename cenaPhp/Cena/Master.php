@@ -429,10 +429,11 @@ class Cena
 		}
 		if( WORDY > 3 ) wtc( self::$models, 'do for models' );
 		
+        $num_err = 0;
 		foreach( $do_models as $model ) // for all models
 		{
+			if( !have_value( $cena_in, $model) ) continue;
 			$get_types = $cena_in[ $model ];
-			if( empty( $get_types ) ) continue;
 			if( WORDY ) wt( $get_types, "model: $model" );
 			foreach( $get_types as $type => $get_ids ) // for all types
 			{

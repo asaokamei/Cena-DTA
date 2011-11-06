@@ -195,6 +195,7 @@ class Sql
     // +--------------------------------------------------------------- +
     function makeWhere( $col, $val='', $rel='', $op='' ) 
 	{
+        $where = '';
 		if( $rel === FALSE ) {
 			$rel = ''; // practically do nothing.
 		}

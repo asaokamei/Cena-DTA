@@ -89,7 +89,7 @@ class page_MC
 	}
 	// +-----------------------------------------------------------+
 	function getButtonTitle() {
-		if( have_value( $this->next_buttuon[ $this->next_act ] ) ) {
+		if( have_value( $this->next_buttuon, $this->next_act ) ) {
 			return $this->next_buttuon[ $this->next_act ];
 		}
 		return $this->default_but;
