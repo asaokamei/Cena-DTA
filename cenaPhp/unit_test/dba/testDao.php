@@ -1,6 +1,6 @@
 <?php
 //define( 'WORDY', 4 );
-require_once( dirname( __FILE__ ) . "./dbaTest.inc.php" );
+require_once( dirname( __FILE__ ) . "/dbaTest.inc.php" );
 
 class DbaDaoTest extends PHPUnit_Framework_TestCase
 {

@@ -1,10 +1,10 @@
 <?php
 define( 'WORDY', 0 );
 require_once( dirname( __FILE__ ) . "/../../Html/Form.php" );
-require_once( dirname( __FILE__ ) . "/../../Dba/record.php" );
-require_once( dirname( __FILE__ ) . "/../../Cena/master.php" );
-require_once( dirname( __FILE__ ) . "/../../Cena/record.php" );
-require_once( dirname( __FILE__ ) . "./dbaTest.inc.php" );
+require_once( dirname( __FILE__ ) . "/../../Dba/Record.php" );
+require_once( dirname( __FILE__ ) . "/../../Cena/Master.php" );
+require_once( dirname( __FILE__ ) . "/../../Cena/Record.php" );
+require_once( dirname( __FILE__ ) . "/dbaTest.inc.php" );
 
 use CenaDta\Dba as orm;
 use CenaDta\Cena as cena;
@@ -172,7 +172,6 @@ class CenaRec extends PHPUnit_Framework_TestCase
 		
 		// check the cena object's value. 
 		$name2 = $records['UT_dao_contact100'][0]->getData( $name );
-		echo $records['UT_dao_contact100'][0]->err_msg;
 		$this->assertEquals( $test2, $name2 ); // same name. 
 		
 		// check the database value. 
@@ -276,17 +275,17 @@ class CenaRec extends PHPUnit_Framework_TestCase
 		// construct post data from the data records ($rec1 & $rec2).
 		$args  = array();
 		foreach( $data1 as $column => $value ) {
-			$cena_name = $cena1->getCenaName( 'set', $column );
+			$cena_name = $cena1->getCenaName( 'prop', $column );
 			$args[] = "$cena_name=$value\n";
 		}
 		$cena_body = cena\Cena::makeCenaName( $dao2, orm\Record::TYPE_NEW, $id2 );
 		foreach( $data2 as $column => $value ) {
 			if( $column == 'contact_id' ) {
 				$value = $cena1->getCenaId();
-				$cena_name = $cena2->getCenaName( 'rel', $column );
+				$cena_name = $cena2->getCenaName( 'link', $column );
 			}
 			else {
-				$cena_name = $cena2->getCenaName( 'set', $column );
+				$cena_name = $cena2->getCenaName( 'prop', $column );
 			}
 			$args[] = "$cena_name=$value\n";
 		}

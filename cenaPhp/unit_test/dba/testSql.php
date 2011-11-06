@@ -3,7 +3,7 @@
 require_once( dirname( __FILE__ ) . "/../../class/class.ext_func.php" );
 require_once( dirname( __FILE__ ) . "/../../Html/Form.php" );
 require_once( dirname( __FILE__ ) . "/../../Dba/Sql.php" );
-require_once( dirname( __FILE__ ) . "./dbaTest.inc.php" );
+require_once( dirname( __FILE__ ) . "/dbaTest.inc.php" );
 use CenaDta\Dba\Sql as ormSql;
 
 class DbaTest extends PHPUnit_Framework_TestCase
