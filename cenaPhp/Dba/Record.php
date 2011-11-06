@@ -132,7 +132,7 @@ class Record
 	{
 		if( is_array( $data ) ) { // it's a data. get id.
 			$id_name = $model::idName();
-            if( !have_value( $data[ $id_name ] ) ) {
+            if( !have_value( $data, $id_name ) ) {
                 if( $type === Record::TYPE_NEW ) {
                     $data[ $id_name ] = Record::getNewId();
                 }

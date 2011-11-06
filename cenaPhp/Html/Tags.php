@@ -71,7 +71,6 @@ class Tags
      */
     static function setVarFooter( $footer ) {
 		self::$var_footer = $footer;
-		return $this;
     }
     // +------------------------------------------------------------------+
     /**

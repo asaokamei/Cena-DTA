@@ -2,6 +2,7 @@
 /* class.ext_func.php
  * charset: utf-8（雀の往来）
 */
+if( !defined( 'WORDY' ) ) define( 'WORDY', 0 );
 // expected char encoding
 define('APP_ENCODING', mb_internal_encoding());
 
@@ -978,8 +979,11 @@ function recurse_check_date( $dbar, $date )
     else {
         if( WORDY > 5 ) echo " -> {$func}( {$value} )<br>\n";
 		if( have_value( $date ) ) {
-			list( $year, $month, $day ) = explode( $dbar, $date );
-			return @checkdate( $month, $day, $year );
+            $info = explode( $dbar, $date );
+            if( count( $info ) == 3 ) {
+    			return @checkdate( $info[1], $info[2], $info[0] );
+            }
+            return FALSE;
 		}
     }
     

@@ -183,10 +183,10 @@ class Sql
 		$this->where = NULL;
 		if( !empty( $cond ) && is_array( $cond ) ) {
 			if( is_array( $cond[0] ) ) {
-				foreach( $cond as $c ) $this->where( $c[0], $c[1], $c[2], $c[3] );
+				foreach( $cond as $c ) call_user_func_array( array( $this, 'where' ), $c );
 			}
 			else {
-				$this->where( $cond[0], $cond[1], $cond[2], $cond[3] );
+				call_user_func_array( array( $this, 'where' ), $cond );
 			}
 		}
 		$this->execSelect();
