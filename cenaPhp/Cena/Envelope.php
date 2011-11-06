@@ -48,10 +48,10 @@ class Envelope
 			'type'     => $cena->getType(),
 			'id'       => $cena->getId(),
 			'cena_id'  => $cena->getCenaId(),
-			'elements' => $cena->getData(),
-			'relates'  => $cena->getRelation()
+			'prop'     => $cena->getData(),
+			'link'     => $cena->getRelation()
 		);
-		$env_data[ 'num_elem' ] = count( $env_data[ 'elements' ] );
+		$env_data[ 'num_elem' ] = count( $env_data[ 'prop' ] );
 		if( WORDY > 3 ) wordy_table( $env_data, 'envelope data' );
 		return $env_data;
 	}

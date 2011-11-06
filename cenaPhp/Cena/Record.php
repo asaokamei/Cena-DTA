@@ -17,10 +17,10 @@ class CenaRecord_Exception extends \Exception {}
 
 class Record
 {
-	const ACT_SET  = 'set';
+	const ACT_SET  = 'prop';
 	const ACT_GET  = 'get';
 	const ACT_DEL  = 'del';
-	const ACT_REL  = 'rel';
+	const ACT_REL  = 'link';
 	
 	var $fingerp = NULL; // finger print for identifying object...
 	var $scheme  = NULL;
@@ -29,8 +29,8 @@ class Record
 	var $type    = NULL;
 	var $id      = NULL;
 	var	$act_map = array( // map Cena's act to Record's method.
-			'set' => 'setProperty',
-			'rel' => 'setRelation',
+			'prop' => 'setProperty',
+			'link' => 'setRelation',
 			'del' => 'delRecord',
 			'get' => 'getProperty',
 		);

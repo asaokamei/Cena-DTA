@@ -171,7 +171,6 @@ $().ready( function () {
     </div>
   <p>please check <a href="contact_jq3.html">download data in contact list</a>. </p>
     <p>
-      <?php if( $pn ) pn_disp_all( $pn ); ?>
       &nbsp;</p>
     <p align="center"></p>
     <div id="cena_debug"></div>

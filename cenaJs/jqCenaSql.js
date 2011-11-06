@@ -199,7 +199,7 @@
     /**
      *  cenaSqlUpload:
      *  reads env_data from database for upload.
-     *  binds thru with simple span/input elements only.
+     *  binds thru with simple span/input properties only.
      */
 	var cenaSqlUpload = function( options, callback )
 	{
@@ -297,7 +297,7 @@
 			var env_hash = {};
 			for( var i = 0; i < length; ++i ) {
 				cena_id_list = cena_id_list + ", '" + rs.rows.item(i).cena_id + "'";
-				env_hash[ rs.rows.item(i).cena_id ] = { elements:{}, relates:{} };
+				env_hash[ rs.rows.item(i).cena_id ] = { prop:{}, link:{} };
 			}
 			cena_id_list = cena_id_list.substr( 2 );
 			$().cena( 'debug', 'cenaSqlReadData: ids are... ' + cena_id_list );
@@ -376,7 +376,7 @@
 			sql_variables.push( selOption.model );
 		}
 		if( selOption.child ) { // get children given cena_id. 
-			sql_where.push( "act='rel'" );
+			sql_where.push( "act='link'" );
 			sql_where.push( "value=?" );
 			sql_variables.push( selOption.cena_id );
 		}
@@ -569,19 +569,19 @@
 			cena_id = row.cena_id;
 			if( cenaSqlOptions.WORDY > 3 ) $().cena( 'debug', '- ' + cena_id );
 			if( typeof( env_hash[ cena_id ] ) == 'undefined' ) {
-				env_hash[ cena_id ] = { elements:{}, relates:{} };
+				env_hash[ cena_id ] = { prop:{}, link:{} };
 			}
 			env_hash[ cena_id ].cena_id = cena_id;
 			env_hash[ cena_id ].scheme  = row.scheme;
 			env_hash[ cena_id ].model   = row.model;
 			env_hash[ cena_id ].type    = row.type;
 			env_hash[ cena_id ].id      = row.id;
-			if( row.act == 'set' ) {
-				env_hash[ cena_id ].elements[ row.column ] = row.value;
+			if( row.act == 'prop' ) {
+				env_hash[ cena_id ].prop[ row.column ] = row.value;
 			}
 			else
-			if( row.act == 'rel' ) {
-				env_hash[ cena_id ].relates[ row.column ] = row.value;
+			if( row.act == 'link' ) {
+				env_hash[ cena_id ].link[ row.column ] = row.value;
 			}
 		}
 		for( cena_id in env_hash ) {
@@ -599,12 +599,12 @@
 		db.transaction( function(tx) 
 		{
 			//$().cena( 'debug', 'cenaSqlReplace:tx: got ' + cena_name + '=' + value );
-			// save elements data to cena_data table.
-			var act = 'set';
-			for( column in env_data.elements ) 
+			// save properties to cena_data table.
+			var act = 'prop';
+			for( column in env_data.prop ) 
 			{
 				cena_name = $().cena.getCenaName( env_data, act, column );
-				value     = env_data.elements[ column ];
+				value     = env_data.prop[ column ];
 				$().cena( 'debug', 'cenaSqlReplace:tx: starting ' + cena_name + '=' + value );
 				tx.executeSql( 
 					"replace into cena_env( " + 
@@ -619,11 +619,11 @@
 				);
 			}
 			// save relationsto cena_data table.
-			act = 'rel';
-			for( column in env_data.relates ) 
+			act = 'link';
+			for( column in env_data.link ) 
 			{
 				cena_name = $().cena.getCenaName( env_data, act, column );
-				value     = env_data.relates[ column ];
+				value     = env_data.link[ column ];
 				$().cena( 'debug', 'cenaSqlReplace:tx: starting ' + cena_name + '=' + value );
 				tx.executeSql( 
 					"replace into cena_env( " + 

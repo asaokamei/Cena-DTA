@@ -416,7 +416,7 @@
 	$.fn.cena.getValue = function( env_data, name ) {
 		if( !name ) return false;
 		if( cenaOptions.WORDY > 2 ) $().cena( 'debug', 'cena.getValue: ' + name );
-		var map = { set: 'elements', rel: 'relates' };
+		var map = { set: 'prop', rel: 'relates' };
 		var env_entity, action, column, info = name.split( '.' );
 		if( typeof( env_data[ name ] ) != 'undefined' ) {
 			return env_data[ name ];
@@ -427,13 +427,13 @@
 			column = info[1];
 		}
 		else {
-			action = 'set';
+			action = 'prop';
 			column = info[0];
 		}
-		env_entity = map[ action ];
-		if( typeof( env_data[ env_entity ] ) == 'undefined' ) return '';
-		if( typeof( env_data[ env_entity ][ column ] ) != 'undefined' ) {
-			return env_data[ env_entity ][ column ];
+		//env_entity = map[ action ];
+		if( typeof( env_data[ action ] ) == 'undefined' ) return '';
+		if( typeof( env_data[ action ][ column ] ) != 'undefined' ) {
+			return env_data[ action ][ column ];
 		}
 		return '';
 	};
@@ -451,7 +451,7 @@
 	// +----------------------------------------------------------+
 	/** cena.getEnvDataFromCenaName method returns
      *	envelope data from cena_name. Note that this
-     *	method does not populate relates/elements fields.
+     *	method does not populate link/prop fields.
      *	
      *	@param string cena_name
      *		cena_name as 'Cena[model][type][scheme]...'
@@ -535,7 +535,7 @@
 			var type  = $( element ).attr( 'type' );
 			var name  = $( element ).attr( 'name' );
 			var value     = $().cena.getValue( env_data, name );
-			var cena_name = $().cena.getCenaName( env_data, 'set', name );
+			var cena_name = $().cena.getCenaName( env_data, 'prop', name );
 			var cena_opt  = $().cena.getOptions();
 			
 			if( tag != 'SPAN' ) {

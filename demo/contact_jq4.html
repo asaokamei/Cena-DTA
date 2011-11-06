@@ -211,9 +211,9 @@ function add_new_connect()
 		type: 'new',
 		id: new_id
 	}
-	empty_connect[ 'elements' ] = {};
-	empty_connect[ 'relates' ] = {};
-	empty_connect[ 'relates' ][ 'contact_id' ] = contact_id;
+	empty_connect[ 'prop' ] = {};
+	empty_connect[ 'link' ] = {};
+	empty_connect[ 'link' ][ 'contact_id' ] = contact_id;
 	empty_connect.cena_name = $().cena.getCenaName( empty_connect );
 	$() .cena( 'add', empty_connect )
 		.cena( 'bind', 
@@ -267,7 +267,7 @@ function list_contact()
 					$( ui.draggable ).parent().parent().fadeOut();
 					// make cena_name from src_cid (source cena_id).
 					var inf = src_cid.split( '.' );
-					var cena_name = inf[0]+'[' + inf[1] + '][' + inf[2] + '][' + inf[3] + '][rel][' + link_by + ']';
+					var cena_name = inf[0]+'[' + inf[1] + '][' + inf[2] + '][' + inf[3] + '][link][' + link_by + ']';
 					var cena_data = [];
 					cena_data.push( { name:cena_name, val:to_cid } );
 					$().cenaSql.submitCenaData( cena_data );
@@ -463,8 +463,8 @@ $().ready( function () {
 			</div>
 			</td>
             <td>
-               <input type="hidden" placeholder="enter cena_id to link" name="rel.contact_id" class="cena_element" />
-               <span class="cena_element" name="rel.contact_id"></span></td>
+               <input type="hidden" placeholder="enter cena_id to link" name="link.contact_id" class="cena_element" />
+               <span class="cena_element" name="link.contact_id"></span></td>
             <td align="center"><select name="connect_type" class="cena_element">
                 <option value="1">TEL</option>
                 <option value="2">email</option>
