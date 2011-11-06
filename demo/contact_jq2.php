@@ -55,7 +55,6 @@ function get_page( $page, $method )
 	$env_data = cena\Envelope::popEnvJsData();
 	$page->addData( 'env_data', $env_data );
 	$page->addData( 'html_type', 'NAME' );
-	$page->addData( 'pn', $pn );
 	$page->setNext( 'edit' );
 	if( WORDY ) wt( $env_data, 'env_data' );
 }

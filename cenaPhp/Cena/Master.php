@@ -249,7 +249,7 @@ class Cena
 		if( is_array( $rec ) ) {
 			$cenas = array();
 			foreach( $rec as $r ) {
-				$cenas[] = self::getCenaByRec( $r, $setRel );
+				$cenas[] = self::getCenaByRec( $r );
 			}
 			return $cenas;
 		}

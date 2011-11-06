@@ -56,7 +56,7 @@ class page_MC
 	}
 	// +-----------------------------------------------------------+
 	function getData( $name, & $data ) {
-		$data = $this->data[ $name ]; 
+		$data = isset( $this->data[ $name ] ) ? $this->data[ $name ] : FALSE; 
 		return $this;
 	}
 	// +-----------------------------------------------------------+

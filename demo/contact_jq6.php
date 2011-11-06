@@ -49,6 +49,7 @@ function done_records( $page, $method )
 		$page->setNext( 'check' );
 	}
 	else {
+		$page->addData( 'html_type', 'NAME' );
 		$page->setNext( 'down' ); // to default
 	}
 }
@@ -164,7 +165,6 @@ function check_records( $page, $method )
       </tbody>
     </table>
     <p>
-      <?php if( $pn ) pn_disp_all( $pn ); ?>
       &nbsp;</p>
     <p align="center"> <?php echo $page->getNextActHiddenTag(); ?>
       <input type="submit" name="Submit" value="<?php echo $page->getButtonTitle(); ?>">
