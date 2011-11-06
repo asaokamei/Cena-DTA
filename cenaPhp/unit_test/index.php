@@ -110,20 +110,19 @@ function my_exec( $cmd, $input='' )
           </li>
         <li><strong>independent tests:</strong> [<a href="index.php?test=dba_testSql">Dba_Sql</a>], [<a href="index.php?test=dba_testSqlQuoted">Dba_Sql(quoted)</a>], [Dba_Page], [<a href="index.php?test=dba_testDao">Dba_Dao(old style) </a>]</li>
       </ul>      </td>
-    <td width="45%" valign="top"><h2>Htmlo Utilities</h2>
+    <td width="45%" valign="top"><h2>Html Utilities</h2>
       <ul>
         <li>[<a href="index.php?test=html_testSuite"><strong>Html{Prop|Tags|Form}.php</strong></a>] <br>
         [<a href="index.php?test=html_testProp">Prop</a>] [<a href="index.php?test=html_testTags">Tags</a>] [<a href="index.php?test=html_testForm">Form</a>] </li>
-        <li></li>
       </ul>      
       <h2>class Utilities </h2>
       <p>folder for utilities/PHP4 </p>
       <ul>
-        <li>[<a href="index.php?test=class_htmlTest"><strong>class.html_form.php</strong></a>] </li>
-        <li><strong>[<a href="index.php?test=class_cartTest">class.svCart.php</a>]</strong>, <br>
+        <li>[<a href="index.php?test=class_htmlTest">class.html_form.php</a>] </li>
+        <li>[<a href="index.php?test=class_cartTest">class.svCart.php</a>],
           [class.ext_func.php]</li>
-        <li><strong>[<a href="index.php?test=class_pggWebIoTest">class.web_io.php</a>]</strong>, <br>
-          <strong>[<a href="index.php?test=class_pggValueTest">class.pgg_value.php</a>]</strong>, <br>
+        <li>[<a href="index.php?test=class_pggWebIoTest">class.web_io.php</a>], 
+          [<a href="index.php?test=class_pggValueTest">class.pgg_value.php</a>], <br>
           [class.pgg_JPN.php]</li>
       </ul>      
       <h2>others</h2>
