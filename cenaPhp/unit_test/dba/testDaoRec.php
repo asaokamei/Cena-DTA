@@ -3,7 +3,7 @@
 require_once( dirname( __FILE__ ) . "/../../Html/Form.php" );
 require_once( dirname( __FILE__ ) . "/../../Dba/Model.php" );
 require_once( dirname( __FILE__ ) . "/../../Dba/Record.php" );
-require_once( dirname( __FILE__ ) . "./dbaTest.inc.php" );
+require_once( dirname( __FILE__ ) . "/dbaTest.inc.php" );
 
 use CenaDta\Dba as orm;
 
@@ -215,17 +215,8 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		$rec1->set( 'contact_name', $name );
 		$rec1->set( 'contact_date', $date );
 		// the doValidation must fail; contact_date is in wrong format. 
-		try {
-			$rec1->doValidate();
-			$this->assertTrue( FALSE ); // should not come here...
-		}
-		catch( orm\DataInvalid_DbaRecord_Exception $e ) {
-			$this->assertTrue( TRUE ); // correct behavior. 
-		}
-		catch( Exception $e ) {
-			$this->assertTrue( FALSE ); // should not throw any other exception. 
-		}
-		
+        $this->setExpectedException( 'CenaDta\Dba\DataInvalid_DbaRecord_Exception' );
+		$rec1->doValidate();
 	}
     // +--------------------------------------------------------------- +
 	//  testValidation():
@@ -237,6 +228,7 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		// ### test new data validation
 		
 		// unlike TYPE_GET, this should fail because other items are not 
+        $data = array();
 		$new1 = new orm\Record( $dao, $data, orm\Record::TYPE_NEW );
 		$name = 'test rec name';
 		$new1->set( 'contact_name', $name );
@@ -377,7 +369,7 @@ class DbaDbaRec extends PHPUnit_Framework_TestCase
 		
 		$contact_old_id  = $contact_old->getId();
 		$contact_id2     = $new_contact2->getId();
-		$this->assertNotEquals( $old_contact_id, $contact_id2 ); // not the original id. 
+		$this->assertNotEquals( $contact_old_id, $contact_id2 ); // not the original id. 
 		
 		$name = 'contact_name';
 		$this->assertEquals( $new_contact2->get( $name ), $new_data[ $name ] );
