@@ -125,7 +125,7 @@ class Control
 		if( !have_value( $this->view ) ) {
 			return;
 		}
-		if( function_exists( $this->view ) ) {
+		if( is_callable( $this->view ) ) {
 			return call_user_func( $this->view, $this );
 		}
 		if( file_exists( $this->view ) ) {
