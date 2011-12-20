@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lange="en"><!-- InstanceBegin template="/Templates/cenaDta.dwt.php" codeOutsideHTMLIsLocked="false" -->
+<!-- DW6 -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="../common/cena.css" rel="stylesheet" type="text/css">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Contact Demo Jq ::Cena-DTA Development</title>
+<!-- InstanceEndEditable -->
+<style type="text/css">
+<!--
+.style1 {
+}
+-->
+</style>
+<!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {color: #FF6600}
+-->
+</style>
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<div id="header">
+  <p><a href="../index.php" class="headerTitle"><strong>Cena</strong> DTA Developments </a></p>
+  <div class="menus">|&nbsp;<a href="../index.php">Top</a>&nbsp;|&nbsp;<a href="http://wsjp.blogspot.com/" target="_blank"></a></div>
+  <p align="left" class="headDesc">for HTML5 applications using local databases.</p>
+</div>
+<div id="contents"><!-- InstanceBeginEditable name="contents" -->
+<script type="text/javascript" src="../common/jquery-1.6.2.js"></script>
+<script type="text/javascript" src="../cenaJs/jqCena.js"></script>
+<script type="text/javascript" src="../cenaJs/jqCenaSql.js"></script>
+<script type="text/javascript">
+
+$().ready( function () {
+	// ----------------------------------------------------------------------------------
+	// new with jQuery plug-ins
+	$().cena( 'message', 'Downloading data...' );
+	
+	// ----------------------------------------------------------------------------------
+	// save env_data to database
+    $.getJSON( './contact_jq2.php', { view: "cena" },
+        function( env_data, status, jqXHR ) {
+            $()	.cenaSql()                   // start cenaSql. 
+                .cenaSql( 'clean' )          // drop table and create again. 
+                .cenaSql( 'add', env_data )  // add data to Sql db.
+            ;
+    });
+    
+	var types = {
+		contact_offset: 'int',
+		contact_limit:  'int',
+    	contact_count:  'int', 
+		order_column:   'string',
+		order_ascend:   'boolean',
+		find_column:    'string',
+		find_value:     'string',
+		find_type:      'string',
+		curr_new_id:    'int'
+	};
+	var defaults = {
+		contact_offset: 0,
+		contact_limit:  6,
+    	contact_count:  1, 
+		order_column:   '',
+		order_ascend:   true,
+		find_column:    '',
+		find_value:     '',
+		find_type:      '=',
+		curr_new_id:    1
+	};
+	$().cena.storeTypes( types );
+	$().cena.storeDefaults( defaults, true );
+    /*
+	// ----------------------------------------------------------------------------------
+	// bind env_data to envelope (in form)
+	$() .cena( { 	                             // initialize cena.
+					env_src:   '#cena_env_src',  // source envelop id.
+					env_post:  '#cena_post',     // id to post bound envelope. 
+					bind_type: 'replace'         // show contents.
+				})
+		//.cena( 'add', env_data )
+		.cenaSql( 'get' )
+		.cena( 'bind', 	
+				{                           // bind env_data to envelope.
+					model: 'dao_contact100' // bind only this model.
+				})
+		.cena( 'clean' )
+		.cena( 'message', '<br />End of bind. Now elements Activated<br />' )
+		.cena( 'activate' )
+	;
+	/*
+	$( '.cena_element' ).change( function() {
+		$().cena( 'message', 'update : ' + $(this).attr( 'name' ) + ' to ' + $(this).val() );
+	});
+*/
+	
+}); // 
+</script>
+<h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a>:: contact_jq</span>Download Data (JSON download) </h1>
+<div style="width:600px; ">
+    <div id="cena_msg">
+      <p>&nbsp;      </p>
+      <p align="center">
+        <input type="button" name="top2" value="List of Contacts" onClick="location.href='contact_jq3.html'">
+      </p>
+      <p>&nbsp; </p>
+    </div>
+  <p>please check <a href="contact_jq3.html">download data in contact list</a>. </p>
+    <p>&nbsp;
+      </p>
+    <p align="center"></p>
+    <div id="cena_debug"></div>
+  </div>
+  <p>
+    <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_jq3.html'">
+  </p>
+  <!-- InstanceEndEditable --></div>
+<div id="footer">
+  <table  border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr valign="top">
+      <td valign="bottom" nowrap class="footDesc"><p>Cena developed 
+        by <a href="../../index.php"><strong>WorkSpot.JP</strong></a>&nbsp;
+      </p>
+      </td>
+      <td width="6">&nbsp;</td>
+      <td width="100"><a href="../../serv/index.php"><img src="../common/img/bar_ser.gif" width="100" height="30" border="0" alt="Service（業務内容） （写真：デビルズタワー国定公園、アメリカ）"></a></td>
+      <td width="100"><a href="../../expc/index.php"><img src="../common/img/bar_exp.gif" width="100" height="30" border="0" alt="Experience（実績･経験）　（写真：紀伊半島にある筆薮滝）"></a></td>
+      <td width="100"><a href="../../prof/index.php"><img src="../common/img/bar_pro.gif" width="100" height="30" border="0" alt="Profile（経歴）　（写真：バッドランド国立公園、アメリカ）"></a></td>
+      <td width="100"><a href="../../tech/index.php"><img src="../common/img/bar_tec.gif" width="100" height="30" border="0" alt="Technology（技術）　（写真：東京フォーラム）"></a></td>
+    </tr>
+    <tr valign="top">
+      <td colspan="6" align="center" nowrap><span class="copyright">copyright (c) 2010-<?php echo date('Y'); ?> WorkSpot.JP</span></td>
+    </tr>
+  </table>
+</div>
+</body>
+<!-- InstanceEnd --></html>
