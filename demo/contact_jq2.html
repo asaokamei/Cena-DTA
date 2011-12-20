@@ -32,21 +32,24 @@
 <script type="text/javascript" src="../cenaJs/jqCenaSql.js"></script>
 <script type="text/javascript">
 
+	// ----------------------------------------------------------------------------------
+	// save env_data to database
+	function downloadCena() {
+		$.getJSON( './contact_jq2.php', { view: "cena" },
+			function( env_data, status, jqXHR ) {
+				$()	.cenaSql()                   // start cenaSql. 
+					.cenaSql( 'clean' )          // drop table and create again. 
+					.cenaSql( 'add', env_data )  // add data to Sql db.
+				;
+		});
+		location.href='contact_jq3.html';
+	}
+    
 $().ready( function () {
 	// ----------------------------------------------------------------------------------
 	// new with jQuery plug-ins
-	$().cena( 'message', 'Downloading data...' );
+	$().cena( 'message', 'waiting for downloading data...' );
 	
-	// ----------------------------------------------------------------------------------
-	// save env_data to database
-    $.getJSON( './contact_jq2.php', { view: "cena" },
-        function( env_data, status, jqXHR ) {
-            $()	.cenaSql()                   // start cenaSql. 
-                .cenaSql( 'clean' )          // drop table and create again. 
-                .cenaSql( 'add', env_data )  // add data to Sql db.
-            ;
-    });
-    
 	var types = {
 		contact_offset: 'int',
 		contact_limit:  'int',
@@ -100,21 +103,20 @@ $().ready( function () {
 <h1><span class="bread"><a href="../index.php">Cena-DTA</a>:: <a href="index.php">Contact Demo</a>:: contact_jq</span>Download Data (JSON download) </h1>
 <div style="width:600px; ">
     <div id="cena_msg">
-      <p>&nbsp;      </p>
+      <p>download data from main server by clicking the button below...</p>
+      <p>&nbsp;       </p>
       <p align="center">
-        <input type="button" name="top2" value="List of Contacts" onClick="location.href='contact_jq3.html'">
+        <input type="button" name="top2" value="Download Data" onClick="javascript:downloadCena();">
       </p>
       <p>&nbsp; </p>
     </div>
-  <p>please check <a href="contact_jq3.html">download data in contact list</a>. </p>
+  <p>&nbsp;</p>
     <p>&nbsp;
-      </p>
+    </p>
     <p align="center"></p>
     <div id="cena_debug"></div>
   </div>
-  <p>
-    <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_jq3.html'">
-  </p>
+  <p>&nbsp;</p>
   <!-- InstanceEndEditable --></div>
 <div id="footer">
   <table  border="0" align="center" cellpadding="0" cellspacing="0">
