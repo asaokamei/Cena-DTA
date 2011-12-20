@@ -2,7 +2,7 @@
 //define( 'WORDY', 2 );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.pgg_JPN.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.msg_box.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.page_mc.php' );
+require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Control.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Form.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Record.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Cena/Record.php' );
@@ -16,24 +16,20 @@ use CenaDta\Dba as orm;
 use CenaDta\Cena as cena;
 
 //Cena::useEnvelope();
-$page = new page_MC();
+$page = new CenaDta\Html\Control();
 $dao  = 'dao_contact100';
 
-$page	->addData(    'dao', $dao )
+$page	->add(    'dao', $dao )
 		->setDefault( 'get_page',               '一覧表示' )
-		->setAct(     'edit_records',  'edit',  '修正する' )
-		->setAct(     'check_records', 'check', '内容を確認する' )
-		->setAct(     'new_records',   'new',   '新規登録する' )
-		->setAct(     'done_records',  'done',  '内容を反映する' )
 ;
 
-$page->main();
-extract( $page->data() );
+$page->action();
+extract( $page->get() );
 
 // +-----------------------------------------------------------+
 function get_page( $page, $method )
 {
-	$page->getData( 'dao', $dao );
+	$page->get( 'dao', $dao );
 	cena\Cena::pushEnvelope();
 	cena\Cena::setRelation();
 	
@@ -53,10 +49,22 @@ function get_page( $page, $method )
 	cena\Cena::getCenaByRec( $records );
 	
 	$env_data = cena\Envelope::popEnvJsData();
-	$page->addData( 'env_data', $env_data );
-	$page->addData( 'html_type', 'NAME' );
-	$page->setNext( 'edit' );
+	$page->add( 'env_data', $env_data );
+	$page->add( 'html_type', 'NAME' );
+	$page->nextAct( 'edit' );
+    if( isset( $_REQUEST[ 'view' ] ) && $_REQUEST[ 'view' ] == 'cena' ) {
+        $page->setView( 'cena' );
+    }
 	if( WORDY ) wt( $env_data, 'env_data' );
+}
+
+// +-----------------------------------------------------------+
+function cena( $page )
+{
+    $env_data = $page->get( 'env_data' );
+    header("Content-Type: application/json"); 
+    echo $env_data;
+    exit;
 }
 
 // +-----------------------------------------------------------+
@@ -170,8 +178,8 @@ $().ready( function () {
       <p>&nbsp; </p>
     </div>
   <p>please check <a href="contact_jq3.html">download data in contact list</a>. </p>
-    <p>
-      &nbsp;</p>
+    <p>&nbsp;
+      </p>
     <p align="center"></p>
     <div id="cena_debug"></div>
   </div>
