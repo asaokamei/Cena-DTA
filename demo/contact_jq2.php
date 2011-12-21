@@ -71,7 +71,7 @@ function cena( $page )
 
 ?>
 
-<!DOCTYPE html><html lange="en"><!-- InstanceBegin template="/Templates/cenaDta.dwt.php" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html><html lang="en"><!-- InstanceBegin template="/Templates/cenaDta.dwt.php" codeOutsideHTMLIsLocked="false" -->
 <!-- DW6 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
