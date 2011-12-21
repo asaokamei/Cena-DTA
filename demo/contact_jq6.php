@@ -97,8 +97,6 @@ function check_records( $page, $method )
 .style1 {color: #FF6600}
 -->
 </style>
-
-<title>ワークスポット･ジェーピー</title>
 <!-- InstanceEndEditable -->
 </head>
 <body>
