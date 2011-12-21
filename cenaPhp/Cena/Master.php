@@ -455,6 +455,16 @@ class Cena
 		if( WORDY ) wt( $cena_recs, 'cena recs' );
 		return $num_err;
 	}
+	// +-----------------------------------------------------------+
+    function proc_env( $env, &$doAct=NULL, &$do_models=NULL )
+    {
+        if( !is_array( $env ) ) {
+            $env = json_decode( $env, TRUE );
+        }
+        foreach( $env as $cena ) {
+            wordy_table( $cena, 'cena' );
+        }
+    }
 	// +--------------------------------------------------------------- +
 }
 

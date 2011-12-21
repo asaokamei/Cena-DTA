@@ -2,7 +2,6 @@
 //define( 'WORDY', 4 );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.pgg_JPN.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Control.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.page_mc.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Form.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Record.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Cena/Record.php' );
@@ -39,6 +38,7 @@ function cena_env( $page, $method )
 {
     $cena = $_REQUEST[ 'cena' ];
     echo $cena;
+    cena\Cena::proc_env( $cena );
     exit;
 }
 
