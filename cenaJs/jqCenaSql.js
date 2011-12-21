@@ -161,6 +161,19 @@
 			cenaSqlUpload( cenaUploadSqlOption, callback );
 		},
 		// +------------------------------------------------------+
+        /**
+         * sync: get data for synchronizing local data with master 
+         * database. only uploading local data is implemented.
+         * 
+         * @param function callback
+         *     callback function f( data ) where data is a 
+         *     cena envelope json object.
+         * @return this
+         */
+        sync : function( callback ) {
+            
+        },
+		// +------------------------------------------------------+
 		/**
          *  child: reads child data from db for a given cena_id,
          *	and bind using cena( 'bind' ). uses cenaSqlSelect...
@@ -195,6 +208,29 @@
 			$.error( 'Method ' + method + ' does not exist on jQuery.cena' );
 		}
 	};
+	// +-------------------------------------------------+
+    /**
+     * cenaSqlSyncUp:
+     * reads data for upload, and returns cena envelope
+     * data to callback function
+     */
+	var cenaSqlSyncUp = function( callback )
+	{
+		$().cena( 'debug', 'cenaSqlSyncUp started' );
+		db.transaction( function(tx) {
+			tx.executeSql( 
+				"SELECT * FROM cena_env WHERE state IN ( 'updated', 'new' )", 
+				[],
+				function( tx, rs ) {
+					cenaSqlFormEnvData( rs, {}, env_data );
+					uploadCallBack( env_data );
+				},
+				function( tx, err ) {
+					cenaSqlExecutionFail( 'cenaSqlUpload', err );
+				}
+			);
+		});
+    }
 	// +-------------------------------------------------+
     /**
      *  cenaSqlUpload:
