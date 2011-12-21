@@ -159,6 +159,7 @@
         upload : function( callback ) {
             var cenaUploadSqlOption = $.extend( {}, cenaSqlOptions );
             cenaSqlUpload( cenaUploadSqlOption, callback );
+            return this;
         },
         // +------------------------------------------------------+
         /**
@@ -171,7 +172,8 @@
          * @return this
          */
         sync : function( callback ) {
-
+            cenaSqlSyncUp( callback );
+            return this;
         },
         // +------------------------------------------------------+
         /**
@@ -217,6 +219,8 @@
     var cenaSqlSyncUp = function( callback )
     {
         $().cena( 'debug', 'cenaSqlSyncUp started' );
+        var uploadCallBack = callback;
+        var env_data = [];
         db.transaction( function(tx) {
             tx.executeSql( 
                 "SELECT * FROM cena_env WHERE state IN ( 'updated', 'new' )", 
