@@ -38,7 +38,7 @@ function cena_env( $page, $method )
 {
     $cena = $_REQUEST[ 'cena' ];
     echo $cena;
-    cena\Cena::proc_env( $cena );
+    cena\Cena::proc_env( $cena, 'doAction' );
     exit;
 }
 

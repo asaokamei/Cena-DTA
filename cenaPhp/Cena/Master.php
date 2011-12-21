@@ -456,13 +456,32 @@ class Cena
         return $num_err;
     }
     // +-----------------------------------------------------------+
-    function proc_env( $env, &$doAct=NULL, &$do_models=NULL )
+    function proc_env( $env, $doAct=NULL, &$do_models=NULL )
     {
         if( !is_array( $env ) ) {
             $env = json_decode( $env, TRUE );
         }
-        foreach( $env as $cena ) {
-            wordy_table( $cena, 'cena' );
+        /**
+         * properties to process. 
+         * there are many other data in cena_env like cena_id, id, etc.
+         */
+        $process = array( 'prop', 'link' );
+        foreach( $env as $info ) {
+            $cena = Cena::getCenaByCenaId( $info[ 'cena_id' ] );
+            $actions = array();
+            foreach( $process as $name ) {
+                $actions[ $name ] = $info[ $name ];
+            }
+            wordy_table( $cena, 'cena object' );
+            $cena->manipulate( $actions );
+            try {
+                if( have_value( $doAct ) ) 
+                $cena->do_function( $doAct );
+            } 
+            catch( orm\DataInvalid_DbaRecord_Exception $e ) {
+                $num_err ++;
+            }
+            wordy_table( $cena, 'cena object' );
         }
     }
     // +--------------------------------------------------------------- +
