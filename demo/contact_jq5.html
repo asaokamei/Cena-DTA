@@ -20,21 +20,26 @@
 <script type="text/javascript">
 
 $().ready( function () {
-	// +---------------------------------------------------------+
-	// new with jQuery plug-ins
-	$().cena( 'message', 'jqCena, jQuery PlugIn <br />' );
-	
-	// +---------------------------------------------------------+
+    // +---------------------------------------------------------+
+    // new with jQuery plug-ins
+    $().cena( 'message', 'jqCena, jQuery PlugIn <br />' );
+
+    // +---------------------------------------------------------+
     /**
      * uploading cena envelope data to server.
      */
-	var upload = function( env_data ) {
-        $.post( './contact_jq6.php', {post:"cena"}, 
-            function( data, status, jqXHR ){
-                
-        })
-	};
-	// +---------------------------------------------------------+
+    var upload = function( env_data ) {
+        $() .cenaSql()
+            .cenaSql( 'sync', function( data ) {
+                $.post( './contact_jq6.php', {act:"cena", cena:JSON.stringify(data)}, 
+                    function( data, status, jqXHR ){
+                        $( '#cena_msg').html( '<b>Returned from server:</b><br/>' );
+                        $().cena( 'message', data );
+            })
+        });
+    };
+    $( '#uploadButton' ).click( upload );
+    // +---------------------------------------------------------+
     /**
      * showing the envelope data before upload
      */
@@ -42,12 +47,11 @@ $().ready( function () {
         $().cena( 'message', 'Cena Envelope data to Upload:' );
         $( '#upFormPost' ).val( JSON.stringify( env_data ) );
     }
-    $( '#uploadButton' ).click( upload );
-	$()	.cenaSql()
-		.cenaSql( 'sync', show_data )
-	;
-	// +---------------------------------------------------------+
-	
+    $() .cenaSql()
+        .cenaSql( 'sync', show_data )
+    ;
+    // +---------------------------------------------------------+
+
 }); // 
 </script>
 <style type="text/css">
