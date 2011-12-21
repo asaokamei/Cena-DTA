@@ -101,12 +101,12 @@ class Control
 			$view = $method[2];
 			if( WORDY ) wordy_table( $method, "executing:{$func}:".$this->getCurrTitle() );
 			if( !have_value( $func ) ) {
-				throw new PageMc_Exception( 
+				throw new \RuntimeException( 
 					"no function is set, arg={$method{1}}, act={$method{2}}" );
 			}
 			if( !is_callable( $func ) ) {
-				throw new PageMc_Exception( 
-					"function is not callable, arg={$method{1}}, act={$method{2}}" );
+				throw new \RuntimeException( 
+					"function is not callable, arg={$method{1}}, act={$method{2}}, funct={$func}" );
 			}
 			$this->curr_act = $act;
 			$this->view     = $view;
