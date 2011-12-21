@@ -1,7 +1,7 @@
 <?php
 //define( 'WORDY', 4 );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.pgg_JPN.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.msg_box.php' );
+require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Control.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.page_mc.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Form.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Record.php' );
@@ -16,16 +16,17 @@ use CenaDta\Dba as orm;
 use CenaDta\Cena as cena;
 
 //Cena::useEnvelope();
-$page = new page_MC();
+$page = new CenaDta\Html\Control();
 
 $page	->setDefault( 'none',               'none' )
-		->setAct(  'check_records', 'check', 'Confirm Upload' )
-		->setAct(  'done_records',  'done',  'Save Upload' )
-		->setAct(  'goto_download', 'down',  'Download Data' )
+		->setAction(  'check', 'check_records', 'Confirm Upload' )
+		->setAction(  'done',  'done_records',  'Save Upload' )
+		->setAction(  'down',  'goto_download', 'Download Data' )
+        ->setAction(  'cena',  'cena_env',      'Cena Envelope' )
 ;
 
-$page->main();
-extract( $page->data() );
+$page->action();
+extract( $page->get() );
 
 // +-----------------------------------------------------------+
 function goto_download( $page, $method )
@@ -34,42 +35,48 @@ function goto_download( $page, $method )
 }
 
 // +-----------------------------------------------------------+
+function cena_env( $page, $method )
+{
+    $cena = $_REQUEST[ 'cena' ];
+    echo $cena;
+    exit;
+}
+
+// +-----------------------------------------------------------+
 function done_records( $page, $method )
 {
-	$page->getData( 'dao', $dao );
 	$num_err     = 0;
 	cena\Cena::set_models( array( 'dao_contact100', 'dao_contact110' ) );
 	
 	cena\Cena::do_cena( $cenas, 'doAction' );
 	
-	$page->addData( 'rec100', $cenas[ 'dao_contact100' ] );
-	$page->addData( 'rec110', $cenas[ 'dao_contact110' ] );
+	$page->add( 'rec100', $cenas[ 'dao_contact100' ] );
+	$page->add( 'rec110', $cenas[ 'dao_contact110' ] );
 	if( $num_err ) {
-		$page->addData( 'html_type', 'EDIT' );
-		$page->setNext( 'check' );
+		$page->add( 'html_type', 'EDIT' );
+		$page->nextAct( 'check' );
 	}
 	else {
 		$page->addData( 'html_type', 'NAME' );
-		$page->setNext( 'down' ); // to default
+		$page->nextAct( 'down' ); // to default
 	}
 }
 
 // +-----------------------------------------------------------+
 function check_records( $page, $method )
 {
-	$page->getData( 'dao', $dao );
 	$num_err = cena\Cena::do_cena( $cenas, 'doValidate' );
 	
-	$page->addData( 'rec100', $cenas[ 'dao_contact100' ] );
-	$page->addData( 'rec110', $cenas[ 'dao_contact110' ] );
+	$page->add( 'rec100', $cenas[ 'dao_contact100' ] );
+	$page->add( 'rec110', $cenas[ 'dao_contact110' ] );
 
 	if( $num_err ) {
-		$page->addData( 'html_type', 'EDIT' );
-		$page->setNext( 'check' );
+		$page->add( 'html_type', 'EDIT' );
+		$page->nextAct( 'check' );
 	}
 	else {
-		$page->addData( 'html_type', 'PASS' );
-		$page->setNext( 'done' );
+		$page->add( 'html_type', 'PASS' );
+		$page->nextAct( 'done' );
 	}
 }
 
@@ -164,8 +171,8 @@ function check_records( $page, $method )
     </table>
     <p>
       &nbsp;</p>
-    <p align="center"> <?php echo $page->getNextActHiddenTag(); ?>
-      <input type="submit" name="Submit" value="<?php echo $page->getButtonTitle(); ?>">
+    <p align="center"> <?php echo $page->savePost(); ?>
+      <input type="submit" name="Submit" value="<?php echo $page->getNextTitle(); ?>">
     </p>
     </form>
     <div id="cena_msg"></div>
