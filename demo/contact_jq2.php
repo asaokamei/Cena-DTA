@@ -1,7 +1,7 @@
 <?php
 //define( 'WORDY', 2 );
+error_reporting( E_ALL ^ E_NOTICE );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.pgg_JPN.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.msg_box.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Control.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Form.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Record.php' );
