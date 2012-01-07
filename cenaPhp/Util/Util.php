@@ -1,5 +1,5 @@
 <?php
-namespace CenaDTA\Util;
+namespace CenaDta\Util;
 /**
  * Util class
  * utility class for Cena-DTA project. 
@@ -54,7 +54,22 @@ class Util
         if( is_array( $value ) ) {
             return array_walk_recursive( $value, $func );
         }
-        return $func( $value, NULL );
+        return $func( $value );
+    }
+    // +--------------------------------------------------------------- +
+    /**
+     * recursively encode html string using htmlSafe.
+     * @static
+     * @param mix $html    html string/array to encode.
+     * @return mix         encoded html.
+     */
+    static function html( $html ) {
+        $htmlSafe = function( &$s ){
+            $s = htmlspecialchars( $s, ENT_QUOTES, 'UTF-8' );
+            return TRUE;
+        };
+        self::arrayWalk( $html, $htmlSafe );
+        return $html;
     }
     // +--------------------------------------------------------------- +
     /**

@@ -102,6 +102,20 @@ class Util_UtilTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(  Util::isValue( $data, 'test' ) );
         
 	}
+    // +----------------------------------------------------------------------+
+    function test_htmlStaff() {
+        $html = '<b>bold</b>';
+        $safe = htmlspecialchars( $html, ENT_QUOTES, 'UTF-8' );
+
+        $result = Util::html( $html );
+        $this->assertEquals( $safe, $result );
+
+        $dhtml = array( $html, $html );
+        $dsafe = array( $safe, $safe );
+        $result = Util::html( $dhtml );
+        $this->assertEquals( $dsafe, $result );
+
+    }
 	// +----------------------------------------------------------------------+
 }
 
