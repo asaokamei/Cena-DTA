@@ -95,10 +95,11 @@ class Dao extends Sql
      */
 	var $throwException = TRUE;         // throws exception or not
 	// +--------------------------------------------------------------- +
-	/** constructor for data access object. 
-	 *	@param string $config
-	 *		config file name for Sql.
-	 */
+    /** constructor for data access object.
+     * @param string $config
+     *        config file name for Sql.
+     * @param null $table
+     */
     function __construct( $config=NULL, $table=NULL ) {
 		// set table, etc. 
 		parent::__construct( $config );

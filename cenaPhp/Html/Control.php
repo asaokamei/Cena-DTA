@@ -352,15 +352,15 @@ class Control
 		return $this;
 	}
 	// +-------------------------------------------------------------+
-	/**
-	 *	get data from Control instance. 
-	 *
-	 *	@param	string $name
-	 *		specify name of value to get. 
-	 *		if omitted, returns all of data.
-	 *	@return mix
-	 *		returns data. 
-	 */
+    /**
+     *    get data from Control instance.
+     *
+     * @internal param string
+     *        $name specify name of value to get.
+     *        if omitted, returns all of data.
+     * @return mix
+     *        returns data.
+     */
 	function get() {
 		$num = func_num_args();
 		if( $num > 0 ) { 
