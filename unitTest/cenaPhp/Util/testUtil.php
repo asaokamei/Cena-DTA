@@ -1,7 +1,7 @@
 <?php
 use CenaDTA\Util\Util as Util;
 error_reporting( E_ALL );
-require_once(dirname(__FILE__) . "/../../cenaPhp/Util/Util.php");
+require_once(dirname(__FILE__) . "/../../../cenaPhp/Util/Util.php");
 define( 'WORDY', 0 );
 
 /**
