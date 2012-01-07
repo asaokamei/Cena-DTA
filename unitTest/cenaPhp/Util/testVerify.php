@@ -1,7 +1,7 @@
 <?php
 use CenaDTA\Util\Verify as Verify;
 error_reporting( E_ALL );
-require_once( dirname( __FILE__ ) . "/../../cenaPhp/Util/Verify.php" );
+require_once(dirname(__FILE__) . "/../../cenaPhp/Util/Verify.php");
 define( 'WORDY', 0 );
 
 /**

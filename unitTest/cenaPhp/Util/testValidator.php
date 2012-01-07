@@ -1,6 +1,6 @@
 <?php
 error_reporting( E_ALL );
-require_once( dirname( __FILE__ ) . "/../../cenaPhp/Util/Validator.php" );
+require_once(dirname(__FILE__) . "/../../cenaPhp/Util/Validator.php");
 use CenaDTA\Util\Validator as Validator;
 define( 'WORDY', 0 );
 
