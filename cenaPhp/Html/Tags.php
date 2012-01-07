@@ -7,6 +7,7 @@ namespace CenaDta\Html;
  * @link          http://www.workspot.jp/cena/
  * @license       GPLv2
  */
+require_once( dirname( __FILE__ ) . '/../Util/Util.php' );
 require_once( dirname( __FILE__ ) . '/Prop.php' );
 
 // +----------------------------------------------------------------------+
@@ -53,11 +54,11 @@ class Tags
      * @return string            formated tag name. 
      */
     static function getVarName( $var_name ) {
-		if( have_value( self::$var_format ) ) {
+		if( \CenaDta\Util\Util::isValue( self::$var_format ) ) {
 			return sprintf( self::$var_format, $var_name );
 		}
 		else
-		if( have_value( self::$var_footer ) ) {
+		if( \CenaDta\Util\Util::isValue( self::$var_footer ) ) {
 			return $var_name . self::$var_footer;
 		}
 		return $var_name;
@@ -82,7 +83,7 @@ class Tags
      * @return Tags                tag's name
      */
     static function setCenaTerm( $cena_term ) {
-		if( have_value( $cena_term ) ) {
+		if( \CenaDta\Util\Util::isValue( $cena_term ) ) {
 			self::$var_format = $cena_term . '[%s]';
 		}
 		else {
@@ -207,7 +208,7 @@ class Tags
     static function inputType( $type, $var_name, $option )
     {
 		if( WORDY > 3 ) wt( $option, "htmlText( $type, $var_name, ... )<br>" );
-		if( !have_value( $var_name ) ) return FALSE;
+		if( !\CenaDta\Util\Util::isValue( $var_name ) ) return FALSE;
 		$default  = array( 
 			'type'  => $type,
 			'name'  => self::getVarName( $var_name ), 
@@ -265,7 +266,7 @@ class Tags
     static function textArea( $var_name, $text=NULL, $option=array() )
     {
 		if( WORDY > 3 ) echo "htmlTextArea( $var_name, $text )<br>";
-		if( !have_value( $var_name ) ) return FALSE;
+		if( !\CenaDta\Util\Util::isValue( $var_name ) ) return FALSE;
 		self::safe( $text );
 		self::changeOption( $option, 'width',  'cols' );
 		self::changeOption( $option, 'height', 'rows' );
@@ -289,7 +290,7 @@ class Tags
      */
     static function inputRadio( $var_name, $val, $option=array() )
     {
-		if( !have_value( $var_name ) ) return FALSE;
+		if( !\CenaDta\Util\Util::isValue( $var_name ) ) return FALSE;
 		$id_name  = self::getIdName( $var_name );
 		$id       = "{$id_name}_{$val}";
 		$default  = array( 
@@ -313,7 +314,7 @@ class Tags
      */
     static function inputCheck( $var_name, $val, $option=array() )
     {
-		if( !have_value( $var_name ) ) return FALSE;
+		if( !\CenaDta\Util\Util::isValue( $var_name ) ) return FALSE;
 		$id_name  = self::getIdName( $var_name );
 		$id       = "{$id_name}_{$val}";
 		$default  = array( 
@@ -407,7 +408,7 @@ class Tags
         $prev_label = NULL;
 		$html       = '';
 		$html_group = ''; // html when optgroup is used
-        if( have_value( $head ) ) { // adding head option.
+        if( \CenaDta\Util\Util::isValue( $head ) ) { // adding head option.
 			$html .=  self::makeTag( "option", $head, array( 'value'=>'' ), "\n" );
 		}
         for( $i = 0; isset( $items[$i][0] ); $i++ )
@@ -417,7 +418,7 @@ class Tags
 			self::safe( $text );
 			if( isset( $items[$i][2] ) ) $label = $items[$i][2]; else $label = NULL;
 			
-			if( have_value( $label ) && $label != $prev_label &&!is_null( $prev_label ) ) {
+			if( \CenaDta\Util\Util::isValue( $label ) && $label != $prev_label &&!is_null( $prev_label ) ) {
 				$grp_opt     = array( 'label' => $label );
 				$html_group .= self::makeTag( 'optgroup', $html, $grp_opt, "\n" );
 				$html  = "";
@@ -536,7 +537,7 @@ class Tags
 		if( empty( $items ) ) return FALSE;
 		$html  = '';
 		$count = 0;
-		if( have_value( $header ) ) {
+		if( \CenaDta\Util\Util::isValue( $header ) ) {
 			$html = self::$method( $var_name, '', $option );
 			$count ++;
 		}

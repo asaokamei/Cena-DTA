@@ -1,6 +1,6 @@
 <?php
 ob_start();
-require_once( dirname( __FILE__ ) . "/../../../cenaPhp/class/class.ext_func.php" );
+if( !defined( 'WORDY' ) ) define( 'WORDY', FALSE );
 require_once( dirname( __FILE__ ) . "/../../../cenaPhp/Html/Prop.php" );
 use CenaDta\Html as html;
 

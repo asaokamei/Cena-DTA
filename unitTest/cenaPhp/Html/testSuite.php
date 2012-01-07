@@ -1,4 +1,5 @@
 <?php
+if( !defined( 'WORDY' ) ) define( 'WORDY', FALSE );
 
 class htmlSuiteTests
 {

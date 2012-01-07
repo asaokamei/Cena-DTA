@@ -1,6 +1,6 @@
 <?php
 ob_start();
-require_once( dirname( __FILE__ ) . "/../../../cenaPhp/class/class.ext_func.php" );
+if( !defined( 'WORDY' ) ) define( 'WORDY', FALSE );
 require_once( dirname( __FILE__ ) . "/../../../cenaPhp/Html/Prop.php" );
 require_once( dirname( __FILE__ ) . "/../../../cenaPhp/Html/Tags.php" );
 use CenaDta\Html as html;
@@ -45,7 +45,7 @@ class HtmlTagsTest extends PHPUnit_Framework_TestCase
 		
 		$name = 'input_text';
 		$text = 'input<strong>text</strong>';
-		$safe = html_safe( $text );
+		$safe = \CenaDta\Util\Util::html( $text );
 		$size = 31;
 		$max  = 32;
 		$option = array(
@@ -123,7 +123,7 @@ class HtmlTagsTest extends PHPUnit_Framework_TestCase
 		
 		$name   = 'input_area';
 		$text   = 'inputTArea<strong>text</strong>';
-		$safe   = html_safe( $text );
+		$safe   = \CenaDta\Util\Util::html( $text );
 		$width  = 26;
 		$height = 3;
 		$option = array(
@@ -149,7 +149,7 @@ class HtmlTagsTest extends PHPUnit_Framework_TestCase
 		
 		$name   = 'input_hidden';
 		$text   = 'inputHidden<strong>text</strong>';
-		$safe   = html_safe( $text );
+		$safe   = \CenaDta\Util\Util::html( $text );
 		$elem = html\Tags::inputHidden( $name, $text );
 		$this->assertContains( "type=\"hidden\"",    $elem );
 		$this->assertContains( "name=\"{$name}\"",   $elem );

@@ -1,6 +1,6 @@
 <?php
 ob_start();
-require_once( dirname( __FILE__ ) . "/../../../cenaPhp/class/class.ext_func.php" );
+if( !defined( 'WORDY' ) ) define( 'WORDY', FALSE );
 require_once( dirname( __FILE__ ) . "/../../../cenaPhp/Html/Form.php" );
 require_once( 'htmlTest.inc.php' );
 use CenaDta\Html as html;
@@ -131,7 +131,7 @@ class HtmlFormTest extends PHPUnit_Framework_TestCase
 		
 		$name = 'html_text';
 		$text = 'input<strong>text</strong>';
-		$safe = html_safe( $text );
+		$safe = \CenaDta\Util\Util::html( $text );
 		$size = 31;
 		$max  = 32;
 		$html = new html\formText( $name, $size, $max, 'OFF' );
@@ -170,8 +170,8 @@ class HtmlFormTest extends PHPUnit_Framework_TestCase
 		
 		$name   = 'input_area';
 		$text   = "input\nTArea<strong>text</strong>";
-		$safe   = html_safe( $text );
-		$disp   = nl2br( html_safe( $text ) );
+		$safe   = \CenaDta\Util\Util::html( $text );
+		$disp   = nl2br( \CenaDta\Util\Util::html( $text ) );
 		$nlbr   = nl2br( $text );
 		$width  = 26;
 		$height = 3;

@@ -19,7 +19,7 @@ class Form
     var $add_header = NULL;
 	
 	// filter functions in makeName 
-	var $make_name_funcs = array( 'html_safe' ); // default is html_safe.
+	var $make_name_funcs = array( '\CenaDta\Util\Util::html' ); // default is html_safe.
     
 	var $default_items=FALSE;
 	var $disable_list=FALSE;
@@ -132,7 +132,7 @@ class Form
 				break;
 			
 			case "NEW": // html element
-				if( !have_value( $value ) ) $value = $this->default_items;
+				if( !\CenaDta\Util\Util::isValue( $value ) ) $value = $this->default_items;
 				$ret_html = $this->makeHtml( $value );
 				break;
 			
@@ -153,7 +153,7 @@ class Form
     {
 		if( !empty( $this->make_name_funcs ) ) 
 		foreach( $this->make_name_funcs as $func ) {
-			$value = $func( $value );
+			$value = call_user_func( $func, $value );
 		}
 		return $value;
     }
@@ -177,7 +177,7 @@ class Form
 				$name = ''; // hide hidden value
 				break;
 			case 'SERIAL':
-				if( have_value( $value ) ) {
+				if( \CenaDta\Util\Util::isValue( $value ) ) {
 					$name = $value;
 				}
 				else {
@@ -191,7 +191,7 @@ class Form
 			
 			default:
 			case 'TEXT':
-				$name = html_safe( $value );
+				$name = \CenaDta\Util\Util::html( $value );
 				break;
 		}
 		return $name;
@@ -226,7 +226,7 @@ class Form
 				$count_items ++;
 			}
         }
-        if( !have_value( $name ) && $this->err_msg_empty   ) { $name = $this->err_msg_empty; }
+        if( !\CenaDta\Util\Util::isValue( $name ) && $this->err_msg_empty   ) { $name = $this->err_msg_empty; }
         
         return $name;
     }
@@ -279,13 +279,13 @@ class Form
 			
 			case 'TEXTAREA':
 				$html  = $this->getTextArea( $this->name, $this->width, $this->height, $value );
-				//if( have_value( $this->pickup_text ) ) $html .= $this->pickup_text( $this->name );
+				//if( \CenaDta\Util\Util::isValue( $this->pickup_text ) ) $html .= $this->pickup_text( $this->name );
 				break;
 			
 			default:
 			case 'TEXT':
 				$html  = $this->getText( $this->name, $this->size, $this->max, $value );
-				//if( have_value( $this->pickup_text ) ) $html .= $this->pickup_text( $this->name );
+				//if( \CenaDta\Util\Util::isValue( $this->pickup_text ) ) $html .= $this->pickup_text( $this->name );
 				break;
 		}
 		return $html;
@@ -295,7 +295,7 @@ class Form
     // +--------------------------------------------------------+
     function pickup_text()
     {
-		if( !have_value( $this->pickup_text ) ) {
+		if( !\CenaDta\Util\Util::isValue( $this->pickup_text ) ) {
 			return '';
 		}
 		else
@@ -304,7 +304,7 @@ class Form
 		}
 		$var_name = self::getIdName( $this->name );
 		if( WORDY > 3 ) wt( $this->pickup_text, "make_attach() for $id_name" );
-		if( !have_value( $this->pick_item_sep ) ) $this->pick_item_sep = ",&nbsp;";
+		if( !\CenaDta\Util\Util::isValue( $this->pick_item_sep ) ) $this->pick_item_sep = ",&nbsp;";
 		if( !isset(      $this->pick_copy_sep ) ) $this->pick_copy_sep = " ";
 		
 		$add_sep = FALSE;
@@ -324,7 +324,7 @@ class Form
 			else {
 				$add_sep = TRUE;
 			}
-			if( !have_value( $attach ) ) {
+			if( !\CenaDta\Util\Util::isValue( $attach ) ) {
 				$html .= '<br />';
 				$add_sep = FALSE;
 			}
@@ -535,7 +535,7 @@ class htmlDivText
 		if( in_array( $style, array( 'NEW', 'EDIT' ) ) ) 
 		{
 			$vals = array();
-			if( $style == 'NEW' && !have_value( $value ) ) {
+			if( $style == 'NEW' && !\CenaDta\Util\Util::isValue( $value ) ) {
 				$value = $this->default_items;
 			}
 			if( $value ) {
@@ -549,7 +549,7 @@ class htmlDivText
 				else {
 					$html = $this->d_forms[$i]->show( $style, NULL );
 				}
-				if( have_value( $html ) ) $forms[] = $html;
+				if( \CenaDta\Util\Util::isValue( $html ) ) $forms[] = $html;
 			}
 			if( $this->implode_with_div ) {
 				$ret_html = implode( $this->divider, $forms );
