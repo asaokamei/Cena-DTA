@@ -96,6 +96,11 @@ function my_exec( $cmd, $input='' )
             <li><a href="index.php?test=Util_testValidator">Validator test</a></li>
             <li><a href="index.php?test=Util_testVerify">Verify test</a></li>
         </ul>
+        <h2>test Htmls</h2>
+        <ul>
+            <li>[<a href="index.php?test=html_testSuite"><strong>Html{Prop|Tags|Form}.php</strong></a>] <br>
+                [<a href="index.php?test=html_testProp">Prop</a>] [<a href="index.php?test=html_testTags">Tags</a>] [<a href="index.php?test=html_testForm">Form</a>] </li>
+        </ul>
     </div>
 <p>
   <?php if( isset( $test ) ): ?>

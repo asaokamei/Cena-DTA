@@ -37,6 +37,7 @@
         <ul>
           <li class="list"><a href="cenaPhp/unit_test/index.php"><strong>unit test</strong> at cenaPhp</a><br>
           requires PHP5.3 and PHPUnit Framework. <br>
+              <a href="unitTest/cenaPhp/index.php">unitTest/cenaPhp</a>, should use this tests.
           </li>
           <li class="list"><a href="unitTest/cenaJs/index.php">jqCena* tests</a><br />
           jqCena and jqCenaSql unit tests using QUnit.          </li>
