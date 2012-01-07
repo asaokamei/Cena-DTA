@@ -1,8 +1,8 @@
 <?php
+error_reporting( E_ALL ^ E_NOTICE );
 //define( 'WORDY', 2 );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.pgg_JPN.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.msg_box.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.page_mc.php' );
+require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Control.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Form.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Record.php' );
 require_once( dirname( __FILE__ ) . '/../cenaPhp/Cena/Record.php' );
@@ -15,10 +15,10 @@ use CenaDta\Dba as orm;
 use CenaDta\Cena as cena;
 
 cena\Cena::useEnvelope();
-$page = new page_MC();
+$page = new CenaDTA\Html\Control();
 $dao  = 'dao_contact100';
 
-$page	->addData(    'dao', $dao )
+$page	->add(    'dao', $dao )
 		->setDefault( 'get_page',               '一覧表示' )
 		->setAct(     'edit_records',  'edit',  '修正する' )
 		->setAct(     'check_records', 'check', '内容を確認する' )
@@ -26,13 +26,13 @@ $page	->addData(    'dao', $dao )
 		->setAct(     'done_records',  'done',  '内容を反映する' )
 ;
 
-$page->main();
-extract( $page->data() );
+$page->action();
+extract( $page->get() );
 
 // +-----------------------------------------------------------+
 function get_page( $page, $method )
 {
-	$page->getData( 'dao', $dao );
+	$dao = $page->get( 'dao' );
 	$obj = $dao::getInstance();
 	
 	$opt = array( 'limit' => 4 );
@@ -46,10 +46,10 @@ function get_page( $page, $method )
 	foreach( $records as $rec ) {
 		$cenas[] = new cena\Record( $rec );
 	}
-	$page->addData( 'records', $cenas );
-	$page->addData( 'html_type', 'NAME' );
-	$page->addData( 'pn', $pn );
-	$page->setNext( 'edit' );
+	$page->add( 'records', $cenas );
+	$page->add( 'html_type', 'NAME' );
+	$page->add( 'pn', $pn );
+	$page->nextAct( 'edit' );
 	if( WORDY ) wt( $records, 'records' );
 }
 

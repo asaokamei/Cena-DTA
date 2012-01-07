@@ -179,6 +179,9 @@ class Control
 		$this->titles[ $act ] = $options[ 'title' ];
 		return $this;
 	}
+    function setAct( $func, $act, $title=NULL ) {
+        return $this->setAction( $act, $func, $title );
+    }
 	// +-------------------------------------------------------------+
 	/**
 	 *	set or get next_act. 
@@ -345,7 +348,7 @@ class Control
 		if( $num > 1 ) {
 			$this->data[ $arg[0] ] = $arg[1]; 
 		}
-		if( WORDY > 1 ) wordy_table( $this->data[ $name ], "addData: $name" );
+		if( WORDY > 1 ) @wordy_table( $this->data[ $name ], "addData: $name" );
 		return $this;
 	}
 	// +-------------------------------------------------------------+
