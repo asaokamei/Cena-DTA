@@ -98,8 +98,11 @@ function my_exec( $cmd, $input='' )
         </ul>
         <h2>test Htmls</h2>
         <ul>
-            <li>[<a href="index.php?test=html_testSuite"><strong>Html{Prop|Tags|Form}.php</strong></a>] <br>
-                [<a href="index.php?test=html_testProp">Prop</a>] [<a href="index.php?test=html_testTags">Tags</a>] [<a href="index.php?test=html_testForm">Form</a>] </li>
+            <li>[<a href="index.php?test=Html_testSuite"><strong>Html{Prop|Tags|Form}.php</strong></a>] <br>
+                [<a href="index.php?test=Html_testProp">Prop</a>]
+                [<a href="index.php?test=Html_testTags">Tags</a>]
+                [<a href="index.php?test=Html_testForm">Form</a>] </li>
+            <li><a href="index.php?test=Html_testControl">Control</a></li>
         </ul>
     </div>
 <p>
