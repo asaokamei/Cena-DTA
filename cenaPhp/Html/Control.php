@@ -1,11 +1,12 @@
 <?php
 namespace CenaDta\Html;
 /**
- *	A simple page controller class. 
+ * A simple page controller class.
  *
- *	@copyright     Copyright 2010-2011, Asao Kamei
- *	@link          http://www.workspot.jp/cena/
- *	@license       GPLv2
+ * @copyright     Copyright 2010-2011, Asao Kamei
+ * @link          http://www.workspot.jp/cena/
+ * @license       GPLv2
+ * TODO: Control class contains routing and view functions.
  */
 require_once( dirname( __FILE__ ) . '/../class/class.pgg_JPN.php' );
 
@@ -80,7 +81,6 @@ class Control
 	{
 		if( WORDY ) wordy_table( $this->method, 'Action::control' );
 		foreach( $this->methods as $method ) {
-			$func = $method[0];
 			$act  = $method[1];
 			if( isset( $_REQUEST[ $this->act_name ] ) && 
 				$act === $_REQUEST[ $this->act_name ] ) {
@@ -166,7 +166,7 @@ class Control
 	/**
 	 *	sets actions for given $act.
 	 */
-	function setAction( $act, $func, $options=array() ) {
+	function setAction( $act, $func, $options=NULL ) {
 		$default = array(
 			'title' => NULL,
 			'view'  => FALSE,
@@ -175,7 +175,7 @@ class Control
 			$options = array( 'title' => $options ); // for older style.
 		}
 		$options = array_merge( $default, $options );
-		$this->methods[] = array( $func, $act, $optoins[ 'view' ] ); 
+		$this->methods[] = array( $func, $act, $options[ 'view' ] );
 		$this->titles[ $act ] = $options[ 'title' ];
 		return $this;
 	}
@@ -346,9 +346,9 @@ class Control
 		}
 		else
 		if( $num > 1 ) {
-			$this->data[ $arg[0] ] = $arg[1]; 
+			$this->data[ $arg[0] ] = $arg[1];
+            if( WORDY > 1 ) @wordy_table( $this->data[ $arg[0] ], "addData: ".$arg[0] );
 		}
-		if( WORDY > 1 ) @wordy_table( $this->data[ $name ], "addData: $name" );
 		return $this;
 	}
 	// +-------------------------------------------------------------+
@@ -548,7 +548,7 @@ class Control
 			$tbl_class = 'tblMsg';
 			$tbl_msg   = 'メッセージ';
 		}
-		if( is_array( $opt ) ) extract( $opt );
+		if( is_array( $options ) ) extract( $options );
 		if( !isset( $width ) || !have_value( $width ) ) $width = '90%';
 		
 ?>
