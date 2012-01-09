@@ -87,7 +87,7 @@ class HtmlControlTest extends PHPUnit_Framework_TestCase
     /**
      * test add/set functions.
      */
-    function test_AddSet()
+    function test_SetGet()
     {
         $test = 'this is test';
         $this->ctrl->set( 'test', $test );
