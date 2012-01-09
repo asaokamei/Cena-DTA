@@ -60,6 +60,54 @@ class HtmlControlTest extends PHPUnit_Framework_TestCase
         $this->assertFalse( $this->ctrl->isDefault() );
         $this->assertEquals( $title_test1, $this->ctrl->getCurrTitle() );
     }
+    /**
+     * test add/get functions.
+     */
+    function test_AddGet()
+    {
+        $test = 'this is test';
+        $this->ctrl->add( 'test', $test );
+        $saved = $this->ctrl->get( 'test' );
+        $this->assertEquals( $test, $saved );
+
+        $test1 = 'this is test1';
+        $test2 = 'this is test2';
+        $more = array(
+            'test1' => $test1,
+            'test2' => $test2
+        );
+        $this->ctrl->add( $more );
+        $got  = $this->ctrl->get( 'test' );
+        $got1 = $this->ctrl->get( 'test1' );
+        $got2 = $this->ctrl->get( 'test2' );
+        $this->assertEquals( $test,  $got );
+        $this->assertEquals( $test1, $got1 );
+        $this->assertEquals( $test2, $got2 );
+    }
+    /**
+     * test add/set functions.
+     */
+    function test_AddSet()
+    {
+        $test = 'this is test';
+        $this->ctrl->set( 'test', $test );
+        $saved = $this->ctrl->get( 'test' );
+        $this->assertEquals( $test, $saved );
+
+        $test1 = 'this is test1';
+        $test2 = 'this is test2';
+        $more = array(
+            'test1' => $test1,
+            'test2' => $test2
+        );
+        $this->ctrl->set( $more );
+        $got  = $this->ctrl->get( 'test' );
+        $got1 = $this->ctrl->get( 'test1' );
+        $got2 = $this->ctrl->get( 'test2' );
+        $this->assertEquals( $test,  $got );
+        $this->assertEquals( $test1, $got1 );
+        $this->assertEquals( $test2, $got2 );
+    }
 }
 
 
