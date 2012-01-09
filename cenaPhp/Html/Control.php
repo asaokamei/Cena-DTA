@@ -9,6 +9,7 @@ namespace CenaDta\Html;
  * TODO: Control class contains routing and view functions.
  */
 require_once( dirname( __FILE__ ) . '/../class/class.pgg_JPN.php' );
+require_once( dirname( __FILE__ ) . '/../Util/Util.php' );
 
 class Control
 {
@@ -100,7 +101,7 @@ class Control
 			$act  = $method[1];
 			$view = $method[2];
 			if( WORDY ) wordy_table( $method, "executing:{$func}:".$this->getCurrTitle() );
-			if( !have_value( $func ) ) {
+			if( !\CenaDta\Util\Util::isValue( $func ) ) {
 				throw new \RuntimeException( 
 					"no function is set, arg={$method{1}}, act={$method{2}}" );
 			}
@@ -122,7 +123,7 @@ class Control
 	 *	view (execute a function or include a file). 
 	 */
 	function execView() {
-		if( !have_value( $this->view ) ) {
+		if( !\CenaDta\Util\Util::isValue( $this->view ) ) {
 			return;
 		}
 		if( is_callable( $this->view ) ) {
@@ -229,7 +230,7 @@ class Control
 	 *	get title of the next action. 
 	 */
 	function getNextTitle() {
-		if( have_value( $this->titles[ $this->next_act ] ) ) {
+		if( \CenaDta\Util\Util::isValue( $this->titles[ $this->next_act ] ) ) {
 			return $this->titles[ $this->next_act ];
 		}
 		return $this->default_title;
@@ -326,7 +327,7 @@ class Control
 	//  add/get methods for storing data into this instance.
 	// +-------------------------------------------------------------+
 	/**
-	 *	adds data to Control instace. 
+	 *	sets data to Control instace.
 	 *
 	 *	@param mix $data/$name	
 	 *		$data array is added.
@@ -336,7 +337,7 @@ class Control
 	 *	@return object
 	 *		returns $this. 
 	 */
-	function add() {
+	function set() {
 		$num = func_num_args();
 		$arg = func_get_args();
 		if( $num == 1 ) {
@@ -351,6 +352,12 @@ class Control
 		}
 		return $this;
 	}
+    // +-------------------------------------------------------------+
+    function add() {
+        // backward compatibility.
+        $arg = func_get_args();
+        return call_user_func_array( array( $this, 'set' ), $arg );
+    }
 	// +-------------------------------------------------------------+
     /**
      *    get data from Control instance.
@@ -531,7 +538,7 @@ class Control
 	 *	@param mix   	$options     from user input
 	 */
 	static function disp_message( $msg, $err_level, $options ) {
-		if( !have_value( $msg ) ) return;
+		if( !\CenaDta\Util\Util::isValue( $msg ) ) return;
 		
 		if( is_array( $msg ) ) $msg = implode( '<br />', $msg );
 		
@@ -549,7 +556,7 @@ class Control
 			$tbl_msg   = 'メッセージ';
 		}
 		if( is_array( $options ) ) extract( $options );
-		if( !isset( $width ) || !have_value( $width ) ) $width = '90%';
+		if( !isset( $width ) || !\CenaDta\Util\Util::isValue( $width ) ) $width = '90%';
 		
 ?>
 <br>
