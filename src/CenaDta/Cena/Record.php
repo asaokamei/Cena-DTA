@@ -10,8 +10,6 @@ namespace CenaDta\Cena;
 
 use CenaDta\Html as html;
 
-require_once( dirname( __FILE__ ) . '/Master.php' );
-
 class CenaRecord_Exception extends \Exception {}
 
 

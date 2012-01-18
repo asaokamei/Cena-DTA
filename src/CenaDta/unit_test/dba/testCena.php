@@ -2,7 +2,7 @@
 define( 'WORDY', 0 );
 require_once( dirname( __FILE__ ) . "/../../Html/Form.php" );
 require_once( dirname( __FILE__ ) . "/../../Dba/Record.php" );
-require_once( dirname( __FILE__ ) . "/../../Cena/Master.php" );
+require_once(dirname(__FILE__) . "/../../Cena/Cena.php");
 require_once( dirname( __FILE__ ) . "/../../Cena/Record.php" );
 require_once( dirname( __FILE__ ) . "/dbaTest.inc.php" );
 

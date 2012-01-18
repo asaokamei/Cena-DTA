@@ -1,7 +1,7 @@
 <?php
 error_reporting( E_ALL );
 require_once(dirname(__FILE__) . "/../../../cenaPhp/Util/Validator.php");
-use CenaDTA\Util\Validator as Validator;
+use CenaDta\Util\Validator as Validator;
 define( 'WORDY', 0 );
 
 class Util_ValidatorTest extends PHPUnit_Framework_TestCase
@@ -177,19 +177,19 @@ class Util_ValidatorTest extends PHPUnit_Framework_TestCase
 		// convert a text to upper case. 
 		$input  = 'a text';
 		$origin = $input;
-		$return = Validator::_applyFilter( $input, 'CenaDTA\Util\Filter::string', 'upper', $error );
+		$return = Validator::_applyFilter( $input, 'CenaDta\Util\Filter::string', 'upper', $error );
 		$this->assertTrue( $return );
 		$this->assertEquals( strtoupper( $origin ), $input );
 		
 		// verify a text is all lower case. 
 		$input  = 'a text';
-		$return = Validator::_applyFilter( $input, 'CenaDTA\Util\Filter::pattern', '[ a-z]*' );
+		$return = Validator::_applyFilter( $input, 'CenaDta\Util\Filter::pattern', '[ a-z]*' );
 		$this->assertTrue( $return );
 		
 		// verify a text is not all upper case. and check error message.
 		$input  = 'a text';
 		$err_msg= 'only upper case';
-		$return = Validator::_applyFilter( $input, 'CenaDTA\Util\Filter::pattern', '[A-Z]*', $error, $err_msg );
+		$return = Validator::_applyFilter( $input, 'CenaDta\Util\Filter::pattern', '[A-Z]*', $error, $err_msg );
 		$this->assertFalse( $return );
 		$this->assertEquals( $err_msg, $error );
 	}
@@ -301,10 +301,10 @@ class Util_ValidatorTest extends PHPUnit_Framework_TestCase
 		$input    = 'same as';
 		$same_str = $input;
 		$diff_str = 'diff-rent';
-		$return = Validator::_applyFilter( $input, 'CenaDTA\Util\Filter::sameas', $same_str, $error );
+		$return = Validator::_applyFilter( $input, 'CenaDta\Util\Filter::sameas', $same_str, $error );
 		$this->assertTrue( $return );
 		
-		$return = Validator::_applyFilter( $input, 'CenaDTA\Util\Filter::sameas', $diff_str, $error );
+		$return = Validator::_applyFilter( $input, 'CenaDta\Util\Filter::sameas', $diff_str, $error );
 		$this->assertFalse( $return );
 		
 		$return = Validator::validate( $input, 'asis', array(

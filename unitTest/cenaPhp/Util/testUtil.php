@@ -1,11 +1,11 @@
 <?php
-use CenaDTA\Util\Util as Util;
+use CenaDta\Util\Util as Util;
 error_reporting( E_ALL );
 require_once(dirname(__FILE__) . "/../../../cenaPhp/Util/Util.php");
 define( 'WORDY', 0 );
 
 /**
- * PHPUnit test for CenaDTA\Util\Util class.
+ * PHPUnit test for CenaDta\Util\Util class.
  */
 class Util_UtilTest extends PHPUnit_Framework_TestCase
 {

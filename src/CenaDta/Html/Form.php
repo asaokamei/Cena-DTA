@@ -7,8 +7,6 @@ namespace CenaDta\Html;
  *	@link          http://www.workspot.jp/cena/
  *	@license       GPLv2
  */
-require_once( dirname( __FILE__ ) . '/Prop.php' );
-require_once( dirname( __FILE__ ) . '/Tags.php' );
 
 // +----------------------------------------------------------------------+
 class Form 
@@ -487,310 +485,31 @@ END_OF_JQ;
     // +--------------------------------------------------------+
 }
 
-// +----------------------------------------------------------------------+
-class htmlDivText 
+// +--------------------------------------------------------+
+function _util_arg( $args, $setup )
 {
-	var $divider;
-	var $num_div;
-	var $d_forms = array();
-	var $default_items   = FALSE;
-	var $implode_with_div = TRUE;
-    // +--------------------------------------------------------+
-	function __construct( $name, $opt1=NULL, $opt2=NULL, $ime='ON', $option=NULL )
-	{
-		// example constructor.
-	}
-    // +--------------------------------------------------------+
-    function popHtml( $type="NAME", $values=NULL, $err_msgs=NULL )
+    if( empty( $args ) ) return array();
+    $num_args = count( $args );
+    $argument = array();
+    foreach( $setup as $list ) {
+        if( !isset( $list[1] ) ) $list[1] = FALSE;
+        $argument[ $list[0] ] = $list[1];
+    }
+    for( $i = 0; $i < $num_args; $i ++ )
     {
-		if( is_array( $values ) ) {
-			if( isset( $values[ $this->name ] ) ) {
-				$value = $values[ $this->name ];
-			}
-			else {
-				$value = NULL;
-			}
-		}
-		else {
-				$value = $values;
-		}
-		if( is_array( $err_msgs ) ) { 
-			if( isset( $err_msgs[ $this->name ] ) ) {
-				$err_msg = $err_msgs[ $this->name ];
-			}
-			else {
-				$err_msg = NULL;
-			}
-		}
-		else {
-			$err_msg = $err_msgs;
-		}
-		return $this->show( $type, $value ) . $err_msg;
+        if( is_array( $args[$i] ) ) {
+            $argument = array_merge( $argument, $args[$i] );
+        }
+        else
+            if( isset( $setup[$i] ) ) {
+                $key = $setup[$i][0];
+                $argument[ $key ] = $args[$i];
+            }
+            else {
+                $argument[] = $args[$i];
+            }
     }
-    // +--------------------------------------------------------+
-	function show( $style="NAME", $value=NULL )
-	{
-        if( WORDY > 3 ) echo "htmlDivText::show( $style, $value ) w/ {$this->divider} x {$this->num_div}<br>\n";
-		
-		if( in_array( $style, array( 'NEW', 'EDIT' ) ) ) 
-		{
-			$vals = array();
-			if( $style == 'NEW' && !\CenaDta\Util\Util::isValue( $value ) ) {
-				$value = $this->default_items;
-			}
-			if( $value ) {
-				$vals = $this->splitValue( $value );
-			}
-			$forms = array();
-			for( $i = 0; $i < $this->num_div; $i ++ ) {
-				if( isset( $vals[$i] ) ) {
-					$html = $this->d_forms[$i]->show( $style, $vals[$i] );
-				}
-				else {
-					$html = $this->d_forms[$i]->show( $style, NULL );
-				}
-				if( \CenaDta\Util\Util::isValue( $html ) ) $forms[] = $html;
-			}
-			if( $this->implode_with_div ) {
-				$ret_html = implode( $this->divider, $forms );
-			}
-			else {
-				$ret_html = implode( '', $forms );
-			}
-		}
-		else 
-		{
-			$ret_html = $this->makeName( $value );
-		}
-        return $ret_html;
-	}
-    // +--------------------------------------------------------+
-	function splitValue( $value )
-	{
-		// split value into each forms.
-		// overload this method if necessary. 
-		return explode( $this->divider, $value );
-	}
-    // +--------------------------------------------------------+
-	function makeName( $value )
-	{
-		// display input value (for style=NAME/DISP). 
-		// overload this method if necessary. 
-		return $value;
-	}
-    // +--------------------------------------------------------+
+    return $argument;
 }
+// +--------------------------------------------------------+
 
-// +----------------------------------------------------------------------+
-class formText extends Form
-{
-	var $style = 'TEXT';
-	var $size, $max;
-    /* -------------------------------------------------------- */
-	function __construct( $name )
-	{
-		if( WORDY > 3 ) echo "htmlText( $name )";
-		$setup = array(
-			0 => array( 'name' ),
-			1 => array( 'size',       40   ),
-			2 => array( 'maxlength',  NULL ),
-			3 => array( 'ime',       'ON'  ),
-		);
-		$args = _util_arg( func_get_args(), $setup );
-		$this->name   = $args[ 'name' ];
-		unset( $args[ 'name' ] );
-		$this->option = new Prop( $args );
-    }
-    // +--------------------------------------------------------+
-    function makeHtml( $value ) {
-		return Tags::inputText( $this->name, $value, $this->option->getOptions() );
-    }
-}
-
-    // +--------------------------------------------------------+
-	function _util_arg( $args, $setup )
-	{
-		if( empty( $args ) ) return array();
-		$num_args = count( $args );
-		$argument = array();
-		foreach( $setup as $list ) {
-			if( !isset( $list[1] ) ) $list[1] = FALSE;
-			$argument[ $list[0] ] = $list[1];
-		}
-		for( $i = 0; $i < $num_args; $i ++ ) 
-		{
-			if( is_array( $args[$i] ) ) {
-				$argument = array_merge( $argument, $args[$i] );
-			}
-			else
-			if( isset( $setup[$i] ) ) {
-				$key = $setup[$i][0];
-				$argument[ $key ] = $args[$i];
-			}
-			else {
-				$argument[] = $args[$i];
-			}
-		}
-		return $argument;
-	}
-    // +--------------------------------------------------------+
-
-// +----------------------------------------------------------------------+
-class formHidden extends Form
-{
-	var $style = 'HIDDEN';
-	var $size, $max;
-    /* -------------------------------------------------------- */
-	function __construct( $name )
-	{
-		if( WORDY > 3 ) echo "formHidden( $name, $option )";
-		$setup = array(
-			0 => array( 'name' ),
-		);
-		$args = Util::arg( func_get_args(), $setup );
-		$this->name   = $args[ 'name' ];
-    }
-    // +--------------------------------------------------------+
-    function makeHtml( $value ) {
-		return Tags::inputType( 'hidden', $this->name, $value, $this->option->getOptions() );
-    }
-}
-
-// +----------------------------------------------------------------------+
-class formTextArea extends Form
-{
-	var $style = 'TEXTAREA';
-	var $cols, $rows;
-    /* -------------------------------------------------------- */
-	function __construct( $name=NULL, $width=40, $height=5, $ime='ON', $option=NULL )
-	{
-		if( WORDY > 3 ) echo "htmlTextArea( $name, $width, $height, $ime, $option )";
-		$this->name   = $name;
-		$this->option = new Prop( array(
-			'cols'  => $width,
-			'rows'  => $height, 
-		) );
-		$this->option->setIme( $ime );
-		$this->make_name_funcs[] = 'nl2br';
-    }
-    // +--------------------------------------------------------+
-    function makeHtml( $value ) {
-		$option = $this->option->getOptions();
-		return Tags::textArea( $this->name, $value, $option );
-    }
-}
-
-// +----------------------------------------------------------------------+
-class formSelect extends Form
-{
-	var $style = 'SELECT';
-	var $size;
-    // +--------------------------------------------------------+
-    function makeName( $value ) {
-		return $this->makeNameItems( $value );
-    }
-    // +--------------------------------------------------------+
-    function makeHtml( $value ) 
-	{
-		if( isset( $this->option ) ) {
-			$option = $this->option->getOptions();
-		}
-		else {
-			$option = array();
-		}
-		return Tags::select( 
-			$this->name, 
-			$this->item_data, 
-			$this->add_head_option, 
-			$option,
-			$value,
-			$this->disable_list
-		);
-    }
-}
-
-// +----------------------------------------------------------------------+
-class formRadio extends Form
-{
-	var $style      = 'RADIO';
-	var $item_sep   = '&nbsp;';
-	var $item_chop  = 0;
-    // +--------------------------------------------------------+
-    function makeName( $value ) {
-		return $this->makeNameItems( $value );
-    }
-    // +--------------------------------------------------------+
-    function makeHtml( $value ) 
-	{
-		if( isset( $this->option ) ) {
-			$option = $this->option->getOptions();
-		}
-		else {
-			$option = array();
-		}
-		return Tags::listRadio(
-			$this->name, 
-			$this->item_data, 
-			$this->item_sep,
-			$this->item_chop,
-			$option,
-			$this->add_header, 
-			$value,
-			$this->disable_list
-		);
-    }
-}
-
-// +----------------------------------------------------------------------+
-class formRadioHor extends formRadio {
-	var $item_sep   = '&nbsp;';
-}
-
-// +----------------------------------------------------------------------+
-class formRadioVer extends formRadio {
-	var $item_sep   = '<br />\n';
-}
-
-// +----------------------------------------------------------------------+
-class formCheck extends Form
-{
-	var $style      = 'CHECK';
-	var $item_sep   = '&nbsp;';
-	var $item_chop  = 0;
-    // +--------------------------------------------------------+
-    function makeName( $value ) {
-		return $this->makeNameItems( $value );
-    }
-    // +--------------------------------------------------------+
-    function makeHtml( $value ) 
-	{
-		if( isset( $this->option ) ) {
-			$option = $this->option->getOptions();
-		}
-		else {
-			$option = array();
-		}
-		return Tags::listCheck(
-			$this->name, 
-			$this->item_data, 
-			$this->item_sep,
-			$this->item_chop,
-			$option,
-			$this->add_header, 
-			$value,
-			$this->disable_list
-		);
-    }
-}
-
-// +----------------------------------------------------------------------+
-class formCheckHor extends formCheck {
-	var $item_sep   = '&nbsp;';
-}
-
-// +----------------------------------------------------------------------+
-class formCheckVer extends formCheck {
-	var $item_sep   = '<br />\n';
-}
-
-?>

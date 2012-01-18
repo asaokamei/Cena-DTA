@@ -7,8 +7,6 @@ namespace CenaDta\Html;
  * @link          http://www.workspot.jp/cena/
  * @license       GPLv2
  */
-require_once( dirname( __FILE__ ) . '/../Util/Util.php' );
-require_once( dirname( __FILE__ ) . '/Prop.php' );
 
 // +----------------------------------------------------------------------+
 /**
