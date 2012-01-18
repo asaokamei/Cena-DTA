@@ -1,12 +1,7 @@
 <?php
 error_reporting( E_ALL ^ E_NOTICE );
 //define( 'WORDY', 2 );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.pgg_JPN.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Control.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Form.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Record.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Cena/Record.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Cena/Envelope.php' );
+require_once( dirname( __FILE__ ) . '/../src/CenaDta/class/class.pgg_JPN.php' );
 require_once( 'lib_contact_code.php' );
 require_once( 'dao.contact100.php' );
 require_once( 'setup_contact.php' );
@@ -15,7 +10,7 @@ use CenaDta\Dba as orm;
 use CenaDta\Cena as cena;
 
 cena\Cena::useEnvelope();
-$page = new CenaDTA\Html\Control();
+$page = new CenaDta\Html\Control();
 $dao  = 'dao_contact100';
 
 $page	->add(    'dao', $dao )

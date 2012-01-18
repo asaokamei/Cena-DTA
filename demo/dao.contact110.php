@@ -3,7 +3,6 @@
 // + コンタクトDAO
 // +----------------------------------------------------------------------+
 
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Model.php' );
 use CenaDta\Dba as orm;
 
 class dao_contact110 extends orm\Model

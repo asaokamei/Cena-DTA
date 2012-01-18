@@ -1,7 +1,6 @@
 <?php
 //define( 'WORDY', 4 );
-include( dirname( __FILE__ ) . '/../cenaPhp/class/class.msg_box.php' );
-include( dirname( __FILE__ ) . '/../cenaPhp/Dba/Sql.php' );
+require_once( dirname( __FILE__ ) . '/../src/CenaDta/class/class.msg_box.php' );
 include( 'setup_contact.php' );
 
 ?>

@@ -1,12 +1,7 @@
 <?php
 //define( 'WORDY', 4 );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.pgg_JPN.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.msg_box.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/class/class.page_mc.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Html/Form.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Dba/Record.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Cena/Record.php' );
-require_once( dirname( __FILE__ ) . '/../cenaPhp/Cena/Envelope.php' );
+require_once( dirname( __FILE__ ) . '/../src/CenaDta/class/class.pgg_JPN.php' );
+require_once( dirname( __FILE__ ) . '/../src/CenaDta/class/class.page_mc.php' );
 require_once( 'lib_contact_code.php' );
 require_once( 'dao.contact100.php' );
 require_once( 'dao.contact110.php' );
