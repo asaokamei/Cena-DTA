@@ -88,6 +88,7 @@ class viewContactHtml extends \AmidaMVC\Component\View
         ob_start();
         ob_implicit_flush(0);
         ?>
+    <div style="float: right;"><input type="button" value="Add New Contact" onclick="location.href='<?php echo static::$app_url; ?>detail/_new'"></div>
     <table width="100%">
         <thead>
         <tr>
