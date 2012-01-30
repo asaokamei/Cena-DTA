@@ -60,12 +60,23 @@ class appContact extends AmidaMVC\Component\Model
 
 class viewContact extends  \AmidaMVC\Component\View
 {
+    static $title = "";
+    static $app_url = '';
     // +-------------------------------------------------------------+
     static function _init(
         \AmidaMVC\Framework\Controller $ctrl,
         \AmidaMVC\Component\SiteObj &$siteObj  )
     {
-        
+        static::$app_url = $ctrl->getBaseUrl() . '/';
+        static::$title = '<title>Contact PHP Demo</title>' . 
+            '<p>pure and plain PHP demo. no JavaScript!</p>';
+    }
+    // +-------------------------------------------------------------+
+    static function makeContents( $content ) {
+        $content = static::$title . "<div class=\"contractView\">
+        {$content}
+        </div>";
+        return $content;
     }
     // +-------------------------------------------------------------+
     static function actionDefault(
@@ -73,7 +84,51 @@ class viewContact extends  \AmidaMVC\Component\View
         \AmidaMVC\Component\SiteObj &$siteObj,
         $viewData )
     {
-        Debug::bug( 'table', $viewData, 'view data @ default' );
+        $base_url = $ctrl->getBaseUrl();
+        extract( $viewData );
+        ob_start();
+        ob_clean();
+?>        
+        <table class="tblHover" width="100%">
+    <thead>
+    <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Gender</th>
+    <th>Type</th>
+    <th>Date</th>
+    <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    for( $i=0; $i<count( $records ); $i++ ) {
+    $rec = $records[ $i ];
+    ?>
+        <tr>
+          <td height="30"><?php echo $rec->getCenaId(); ?></td>
+          <td><?php echo $rec->popHtml( 'contact_name', $html_type ); ?></td>
+          <td align="center"><?php echo $rec->popHtml( 'contact_gender',  $html_type  ); ?></td>
+          <td align="center"><?php echo $rec->popHtml( 'contact_type',    $html_type  ); ?></td>
+          <td align="center"><?php echo $rec->popHtml( 'contact_date',    $html_type  ); ?></td>
+          <td align="center"><form name="form1" method="post" action="<?php echo static::$app_url; ?>contact_env2.php" style="margin:0px; padding:0px; ">
+            <?php echo $rec->popIdHidden(); ?>
+                    <input type="submit" name="Submit2" value="show">
+          </form>          </td>
+        </tr>
+        <?php } ?>
+      </tbody>
+  </table>
+  <p><?php if( $pn ) \CenaDta\Dba\pn_disp_all( $pn, static::$app_url . 'list' ); ?>&nbsp;</p>
+  <p align="center">&nbsp;</p>
+  </div>
+  <p>
+      <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_env1.php'">
+  </p>
+    <?php
+        $content = ob_get_contents();
+        ob_clean();
+        $siteObj->setContents( self::makeContents( $content ) );
     }
 }
 
