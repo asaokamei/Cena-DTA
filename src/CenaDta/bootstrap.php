@@ -22,8 +22,8 @@ function CenaDta_ClassLoader( $path=FALSE )
     );
     $args = $args + $default;
     if( !$args[ 'tip' ] ) {
-        $args[ 'tip' ] = substr( $path, strripos( $path, $args[ 'sep' ] ) + 1 );
-        $path = substr( $path, 0, strripos( $path, $args[ 'sep' ] ) );
+        $args[ 'tip' ] = substr( $path, strripos( $path, DIRECTORY_SEPARATOR ) + 1 );
+        $path = substr( $path, 0, strripos( $path, DIRECTORY_SEPARATOR ) );
     }
     $args[ 'path' ] = $path;
 
