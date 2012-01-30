@@ -14,6 +14,13 @@ $routes = array(
             'offset' => 0, 
             'limit' => 4 
         ),
+    '/detail/:id' =>
+        array(
+            'file' => '_App.php',
+            'action' => 'detail',
+            'offset' => 0,
+            'limit' => 4
+        ),
     '/list' =>
         array(
             'file' => '_App.php',
@@ -22,6 +29,7 @@ $routes = array(
             'limit' => 4
         ),
     '/:action' => array( 'file' => '_App.php', 'action' => 'default' ),
+    '/' => array( 'file' => '_App.php', 'action' => 'default' ),
 );
 
 AmidaMVC\Tools\Route::set( $routes );
