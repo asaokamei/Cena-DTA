@@ -102,8 +102,9 @@ class Model
 			$dao->setTableClass( $class );
 			return $dao;
 		}
+        // call _init before instantiate. 
         if( is_callable( array( $class, '_init' ) ) ) {
-            $class::_init();
+            call_user_func( array( $class, '_init' ) );
         }
 		if( !have_value( $config ) && have_value( $class::$config_name ) ) {
 			$config = $class::$config_name; 
