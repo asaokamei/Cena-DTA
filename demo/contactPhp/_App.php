@@ -3,10 +3,14 @@
  * Contract Only PHP demo. uses AmidaMVC.  
  */
 define( 'WORDY', FALSE );
+require_once( dirname( __FILE__ ) . '/../../src/CenaDta/class/class.pgg_JPN.php' );
 require_once( __DIR__ . '/../lib_contact_code.php' );
 require_once( __DIR__ . '/../dao.contact100.php' );
+require_once( __DIR__ . '/../dao.contact110.php' );
 require_once( __DIR__ . '/../setup_contact.php' );
+require_once( __DIR__ . '/_View.php' );
 
+/** @var $_ctrl  \AmidaMVC\Framework\Controller */
 $_ctrl->prependComponent( array(
     array( 'appContact',  'app' ),
     array( 'viewContact', 'view' ),
@@ -17,38 +21,75 @@ class appContact extends AmidaMVC\Component\Model
     static $dao100;
     static $dao110;
     // +-------------------------------------------------------------+
+    /**
+     * @static
+     * @param AmidaMVC\Framework\Controller $ctrl
+     * @param AmidaMVC\Component\SiteObj $siteObj
+     * @return mixed
+     */
     static function _init(
         \AmidaMVC\Framework\Controller $ctrl,
         \AmidaMVC\Component\SiteObj &$siteObj  )
     {
         static::$dao100  = 'dao_contact100';
         static::$dao110  = 'dao_contact110';
+        if( $method = self::getRestMethod( $ctrl, $siteObj ) ) {
+            $action = $ctrl->getAction();
+            $action .= $method;
+            $ctrl->setAction( $action );
+        }
         return;
     }
     // +-------------------------------------------------------------+
+    /**
+     * @static
+     * @param AmidaMVC\Framework\Controller $ctrl
+     * @param AmidaMVC\Component\SiteObj $siteObj
+     * @return bool
+     */
+    static function getRestMethod(
+        \AmidaMVC\Framework\Controller $ctrl,
+        \AmidaMVC\Component\SiteObj &$siteObj )
+    {
+        $methods = array( '_post', '_put', '_delete', '_edit', '_new', '_get' );
+        $siteInfo = $siteObj->get( 'siteObj' );
+        foreach( $methods as $method ) {
+            if( in_array( $method, $siteInfo[ 'command' ] ) ) {
+                return $method;
+            } 
+        }
+        return FALSE;
+    }
+    // +-------------------------------------------------------------+
+    /**
+     * @static
+     * @param AmidaMVC\Framework\Controller $ctrl
+     * @param AmidaMVC\Component\SiteObj $siteObj
+     * @return array
+     */
     static function actionDefault(
         \AmidaMVC\Framework\Controller $ctrl,
         \AmidaMVC\Component\SiteObj &$siteObj )
     {
         $dao = static::$dao100;
         $obj = $dao::getInstance();
-        $records = NULL;
-        $pn     = array();
         $loadInfo = $siteObj->get( 'loadInfo' );
+        $records = NULL;
+        $pn  = array();
         $opt = array( 'limit' => 4, 'start' => $loadInfo['offset'] );
         $obj->order( $obj->getIdName() )
             ->makeSQL( \CenaDta\Dba\Sql::SELECT )
             ->setPage( $pn, $opt )
             ->fetchRecords( $records )
         ;
-        $cenas = array();
+        $rec100 = array();
         if( !empty( $records ) ) {
             foreach( $records as $rec ) {
-                $cenas[] = new \CenaDta\Cena\Record( $rec );
+                $rec100[] = new \CenaDta\Cena\Record( $rec );
             }
         }
         $viewData = array(
-            'records' => $cenas,
+            'records' => $rec100,
             'html_type' => 'NAME',
             'pn' => $pn,
             'nextAction' => 'edit'
@@ -57,79 +98,109 @@ class appContact extends AmidaMVC\Component\Model
         // default is page not found error. 
         return $viewData;
     }
-}
+    // +-------------------------------------------------------------+
+    /**
+     * @static
+     * @param AmidaMVC\Framework\Controller $ctrl
+     * @param AmidaMVC\Component\SiteObj $siteObj
+     * @return array
+     */
+    static function actionDetail(
+        \AmidaMVC\Framework\Controller $ctrl,
+        \AmidaMVC\Component\SiteObj &$siteObj )
+    {
+        $loadInfo = $siteObj->get( 'loadInfo' );
+        $cena_id  = $loadInfo[ 'id' ];
+        \CenaDta\Cena\Cena::setRelation();
+        $rec100 = array( \CenaDta\Cena\Cena::getCenaByCenaId( $cena_id ) );
 
-class viewContact extends  \AmidaMVC\Component\View
-{
-    static $title = "";
+        $rec100[0]->loadChildren();
+        $records = $rec100[0]->getChildren( 'dao_contact110', FALSE );
+        $rec110  = array();
+        for( $i = 0; $i < count( $records ); $i++ ) {
+            $rec = $records[$i];
+            $rec110[] = \CenaDta\Cena\Cena::getCenaByRec( $rec );
+        }
+
+        $viewData = array(
+            'cena_id' => $cena_id,
+            'rec100' => $rec100,
+            'rec110' => $rec110,
+        );
+        if( WORDY ) wt( $records, 'records' );
+        return $viewData;
+    }
     // +-------------------------------------------------------------+
-    static function _init(
+    /**
+     * @static
+     * @param AmidaMVC\Framework\Controller $ctrl
+     * @param AmidaMVC\Component\SiteObj $siteObj
+     * @return array
+     */
+    static function actionDetail_Edit(
         \AmidaMVC\Framework\Controller $ctrl,
-        \AmidaMVC\Component\SiteObj &$siteObj  )
+        \AmidaMVC\Component\SiteObj &$siteObj )
     {
-        static::$app_url = $ctrl->getBaseUrl();
-        static::$title = '<title>Contact PHP Demo</title>' . 
-            '<p>pure and plain PHP demo. no JavaScript!</p>';
+        $viewData = self::actionDetail( $ctrl, $siteObj );
+        if( have_value( $viewData, 'rec110' ) ) {
+            $rec110   = $viewData[ 'rec110' ];
+            $max = 10 - count( $rec110 );
+        }
+        else {
+            $max = 10;
+        }
+        for( $i = 0; $i < $max; $i ++ ) {
+            $title = sprintf( "%02d", $i + 1 );
+            $child = dao_contact110::getRecord( \CenaDta\Dba\Record::TYPE_NEW, $title );
+            $cena  = \CenaDta\Cena\Cena::getCenaByRec( $child );
+            $cena->setRelation( 'contact_id', $viewData[ 'rec100' ][0] );
+            $rec110[] = $cena;
+        }
+        $viewData[ 'rec110' ] = $rec110;
+        if( WORDY ) wt( $records, 'records' );
+        return $viewData;
     }
     // +-------------------------------------------------------------+
-    static function makeContents( $content ) {
-        $content = static::$title . "<div class=\"contractView\">
-        {$content}
-        </div>";
-        return $content;
-    }
-    // +-------------------------------------------------------------+
-    static function actionDefault(
+    /**
+     * @param AmidaMVC\Framework\Controller $ctrl
+     * @param AmidaMVC\Component\SiteObj $siteObj
+     */
+    function actionDetail_Put(
         \AmidaMVC\Framework\Controller $ctrl,
-        \AmidaMVC\Component\SiteObj &$siteObj,
-        $viewData )
+        \AmidaMVC\Component\SiteObj &$siteObj )
     {
-        $base_url = $ctrl->getBaseUrl();
-        extract( $viewData );
-        ob_start();
-        ob_implicit_flush(0);
-?>        
-        <table width="100%">
-    <thead>
-    <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Gender</th>
-    <th>Type</th>
-    <th>Date</th>
-    <th>Details</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php
-    for( $i=0; $i<count( $records ); $i++ ) {
-    $rec = $records[ $i ];
-    ?>
-        <tr>
-          <td height="30"><?php echo $rec->getCenaId(); ?></td>
-          <td><?php echo $rec->popHtml( 'contact_name', $html_type ); ?></td>
-          <td align="center"><?php echo $rec->popHtml( 'contact_gender',  $html_type  ); ?></td>
-          <td align="center"><?php echo $rec->popHtml( 'contact_type',    $html_type  ); ?></td>
-          <td align="center"><?php echo $rec->popHtml( 'contact_date',    $html_type  ); ?></td>
-          <td align="center"><form name="form1" method="post" action="<?php echo static::$app_url; ?>contact_env2.php" style="margin:0px; padding:0px; ">
-            <?php echo $rec->popIdHidden(); ?>
-                    <input type="submit" name="Submit2" value="show">
-          </form>          </td>
-        </tr>
-        <?php } ?>
-      </tbody>
-  </table>
-  <p><?php if( $pn ) echo self::Pager( $pn, 'list' ); ?>&nbsp;</p>
-  <p align="center">&nbsp;</p>
-  </div>
-  <p>
-      <input type="button" name="top" value="List of Contacts" onClick="location.href='contact_env1.php'">
-  </p>
-    <?php
-        $content = ob_get_clean();
-        ob_clean();
-        $siteObj->setContents( self::makeContents( $content ) );
+        \CenaDta\Cena\Cena::setRelation();
+        \CenaDta\Cena\Cena::set_models( array( 'dao_contact100', 'dao_contact110' ) );
+        \CenaDta\Cena\Cena::do_cena( $cenas, 'doAction' );
+
+        $cena_id  = $cenas[ 'dao_contact100' ][0]->getCenaId();
+        $ctrl->redirect( "detail/{$cena_id}" );
     }
+    // +-----------------------------------------------------------+
+    function actionDetail_New(
+        \AmidaMVC\Framework\Controller $ctrl,
+        \AmidaMVC\Component\SiteObj &$siteObj )
+    {
+        $rec    = dao_contact100::getRecord( \CenaDta\Dba\Record::TYPE_NEW, '1' );
+        $parent = \CenaDta\Cena\Cena::getCenaByRec( $rec );
+        $rec100 = array( $parent );
+
+        $rec110 = array();
+        for( $i = 0; $i < 10; $i ++ ) {
+            $title = sprintf( "%02d", $i + 1 );
+            $rec   = dao_contact110::getRecord( \CenaDta\Dba\Record::TYPE_NEW, $title );
+            $child = \CenaDta\Cena\Cena::getCenaByRec( $rec );
+            $child->setRelation( 'contact_id', $parent );
+            $rec110[] = $child;
+        }
+        $viewData = array(
+            'cena_id' => $parent->getCenaId(),
+            'rec100' => $rec100,
+            'rec110' => $rec110,
+        );
+        return $viewData;
+    }
+    // +-------------------------------------------------------------+
 }
 
 appContact::_init( $_ctrl, $_siteObj );
