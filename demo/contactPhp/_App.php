@@ -76,7 +76,10 @@ class appContact extends AmidaMVC\Component\Model
         $loadInfo = $siteObj->get( 'loadInfo' );
         $records = NULL;
         $pn  = array();
-        $opt = array( 'limit' => 4, 'start' => $loadInfo['offset'] );
+        $opt = array( 
+            'limit' => 4, 
+            'start' => ( isset( $loadInfo['offset'] ) ) ? $loadInfo['offset'] : 0 
+        );
         $obj->order( $obj->getIdName() )
             ->makeSQL( \CenaDta\Dba\Sql::SELECT )
             ->setPage( $pn, $opt )
