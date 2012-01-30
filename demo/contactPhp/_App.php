@@ -171,10 +171,20 @@ class appContact extends AmidaMVC\Component\Model
     {
         \CenaDta\Cena\Cena::setRelation();
         \CenaDta\Cena\Cena::set_models( array( 'dao_contact100', 'dao_contact110' ) );
-        \CenaDta\Cena\Cena::do_cena( $cenas, 'doAction' );
-
-        $cena_id  = $cenas[ 'dao_contact100' ][0]->getCenaId();
-        $ctrl->redirect( "detail/{$cena_id}" );
+        $err_num = \CenaDta\Cena\Cena::do_cena( $cenas, 'doAction' );
+        
+        if( !$err_num ) {
+            $cena_id  = $cenas[ 'dao_contact100' ][0]->getCenaId();
+            $ctrl->redirect( "detail/{$cena_id}" );
+        }
+        // Error! show error message and re-edit.  
+        $viewData = array(
+            'cena_id' => $cenas['dao_contact100'][0]->getCenaId(),
+            'rec100' => $cenas['dao_contact100'],
+            'rec110' => $cenas['dao_contact110'],
+        );
+        $ctrl->setAction( 'detail_edit' );
+        return $viewData;
     }
     // +-----------------------------------------------------------+
     function actionDetail_New(

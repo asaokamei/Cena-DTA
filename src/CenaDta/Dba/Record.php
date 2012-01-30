@@ -675,7 +675,7 @@ class Record
 			method_exists( $model, 'ignore_check_for_new' ) &&
 			$model::ignore_check_for_new( $this->input_data ) )
 		{
-			$this->type = self::TYPE_IGNORE;
+			//$this->type = self::TYPE_IGNORE;
 			$this->execute = self::EXEC_NONE;
 			return $this;
 		}
