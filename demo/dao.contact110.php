@@ -3,19 +3,17 @@
 // + コンタクトDAO
 // +----------------------------------------------------------------------+
 
-use CenaDta\Dba as orm;
-
-class dao_contact110 extends orm\Model
+class dao_contact110 extends \CenaDta\Dba\Model
 {
 	static $dao_table = "contact110"; // "the" table name. 
 	static $dao_pkey  = 'connect_id';
 	static $col_names;
 	static $col_sels;
 	static $col_checks;
+    // +----------------------------------------------------------+
 	function __construct( $config=NULL )
 	{
 		if( !have_value( $config ) ) { $config = dirname( __FILE__ ) . '/dba.ini.php'; };
-		parent::__construct( $config );
 		$this->id_name    = "connect_id";
 		$this->dao_table  = static::$dao_table;
 		$this->table      = $this->dao_table;
@@ -30,6 +28,13 @@ class dao_contact110 extends orm\Model
 		$this->mod_date = '';
 		$this->mod_time = '';
 	}
+    // +----------------------------------------------------------+
+    static function _init() {
+        static::$dao_table = 'contact110';
+        static::$dao_pkey  = 'connect_id';
+        static::$config_name = dirname( __FILE__ ) . '/dba.ini.php';
+        static::setupColumns();
+    }
 	// +----------------------------------------------------------+
 	static function setColumns()
 	{
@@ -90,19 +95,6 @@ class dao_contact110 extends orm\Model
 		return $pgg->errGetNum();
 	}
 	// +----------------------------------------------------------+
-	/** gets Dba_Record object given an id (primary key) 
-		@param string $id
-			id (primary key) of the data.
-		@param object $records
-			returns an array of 
-	 */
-	static function getRecordByContactId( $contact_id, &$records )
-	{
-		$this->where( 'contact_id', $contact_id )
-		     ->fetchRecords( $records );
-		;
-		return $this;
-	}
 	// +----------------------------------------------------------+
 }
 ?>

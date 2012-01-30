@@ -3,19 +3,20 @@
 // + コンタクトDAO
 // +----------------------------------------------------------------------+
 
-use CenaDta\Dba as orm;
-
-class dao_contact100 extends orm\Model
+class dao_contact100 extends \CenaDta\Dba\Model
 {
 	static $dao_table = "contact100"; // "the" table name. 
 	static $dao_pkey  = 'contact_id';
+    static $config_name = '';
 	static $col_names;
 	static $col_sels;
 	static $col_checks;
+    // +----------------------------------------------------------+
 	function __construct( $config=NULL )
 	{
-		if( !have_value( $config ) ) { $config = dirname( __FILE__ ) . '/dba.ini.php'; };
-		parent::__construct( $config );
+        self::_init();
+		if( !have_value( $config ) ) { self::$config_name = dirname( __FILE__ ) . '/dba.ini.php'; };
+		//parent::__construct( $config );
 		$this->id_name    = "contact_id";
 		$this->dao_table  = static::$dao_table;
 		$this->table      = $this->dao_table;
@@ -30,6 +31,13 @@ class dao_contact100 extends orm\Model
 		$this->mod_date = '';
 		$this->mod_time = '';
 	}
+    // +----------------------------------------------------------+
+    static function _init() {
+        static::$dao_table = 'contact100';
+        static::$dao_pkey  = 'contact_id';
+        static::$config_name = dirname( __FILE__ ) . '/dba.ini.php';
+        static::setupColumns();
+    }
 	// +----------------------------------------------------------+
 	static function setColumns()
 	{
@@ -100,17 +108,6 @@ class dao_contact100 extends orm\Model
 	{
 		if( !have_value( $data[ 'contact_name' ] ) ) return TRUE;
 		return FALSE;
-	}
-	// +----------------------------------------------------------+
-	static function listData( &$data )
-	{
-		if( $this->del_flag && $this->del_value ) {
-			$where = "{$this->del_flag}!={$this->del_value}";
-		}
-		else {
-			$where = NULL;
-		}
-		return $this->selectWhere( $data, $where );
 	}
 	// +----------------------------------------------------------+
 }

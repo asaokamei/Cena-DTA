@@ -102,8 +102,11 @@ class Model
 			$dao->setTableClass( $class );
 			return $dao;
 		}
-		if( !have_value( $config ) && have_value( static::$config_name ) ) {
-			$config = static::$config_name; 
+        if( is_callable( array( $class, '_init' ) ) ) {
+            $class::_init();
+        }
+		if( !have_value( $config ) && have_value( $class::$config_name ) ) {
+			$config = $class::$config_name; 
 		}
 		$dao_name = static::$dba_dao_name;
 		$dao = new $dao_name( $config );
