@@ -209,7 +209,7 @@ class DaoHelper
 		return $html;
 	}
 	// +--------------------------------------------------------------- +
-	function disp_html_row( $html_type, $data, $err=array() )
+	static function disp_html_row( $class, $html_type, $data, $err=array() )
 	{
 		html_forms::setDefault( 'class', 'htmlForms' );
 		$columns = $class::getColumn();
@@ -235,7 +235,7 @@ class DaoHelper
 		return $html;
 	}
 	// +--------------------------------------------------------------- +
-	function disp_record_row( $html_type, $records )
+	function disp_record_row( $class, $html_type, $records )
 	{
 		html_forms::setDefault( 'class', 'htmlForms' );
 		$columns = $class::getColumn();
