@@ -34,9 +34,9 @@ include( 'setup_contact.php' );
       checks database configuration, and <br>
 creates 10 contacts and connections as initial data for testing.</li>
     -->
-    <li class="list"><a href="contactPhp/list">contact PHP demo</a><br />
-    A new contact demo using *only* PHP. Runs with AmidaMVC micro-framework. <br />
-    under underdevelopment. </li>
+    <li class="list"><a href="contactPhp/list" target="_blank"><strong>contact PHP demo>></strong></a><br />
+    A new contact demo using *only* PHP. Uses AmidaMVC micro-framework as an external resource. <br />
+    Requires PHP5.3 and MySql database. </li>
     <li class="list"><a href="contact_env1.php"><strong>contact_env</strong></a><br>
     Server only PHP demo (cenaPhp). <br>
     Requires server running PHP5.3 or higher, and MySQL database. </li>
