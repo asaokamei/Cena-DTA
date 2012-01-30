@@ -68,7 +68,9 @@ function pn_disp_link( &$pn, $url, $type, $word=NULL, $disp=TRUE )
 class Dba_Page
 {
 	const  MAX_LIST = 20;
-	static $limit   = 10; // rows per page. overwrite Dba_Page::$limit=5. 
+	static $default_limit   = 10; // rows per page. overwrite Dba_Page::$limit=5. 
+    
+    var $limit    = NULL;
 	var $sql      = NULL; // sql module 
 	var $start      =  0; // offset count
     var $count      =  0; // total number of data -> should fetch everytime.
@@ -81,9 +83,8 @@ class Dba_Page
     {
         if( WORDY ) echo "<b>created instance of paginate</b>...<br>\n";
 		$this->sql = $sql;
-		if( have_value( $opt, 'limit'   ) ) self::$limit = $opt[ 'limit' ];
 		if( have_value( $opt, 'options' ) ) $this->setOptions( $opt[ 'options' ] );
-        $this->getParameters();
+        $this->getParameters( $opt );
     }
 	// +--------------------------------------------------------------- +
 	function setPage()
@@ -116,11 +117,11 @@ class Dba_Page
     	return $this;
     }
     // +--------------------------------------------------------------- +
-    function getParameters( $data=NULL )
+    function getParameters( $data=array() )
     {
-		if( !$data ) $data = $_REQUEST;
-		$this->start = have_value( $data, 'start' ) ? $data[ 'start' ] : $this->start;
-		$this->limit = have_value( $data, 'limit' ) ? $data[ 'limit' ] : self::$limit;
+		if( is_array( $data ) ) $data = $data + $_REQUEST;
+		$this->start = have_value( $data, 'start' ) ? $data[ 'start' ] : 0;
+		$this->limit = have_value( $data, 'limit' ) ? $data[ 'limit' ] : self::$default_limit;
 		// no count supported. count everytime.
 		//$this->count = is_numeric( $data[ 'count' ] ) ? $data[ 'count' ] : $this->count;
         $this->_setMaxPage();

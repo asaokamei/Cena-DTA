@@ -7,12 +7,19 @@ require_once(__DIR__ . '/../../vendor/AmidaMVC/src/AmidaMVC/bootstrap.php');
 
 $routes = array(
     '/demo.css' => array( 'file' => 'demo.css' ),
-    '/:action/:offset/:limit' => 
+    '/list/:offset/:limit' => 
         array( 
             'file' => '_App.php', 
             'action' => 'default', 
             'offset' => 0, 
-            'limit' => 5 
+            'limit' => 4 
+        ),
+    '/list' =>
+        array(
+            'file' => '_App.php',
+            'action' => 'default',
+            'offset' => 0,
+            'limit' => 4
         ),
     '/:action' => array( 'file' => '_App.php', 'action' => 'default' ),
 );
