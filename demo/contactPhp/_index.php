@@ -1,22 +1,21 @@
 <?php
-require_once(__DIR__ . '/src/AmidaMVC/bootstrap.php');
+require_once(__DIR__ . '/../../vendor/AmidaMVC/src/AmidaMVC/bootstrap.php');
 
 /**
  * AmidaMVC's Demo Site...
  */
 
 $routes = array(
-    '/demo.css' => array( 'file' => 'demo.css', 'action' => 'default' ),
-    '/example.html' => array( 'file' => 'demo/index.html', 'action' => 'default'),
-    '/' => array( 'file' => 'index.md', 'action' => 'default' ),
-    '/indexView' => array( 'file' => '_index.php', 'action' => 'default' ),
-    '/todo/toggle/:id' => array( 'file' => 'demo/todo/_App.php', 'action' => 'toggle' ),
-    '/todo/detail/:id' => array( 'file' => 'demo/todo/_App.php', 'action' => 'detail' ),
-    '/todo/put/:id' => array( 'file' => 'demo/todo/_App.php', 'action' => 'put' ),
-    '/todo/:action' => array( 'file' => 'demo/todo/_App.php', 'action' => 'list' ),
-    '/demo/:action' => array( 'file' => 'demo/_App.php', 'action' => 'index' ),
+    '/demo.css' => array( 'file' => 'demo.css' ),
+    '/:action/:offset/:limit' => 
+        array( 
+            'file' => '_App.php', 
+            'action' => 'default', 
+            'offset' => 0, 
+            'limit' => 5 
+        ),
+    '/:action' => array( 'file' => '_App.php', 'action' => 'default' ),
 );
-
 
 AmidaMVC\Tools\Route::set( $routes );
 
