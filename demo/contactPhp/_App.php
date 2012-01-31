@@ -20,8 +20,10 @@ class appContact extends AmidaMVC\Component\Model
 {
     static $dao100;
     static $dao110;
+    static $defaultDetailRow = 6;
     // +-------------------------------------------------------------+
     /**
+     * initialize app. sets dao and rest info. 
      * @static
      * @param AmidaMVC\Framework\Controller $ctrl
      * @param AmidaMVC\Component\SiteObj $siteObj
@@ -33,11 +35,7 @@ class appContact extends AmidaMVC\Component\Model
     {
         static::$dao100  = 'dao_contact100';
         static::$dao110  = 'dao_contact110';
-        if( $method = self::getRestMethod( $ctrl, $siteObj ) ) {
-            $action = $ctrl->getAction();
-            $action .= $method;
-            $ctrl->setAction( $action );
-        }
+        self::setRestMethod( $ctrl, $siteObj );
         return;
     }
     // +-------------------------------------------------------------+
@@ -47,18 +45,23 @@ class appContact extends AmidaMVC\Component\Model
      * @param AmidaMVC\Component\SiteObj $siteObj
      * @return bool
      */
-    static function getRestMethod(
+    static function setRestMethod(
         \AmidaMVC\Framework\Controller $ctrl,
         \AmidaMVC\Component\SiteObj &$siteObj )
     {
         $methods = array( '_post', '_put', '_delete', '_edit', '_new', '_get' );
         $siteInfo = $siteObj->get( 'siteObj' );
+        $restMethod = FALSE;
         foreach( $methods as $method ) {
             if( in_array( $method, $siteInfo[ 'command' ] ) ) {
-                return $method;
+                $restMethod = $method;
             } 
         }
-        return FALSE;
+        if( $restMethod ) {
+            $action = $ctrl->getAction();
+            $action .= $restMethod;
+            $ctrl->setAction( $action );
+        }
     }
     // +-------------------------------------------------------------+
     /**
@@ -147,10 +150,10 @@ class appContact extends AmidaMVC\Component\Model
         $viewData = self::actionDetail( $ctrl, $siteObj );
         if( have_value( $viewData, 'rec110' ) ) {
             $rec110   = $viewData[ 'rec110' ];
-            $max = 10 - count( $rec110 );
+            $max = static::$defaultDetailRow - count( $rec110 );
         }
         else {
-            $max = 10;
+            $max = static::$defaultDetailRow;
         }
         for( $i = 0; $i < $max; $i ++ ) {
             $title = sprintf( "%02d", $i + 1 );
@@ -199,7 +202,7 @@ class appContact extends AmidaMVC\Component\Model
         $rec100 = array( $parent );
 
         $rec110 = array();
-        for( $i = 0; $i < 10; $i ++ ) {
+        for( $i = 0; $i < static::$defaultDetailRow; $i ++ ) {
             $title = sprintf( "%02d", $i + 1 );
             $rec   = dao_contact110::getRecord( \CenaDta\Dba\Record::TYPE_NEW, $title );
             $child = \CenaDta\Cena\Cena::getCenaByRec( $rec );

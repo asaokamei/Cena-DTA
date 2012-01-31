@@ -9,12 +9,13 @@ class viewContact extends  \AmidaMVC\Component\View
         \AmidaMVC\Component\SiteObj &$siteObj  )
     {
         static::$app_url = $ctrl->getBaseUrl();
-        static::$title = '<title>Contact PHP Demo</title>' .
-            '<p>pure and plain PHP demo. no JavaScript!</p>';
+        static::$title = "<a href=\"" . static::$app_url . "\">Contact List</a>";
     }
     // +-------------------------------------------------------------+
     static function makeContents( $content ) {
-        $content = static::$title . "<div class=\"contractView\">
+        $content = '<h1>' . static::$title . "</h1>
+        <p>pure and plain PHP demo!</p>
+        <div class=\"contractView\">
         {$content}
         </div>";
         return $content;
@@ -29,14 +30,26 @@ class viewContact extends  \AmidaMVC\Component\View
         $siteObj->setContents( self::makeContents( $content ) );
     }
     // +-------------------------------------------------------------+
+    static function setSubTitle( $cena_id=NULL ) {
+        if( isset( $cena_id ) ) {
+            $detail_url = static::$app_url . 'detail/' . $cena_id;
+            static::$title .= " &gt; <a href='{$detail_url}'>Detail Info</a>";
+        }
+        else {
+            static::$title .= " &gt; Add New Detail";
+        }
+    }
+    // +-------------------------------------------------------------+
     static function actionDetail(
         \AmidaMVC\Framework\Controller $ctrl,
         \AmidaMVC\Component\SiteObj &$siteObj,
         $viewData )
     {
         $cena_id = $viewData[ 'cena_id' ];
+        self::setSubTitle( $cena_id );
         $viewData[ 'html_type' ] = 'NAME';
         $viewData[ 'nextAction' ] = "detail/{$cena_id}/_edit";
+        $viewData[ 'nextButton' ] = "Edit Details";
         $content = viewContactHtml::viewHtmlDetail( $ctrl, $siteObj, $viewData );
         $siteObj->setContents( self::makeContents( $content ) );
     }
@@ -47,8 +60,10 @@ class viewContact extends  \AmidaMVC\Component\View
         $viewData )
     {
         $cena_id = $viewData[ 'cena_id' ];
+        self::setSubTitle( $cena_id );
         $viewData[ 'html_type' ] = 'EDIT';
         $viewData[ 'nextAction' ] = "detail/{$cena_id}/_put";
+        $viewData[ 'nextButton' ] = "Save Details";
         $content = viewContactHtml::viewHtmlDetail( $ctrl, $siteObj, $viewData );
         $siteObj->setContents( self::makeContents( $content ) );
     }
@@ -59,8 +74,10 @@ class viewContact extends  \AmidaMVC\Component\View
         $viewData )
     {
         $cena_id = $viewData[ 'cena_id' ];
+        self::setSubTitle();
         $viewData[ 'html_type' ] = 'EDIT';
         $viewData[ 'nextAction' ] = "detail/{$cena_id}/_put";
+        $viewData[ 'nextButton' ] = "Save Details";
         $content = viewContactHtml::viewHtmlDetail( $ctrl, $siteObj, $viewData );
         $siteObj->setContents( self::makeContents( $content ) );
     }
@@ -166,6 +183,7 @@ class viewContactHtml extends \AmidaMVC\Component\View
                 /** @var $rec100   array */
                 /** @var $rec110   array */
                 /** @var $cena     \CenaDta\Cena\Record */
+                /** @var $nextButton string  */
                 for( $i=0; $i<count( $rec100 ); $i++ ) {
                     $cena = $rec100[ $i ];
                     ?>
@@ -205,7 +223,9 @@ class viewContactHtml extends \AmidaMVC\Component\View
             </tbody>
         </table>
         <?php } ?>
-        <input type="submit" name="submit" value="<?php echo $nextAction;?>" />
+        <div style="text-align: center; margin-top: 10px;">
+            <input type="submit" name="submit" value="<?php echo $nextButton;?>" />
+        </div>
     </form>
     <p>
         <input type="button" name="top" value="List of Contacts" onClick="location.href='<?php echo static::$app_url; ?>list'">

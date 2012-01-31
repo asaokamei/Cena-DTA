@@ -1,3 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+
+html {
+    overflow-y: scroll;
+}
 body,p,span,code {
     margin: 0px;
     padding: 0px;
@@ -22,11 +28,11 @@ header {
     border-right: 5px solid #d2691e;
     box-shadow: 5px 5px 5px #cccccc;
 }
-header a {
+a {
     text-decoration: none;
     color: #d2691e;
 }
-header a:hover {
+a:hover {
     color: red;
 }
 footer {

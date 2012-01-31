@@ -34,14 +34,10 @@ $routes = array(
 
 AmidaMVC\Tools\Route::set( $routes );
 
-AmidaMVC\Component\Debug::_init();
-
 $data = new \AmidaMVC\Component\SiteObj();
 $ctrl = new \AmidaMVC\Framework\Controller();
 $ctrl
     ->addComponent( 'Config', 'config' )
-    ->addComponent( 'Debug',  'debug' )
-    ->addComponent( 'Auth',   'auth' )
     ->addComponent( 'Router', 'router' )
     ->addComponent( 'Loader', 'loader' )
     ->addComponent( 'Render', 'render' )
