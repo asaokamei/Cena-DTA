@@ -6,7 +6,7 @@ require_once( dirname( __FILE__ ) . "/../../class/class.ext_func.php" );
 require_once( dirname( __FILE__ ) . "/../../class/class.pgg_JPN.php" );
 require_once( dirname( __FILE__ ) . "/../../Html/Form.php" );
 
-$demo_folder = realpath( dirname( __FILE__ ) . '/../../../demo/' );
+$demo_folder = realpath( dirname( __FILE__ ) . '/../../../../demo/' );
 require_once( $demo_folder . '/lib_contact_code.php' );
 require_once( $demo_folder . '/setup_contact.php' );
 require_once( $demo_folder . '/dao.contact100.php' );

@@ -1,8 +1,7 @@
 <?php
 //define( 'WORDY', 4 );
+//require_once( dirname( __FILE__ ) . '/../../bootstrap.php' );
 require_once( dirname( __FILE__ ) . "/../../class/class.ext_func.php" );
-require_once( dirname( __FILE__ ) . "/../../Html/Form.php" );
-require_once( dirname( __FILE__ ) . "/../../Dba/Sql.php" );
 require_once( dirname( __FILE__ ) . "/dbaTest.inc.php" );
 use CenaDta\Dba\Sql as ormSql;
 
