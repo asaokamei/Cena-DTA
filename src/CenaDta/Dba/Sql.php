@@ -126,7 +126,7 @@ class Sql
     /**
      * process $val for prepared statement. saves $val's value to 
      * $this->prepare_values with unique holder name (:dba_prep_#). 
-     * @param $val     value to use in Sql prepare statement. 
+     * @param string|int $val     value to use in Sql prepare statement. 
      * @return Sql
      */
     function prepareGetHolder( &$val ) {
@@ -319,7 +319,7 @@ class Sql
     // +--------------------------------------------------------------- +
     /**
      * appends condition to $this->where. 
-     * @param $where       a condition (ex: col LIKE '%ex')
+     * @param string $where       a condition (ex: col LIKE '%ex')
      * @param string $op   how to append (ex: 'AND').
      * @return Sql
      */
@@ -357,7 +357,7 @@ class Sql
     // +--------------------------------------------------------------- +
     /**
      * set values for insert/update statement. 
-     * @param $vals         values to set
+     * @param array $vals         values to set
      * @param null $func    statement (ex: NULL) to set
      * @return Sql
      */
@@ -564,7 +564,7 @@ class Sql
     // +--------------------------------------------------------------- +
     /**
      * makes insert sql statement. 
-     * @param null $type
+     * @param null|string $type
      * @return Sql
      * @throws DbaSql_BadSql_Exception
      */
