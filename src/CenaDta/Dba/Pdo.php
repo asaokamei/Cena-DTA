@@ -15,7 +15,9 @@ class Pdo
 {
 	const FORCE_NEW = 'NEW';
 	// for each instance
+    /** @var \PDO */
 	var $conn   = FALSE; // returned from PDO::__construct
+    /** @var \PDOStatement */
 	var $sqlh   = FALSE; // returned from query
 	var $numrow = 0;     // returned from exec
 	var $driver = '';
@@ -53,14 +55,14 @@ class Pdo
 		if( WORDY > 3 ) {
 			$wt_info = $parse;
 			$wt_info[ 'db_password' ] = '*****';
-			wt( $wt_info, "config:{$config}, ini:{$ini}" );
+			wt( $wt_info, "config:{$config}" );
 		}
 		
         $this->driver   = $parse[ "db_driver" ];
         $user     = $parse[ "db_user" ];
         $password = $parse[ "db_password" ];
         $options  = $parse[ "db_options" ];
-        $attrib   = $parse[ "db_attributes" ];
+        $attribute= $parse[ "db_attributes" ];
         $command  = $parse[ "exec_command" ];
 		
 		// build dsn and connect
@@ -75,12 +77,12 @@ class Pdo
 		}
         $this->conn = new \PDO( $dsn, $user, $password, $opt_pdo );
 		
-		if( !empty( $attrib ) ) 
-        foreach( $attrib as $k => $v ) {
+		if( !empty( $attribute ) ) 
+        foreach( $attribute as $k => $v ) {
             $this->conn -> setAttribute( constant( "PDO::{$k}" ), constant( "PDO::{$v}" ) ) ;
         }
 		if( !empty( $command ) ) 
-		foreach( $command as $exec => $cmd ) {
+		foreach( $command as $cmd ) {
 			$this->conn->exec( $cmd );
 		}
 		self::$connects[ $config ] = $this->conn;
@@ -141,11 +143,11 @@ class Pdo
     function mod4Count( $sql ) 
 	{
         $regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
-		$csql  = '';
+		$countSql  = '';
         if( preg_match( $regex, $sql, $output) > 0 ) {
-            $csql = "SELECT COUNT(*) AS count FROM {$output[1]}";
+            $countSql = "SELECT COUNT(*) AS count FROM {$output[1]}";
 		}
-		return $csql;
+		return $countSql;
     }
     // +--------------------------------------------------------------- +
     function getPreparedCount( $sql, $data ) 
@@ -244,26 +246,3 @@ class Pdo
     // +--------------------------------------------------------------- +
 }
 
-/*** Obsolete methods
-    // +--------------------------------------------------------------- +
-    function getCount( $sql ) 
-	{
-		// only for normal SQL statement; not for prepared statement...
-        $csql = $this->mod4Count( $sql );
-        if( $csql ) {
-            $sqlh = $this->conn->query( $csql, PDO::FETCH_NUM );
-            return $sqlh->fetchColumn();
-        }
-		return FALSE;
-    }
-    // +--------------------------------------------------------------- +
-    function result( $row, $col ) 
-	{
-		if( is_object( $this->sqlh ) ) { 
-			$rowdata = $this->sqlh->fetch( PDO::FETCH_ASSOC, PDO::FETCH_ORI_ABS, $row ); 
-			return $rowdata[ $col ];
-		}
-        return FALSE;
-    }
-*/
-?>
